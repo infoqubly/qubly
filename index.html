@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QUBLY – Architectural Visualization</title>
+    <meta name="description" content="Visualizzazioni architettoniche, render esterni, interni e immagini per progetti immobiliari e architettonici." data-i18n="meta_desc_index">
+    <link rel="canonical" href="https://infoqubly.github.io/qubly-site/">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/styles.css?v=93">
+    <link rel="icon" href="favicon.png" type="image/png">
+</head>
+
+<body class="home-page">
+
+    <!-- HEADER -->
+    <header class="site-header">
+        <a href="index.html" class="logo">
+            <!-- Increased size to 50px height as requested -->
+            <img src="logo.png" alt="QUBLY">
+        </a>
+
+        <div class="menu-toggle">
+            <div class="hamburger-line"></div>
+        </div>
+    </header>
+
+    <!-- FULLSCREEN MENU -->
+    <div class="fullscreen-menu">
+        <ul class="menu-list">
+            <li class="menu-item"><a href="index.html" data-i18n="nav_home">Home</a></li>
+            <li class="menu-item"><a href="about.html" data-i18n="nav_about">About Us</a></li>
+            <li class="menu-item"><a href="#case-studies" data-i18n="nav_purpose">What We Offer</a></li>
+            <li class="menu-item"><a href="#projects" data-i18n="nav_projects">Projects</a></li>
+            <!-- CONTACT triggers scroll to #contact section, where the trigger link is -->
+            <li class="menu-item"><a href="#contact" data-i18n="nav_contact">Contact Us</a></li>
+        </ul>
+    </div>
+
+    <!-- HERO SECTION -->
+    <section class="hero-section">
+        <div class="hero-video-container">
+            <video class="hero-video" autoplay loop muted playsinline disablePictureInPicture
+                controlsList="nodownload noplaybackrate noremoteplayback">
+                <!-- PC: 1024px in su -->
+                <source src="hero-pc.mp4" media="(min-width: 1024px)" type="video/mp4">
+                <!-- Tablet: tra 768px e 1023px -->
+                <source src="hero-tablet.mp4" media="(min-width: 768px)" type="video/mp4">
+                <!-- Telefono: fino a 767px -->
+                <source src="hero-telefono.mp4" media="(max-width: 767px)" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+        <div class="scroll-trigger-zone">
+            <div class="scroll-arrow"></div>
+        </div>
+    </section>
+
+    <!-- MAIN CONTENT WRAPPER to fix background scrolling issue -->
+    <main id="main-content-wrapper">
+        <!-- SCROLLING TEXTURE BACKGROUND -->
+        <img src="Sfondo.webp" id="scrolling-texture" alt="">
+
+        <!-- INTRO TEXT -->
+        <div class="section-wrapper" id="intro" data-snap-anchor data-snap-offset="0">
+            <h1 class="reveal from-left" data-delay="0" style="text-transform: uppercase;" data-i18n="hero_title">
+                SEE THE FORM<br>
+                UNDERSTAND THE PROJECT
+            </h1>
+        </div>
+
+        <section class="scroll-showcase" id="visual-flow" data-snap-anchor data-snap-offset="0.08">
+            <div class="scroll-showcase-stack" style="--showcase-card-count: 4;">
+                <div class="scroll-showcase-stage">
+                    <article class="scroll-showcase-card">
+                        <img src="PS/Selezione/01.jpg" alt="Selected interior work 1" data-speed="0.94">
+                        <div class="showcase-tags">
+                            <span>QUBLY</span>
+                            <span data-i18n="showcase_tag_residential">RESIDENTIAL</span>
+                        </div>
+                    </article>
+                    <article class="scroll-showcase-card">
+                        <img src="PS/Selezione/02.jpg" alt="Selected exterior work" data-speed="0.92">
+                        <div class="showcase-tags">
+                            <span>QUBLY</span>
+                            <span data-i18n="showcase_tag_architecture">ARCHITECTURE</span>
+                        </div>
+                    </article>
+                    <article class="scroll-showcase-card">
+                        <img src="PS/Selezione/03.jpg" alt="Selected spaces work" data-speed="0.9">
+                        <div class="showcase-tags">
+                            <span>QUBLY</span>
+                            <span data-i18n="showcase_tag_spaces">SPACES</span>
+                        </div>
+                    </article>
+                    <article class="scroll-showcase-card">
+                        <img src="PS/Selezione/04.png" alt="Selected redevelopment work" data-speed="0.88">
+                        <div class="showcase-tags">
+                            <span>QUBLY</span>
+                            <span data-i18n="showcase_tag_transformation">TRANSFORMATION</span>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="case-studies-intro section-wrapper" id="case-studies" data-snap-anchor data-snap-offset="0">
+            <h2 class="service-title reveal from-left" data-delay="0" data-i18n="case_studies_title">QUANDO LA CHIAREZZA GUIDA LE DECISIONI</h2>
+        </section>
+
+    <!-- CASE STUDIES SNAPSHOT -->
+    <section class="case-snapshots">
+        <h2 class="case-mobile-sticky-title" data-i18n="case_studies_title">QUANDO LA CHIAREZZA GUIDA LE DECISIONI</h2>
+
+        <div class="case-mobile-scroll-window">
+        <div class="case-group" data-snap-anchor data-snap-offset="0.14">
+
+        <!-- ROW 1 -->
+        <h3 class="case-row-title reveal from-left" data-delay="0" data-i18n="row1_title">Design transition to reality</h3>
+        <div class="case-row">
+            <!-- Left Card: Problem -->
+            <a class="case-card reveal from-left" href="#" data-delay="0">
+                <p class="case-kicker" data-i18n="kicker_need">Before</p>
+                <div class="case-media">
+                    <img src="PS/P1.png" alt="Case Study 1 Problem" />
+                </div>
+                <div class="case-body">
+                    <p data-i18n="row1_prob">Drawings explain structure, but they don’t communicate how the architecture will actually look
+                        and feel in reality.</p>
+                </div>
+            </a>
+
+            <!-- Right Card: Solution -->
+            <a class="case-card reveal from-right" href="#" data-delay="700">
+                <p class="case-kicker" data-i18n="kicker_deliver">After</p>
+                <div class="case-media">
+                    <img src="PS/S1.png" alt="Case Study 1 Solution" />
+                </div>
+                <div class="case-body">
+                    <p data-i18n="row1_sol">Architectural visualizations that turn 2D intent into clear, tangible spatial reality.</p>
+                </div>
+            </a>
+        </div>
+        </div>
+
+        <div class="case-group" data-snap-anchor data-snap-offset="0.14">
+        <!-- ROW 2 -->
+        <h3 class="case-row-title reveal from-left" data-delay="0" data-i18n="row2_title">From project to image</h3>
+        <div class="case-row">
+            <!-- Left Card: Problem -->
+            <a class="case-card reveal from-left" href="#" data-delay="0">
+                <p class="case-kicker" data-i18n="kicker_need">Before</p>
+                <div class="case-media">
+                    <img src="PS/P5.png" alt="Case Study 2 Problem" />
+                </div>
+                <div class="case-body">
+                    <p data-i18n="row2_prob">A project can be precise and complete, but still difficult to read without a clear visual translation.</p>
+                </div>
+            </a>
+
+            <!-- Right Card: Solution -->
+            <a class="case-card reveal from-right" href="#" data-delay="700">
+                <p class="case-kicker" data-i18n="kicker_deliver">After</p>
+                <div class="case-media">
+                    <img src="PS/S5.png" alt="Case Study 2 Solution" />
+                </div>
+                <div class="case-body">
+                    <p data-i18n="row2_sol">Images that turn the project into an immediate, readable and communicative architectural vision.</p>
+                </div>
+            </a>
+        </div>
+        </div>
+
+        <div class="case-group" data-snap-anchor data-snap-offset="0.14">
+        <!-- ROW 3 -->
+        <h3 class="case-row-title reveal from-left" data-delay="0" data-i18n="row3_title">From model to image</h3>
+        <div class="case-row">
+            <!-- Left Card: Problem -->
+            <a class="case-card reveal from-left" href="#" data-delay="0">
+                <p class="case-kicker" data-i18n="kicker_need">Before</p>
+                <div class="case-media">
+                    <img src="PS/P6.png" alt="Case Study 3 Problem" />
+                </div>
+                <div class="case-body">
+                    <p data-i18n="row3_prob">A model defines volumes and proportions, but it does not yet express atmosphere, materials and light.</p>
+                </div>
+            </a>
+
+            <!-- Right Card: Solution -->
+            <a class="case-card reveal from-right" href="#" data-delay="700">
+                <p class="case-kicker" data-i18n="kicker_deliver">After</p>
+                <div class="case-media">
+                    <img src="PS/S6.png" alt="Case Study 3 Solution" />
+                </div>
+                <div class="case-body">
+                    <p data-i18n="row3_sol">Rendered images that transform the model into a complete visual experience, ready to communicate.</p>
+                </div>
+            </a>
+        </div>
+        </div>
+
+        <div class="case-group" data-snap-anchor data-snap-offset="0.14">
+        <!-- ROW 4 -->
+        <h3 class="case-row-title reveal from-left" data-delay="0" data-i18n="row4_title">Interior decisions</h3>
+        <div class="case-row">
+            <!-- Left Card: Problem -->
+            <a class="case-card reveal from-left" href="#" data-delay="0">
+                <p class="case-kicker" data-i18n="kicker_need">Before</p>
+                <div class="case-media">
+                    <img src="PS/P2.png" alt="Case Study 2 Problem" />
+                </div>
+                <div class="case-body">
+                    <p data-i18n="row4_prob">Sometimes there is only an empty space, or just a project on paper, and it has to be sold before
+                        anyone can imagine living in it.</p>
+                </div>
+            </a>
+
+            <!-- Right Card: Solution -->
+            <a class="case-card reveal from-right" href="#" data-delay="700">
+                <p class="case-kicker" data-i18n="kicker_deliver">After</p>
+                <div class="case-media">
+                    <img src="PS/S2.png" alt="Case Study 2 Solution" />
+                </div>
+                <div class="case-body">
+                    <p data-i18n="row4_sol">Photoreal visualizations that transform vacant or unbuilt spaces into desirable, market-ready
+                        environments that make purchase decisions easier.</p>
+                </div>
+            </a>
+        </div>
+        </div>
+
+        <div class="case-group" data-snap-anchor data-snap-offset="0.14">
+        <!-- ROW 5 -->
+        <h3 class="case-row-title reveal from-left" data-delay="0" data-i18n="row5_title">Photomontage of your project</h3>
+        <div class="case-row">
+            <!-- Left Card: Problem -->
+            <a class="case-card reveal from-left" href="#" data-delay="0">
+                <p class="case-kicker" data-i18n="kicker_need">Before</p>
+                <div class="case-media">
+                    <img src="PS/P3.png" alt="Case Study 3 Problem" />
+                </div>
+                <div class="case-body">
+                    <p data-i18n="row5_prob">Existing buildings and sites don’t communicate their future potential.</p>
+                </div>
+            </a>
+
+            <!-- Right Card: Solution -->
+            <a class="case-card reveal from-right" href="#" data-delay="700">
+                <p class="case-kicker" data-i18n="kicker_deliver">After</p>
+                <div class="case-media">
+                    <img src="PS/S3.png" alt="Case Study 3 Solution" />
+                </div>
+                <div class="case-body">
+                    <p data-i18n="row5_sol">Contextual photoinsertions that show the transformation as if it already exists.</p>
+                </div>
+            </a>
+        </div>
+        </div>
+
+        <div class="case-group" data-snap-anchor data-snap-offset="0.14">
+        <!-- ROW 6 -->
+        <h3 class="case-row-title reveal from-left" data-delay="0" data-i18n="row6_title">Design options and material comparison</h3>
+        <div class="case-row">
+            <!-- Left Card: Problem -->
+            <a class="case-card reveal from-left" href="#" data-delay="0">
+                <p class="case-kicker" data-i18n="kicker_need">Before</p>
+                <div class="case-media">
+                    <img src="PS/P4.png" alt="Case Study 4 Problem" />
+                </div>
+                <div class="case-body">
+                    <p data-i18n="row6_prob">Comparing finishes and alternatives is abstract without seeing them side by side.</p>
+                </div>
+            </a>
+
+            <!-- Right Card: Solution -->
+            <a class="case-card reveal from-right" href="#" data-delay="700">
+                <p class="case-kicker" data-i18n="kicker_deliver">After</p>
+                <div class="case-media">
+                    <img src="PS/S4.png" alt="Case Study 4 Solution" />
+                </div>
+                <div class="case-body">
+                    <p data-i18n="row6_sol">Consistent comparative renders that make choices immediate and concrete.</p>
+                </div>
+            </a>
+        </div>
+        </div>
+        </div>
+    </section>
+
+    <!-- PROJECTS SECTION (Moved here) -->
+    <div class="section-wrapper" id="projects" data-snap-anchor data-snap-offset="0.12">
+        <h2 class="service-title reveal from-left" data-delay="0" data-i18n="projects_title">PROJECTS</h2>
+
+        <div class="services-grid">
+            <!-- Project Category 1: EXTERIOR -->
+            <a href="esterni.html" class="case-card reveal from-left" data-delay="0">
+                <div class="case-media"
+                    style="position: relative; aspect-ratio: 16/9; overflow: hidden;">
+                    <img src="PS/exterior.png" alt="Exterior"
+                        style="width: 100%; height: 100%; object-fit: cover; filter: brightness(0.9);">
+                </div>
+                <div class="case-body">
+                    <h3 data-i18n="proj_exterior">EXTERIOR</h3>
+                </div>
+            </a>
+
+            <!-- Project Category 2: INTERIOR -->
+            <a href="interni.html" class="case-card reveal from-left" data-delay="200">
+                <div class="case-media"
+                    style="position: relative; aspect-ratio: 16/9; overflow: hidden;">
+                    <img src="PS/interior.png" alt="Interior"
+                        style="width: 100%; height: 100%; object-fit: cover; filter: brightness(0.9);">
+                </div>
+                <div class="case-body">
+                    <h3 data-i18n="proj_interior">INTERIOR</h3>
+                </div>
+            </a>
+
+            <!-- Project Category 3: SPACES -->
+            <a href="spazi.html" class="case-card reveal from-left" data-delay="400">
+                <div class="case-media"
+                    style="position: relative; aspect-ratio: 16/9; overflow: hidden;">
+                    <img src="PS/spaces.png" alt="Spaces"
+                        style="width: 100%; height: 100%; object-fit: cover; filter: brightness(0.9);">
+                </div>
+                <div class="case-body">
+                    <h3 data-i18n="proj_spaces">SPACES</h3>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <!-- CONTACT SECTION (Redesigned) -->
+    <div class="contact-section" id="contact" data-snap-anchor data-snap-offset="0.12">
+        <div class="contact-left reveal from-left" data-delay="0">
+            <h2 class="service-title" data-i18n="contact_title">CONTACT</h2>
+            <p class="contact-text" data-i18n="contact_desc">
+                Turning architectural ideas into visual reality.<br>
+                For project proposals and collaborations, email us.
+            </p>
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLSdRsD1cFEi_Piw1dqPVw4LWgrstn5cbHXEcnYwcSCSfHgwjyg/viewform?usp=publish-editor"
+                class="contact-form-button contact-form-button--dark" target="_blank" rel="noopener"
+                data-i18n="contact_request_button">SEND REQUEST</a>
+        </div>
+
+        <div class="contact-right">
+            <div class="social-icons-wrapper">
+                <!-- Facebook Icon -->
+                <a href="#" class="social-icon">
+                    <svg width="100%" height="100%" viewBox="0 0 24 24" fill="currentColor">
+                        <path
+                            d="M22 12C22 6.48 17.52 2 12 2C6.48 2 2 6.48 2 12C2 16.84 5.44 20.87 10 21.8V15H8V12H10V9.5C10 7.57 11.71 6 13.5 6H16V9H14C13.06 9 13 9.97 13 10.5V12H16L15.6 15H13V21.95C17.74 21.45 22 17.18 22 12Z" />
+                    </svg>
+                </a>
+                <!-- Instagram Icon -->
+                <a href="#" class="social-icon">
+                    <svg width="100%" height="100%" viewBox="0 0 24 24" fill="currentColor">
+                        <path
+                            d="M7.8 2H16.2C19.4 2 22 4.6 22 7.8V16.2C22 19.4 19.4 22 16.2 22H7.8C4.6 22 2 19.4 2 16.2V7.8C2 4.6 4.6 2 7.8 2ZM7.6 4C5.6 4 4 5.6 4 7.6V16.4C4 18.4 5.6 20 7.6 20H16.4C18.4 20 20 18.4 20 16.4V7.6C20 5.6 18.4 4 16.4 4H7.6Z" />
+                        <path
+                            d="M12 7C9.2 7 7 9.2 7 12C7 14.8 9.2 17 12 17C14.8 17 17 14.8 17 12C17 9.2 14.8 7 12 7ZM12 15C10.3 15 9 13.7 9 12C9 10.3 10.3 9 12 9C13.7 9 15 10.3 15 12C15 13.7 13.7 15 12 15Z" />
+                        <circle cx="17" cy="7" r="1.5" />
+                    </svg>
+                </a>
+            </div>
+            <a href="#" class="contact-trigger-link">info.qubly@gmail.com</a>
+        </div>
+    </div>
+
+    <!-- FOOTER (Empty now or removed) -->
+    <footer class="site-footer" style="padding: 2vw; border: none;">
+        <!-- Icons moved to contact section, keeping simple copyright or empty -->
+        <p style="font-size: 0.8vw; color: #333; margin: 0 auto;">&copy; 2026 QUBLY.</p>
+    </footer>
+    </main>
+
+    <!-- CUSTOM CURSOR -->
+    <div id="cursor-dot" class="custom-cursor"></div>
+
+    <!-- SPOTLIGHT CANVAS -->
+    <canvas id="spotlight-canvas"></canvas>
+
+
+    <!-- JS -->
+    <script src="js/translations.js?v=57"></script>
+    <script src="js/spotlight.js?v=49"></script>
+    <script src="js/main.js?v=74"></script>
+</body>
+
+</html>

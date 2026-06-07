@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QUBLY – About</title>
+    <meta name="description"
+        content="Visualizzazioni architettoniche, render esterni, interni e immagini per progetti immobiliari e architettonici." data-i18n="meta_desc_index">
+    <link rel="canonical" href="https://infoqubly.github.io/qubly-site/about.html">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/styles.css?v=93">
+    <link rel="icon" href="favicon.png" type="image/png">
+</head>
+
+<body class="about-page-body">
+
+    <!-- CUSTOM CURSOR -->
+    <div id="cursor-dot"></div>
+    <canvas id="spotlight-canvas"></canvas>
+
+    <!-- HEADER -->
+    <header class="site-header">
+        <a href="index.html" class="logo">
+            <img src="logo.png" alt="QUBLY">
+        </a>
+
+        <div class="menu-toggle">
+            <div class="hamburger-line"></div>
+        </div>
+    </header>
+
+    <!-- FULLSCREEN MENU -->
+    <div class="fullscreen-menu">
+        <ul class="menu-list">
+            <li class="menu-item"><a href="index.html" data-i18n="nav_home">Home</a></li>
+            <li class="menu-item"><a href="about.html" data-i18n="nav_about">About Us</a></li>
+            <li class="menu-item"><a href="index.html#case-studies" data-i18n="nav_purpose">What We Offer</a></li>
+            <li class="menu-item"><a href="index.html#projects" data-i18n="nav_projects">Projects</a></li>
+            <li class="menu-item"><a href="index.html#contact" data-i18n="nav_contact">Contact Us</a></li>
+        </ul>
+    </div>
+
+    <!-- ABOUT CONTENT -->
+    <div class="section-wrapper about-page" data-snap-anchor data-snap-offset="0"
+        style="padding-top: 80px; min-height: 100vh; display: flex; flex-direction: column;">
+        <!-- SCROLLING TEXTURE BACKGROUND -->
+        <img src="Sfondo.webp" id="scrolling-texture" alt="">
+        <div class="content-container" style="max-width: 800px; margin: 0 auto; text-align: left; flex-grow: 1;">
+            <h1 class="service-title" style="margin-top: 0; margin-bottom: 2vw;" data-i18n="about_title">ABOUT QUBLY</h1>
+
+            <p class="service-desc"
+                style="font-size: 1.25rem; line-height: 1.6; color: var(--QUBLY-WHITE); margin-bottom: 2rem;" data-i18n="about_p1">
+                QUBLY is a specialized architectural visualization studio composed of architects dedicated to crafting
+                reality through digital imagery.
+            </p>
+
+            <p class="service-desc" style="font-size: 1rem; line-height: 1.6; margin-bottom: 1.5rem;" data-i18n="about_p2">
+                We operate at the intersection of architecture, design, and marketing, providing high-end visual content
+                that communicates the essence of unbuilt spaces. Our expertise spans three core disciplines:
+                <strong>Exteriors</strong>, <strong>Interiors</strong>, and <strong>Spaces</strong> visualization.
+            </p>
+
+            <p class="service-desc" style="font-size: 1rem; line-height: 1.6; margin-bottom: 3rem;" data-i18n="about_p3">
+                Every project is approached with an architectural understanding of space, light, and materiality. We do
+                not just render; we interpret design to create compelling visual narratives that add value and
+                desirability to real estate and spatial design projects.
+            </p>
+
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLSdRsD1cFEi_Piw1dqPVw4LWgrstn5cbHXEcnYwcSCSfHgwjyg/viewform?usp=publish-editor"
+                class="contact-form-button contact-form-button--light" target="_blank" rel="noopener"
+                data-i18n="contact_request_button">SEND REQUEST</a>
+        </div>
+
+        <!-- FOOTER: Email Left, Icons Right -->
+        <footer class="site-footer about-footer">
+
+            <!-- Email and Privacy (Left) -->
+            <div class="footer-legal-links">
+                <a href="#" class="contact-trigger-link"
+                    style="color: grey; font-size: 14px; text-decoration: none;">info.qubly@gmail.com</a>
+                <a href="privacy-policy.html" class="privacy-policy-link" data-i18n="privacy_policy_link">Privacy Policy</a>
+            </div>
+
+            <a href="#faq" class="about-faq-cue" aria-label="Vai alle FAQ" data-i18n-aria-label="faq_cue_label">
+                <span data-i18n="faq_cue">F.A.Q.</span>
+                <span class="about-faq-arrow"></span>
+            </a>
+
+            <!-- Icons (Right) -->
+            <div class="footer-socials">
+                <!-- Facebook Icon (Inactive) -->
+                <a href="#" class="social-icon" style="pointer-events: none;">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                        <path
+                            d="M22 12C22 6.48 17.52 2 12 2C6.48 2 2 6.48 2 12C2 16.84 5.44 20.87 10 21.8V15H8V12H10V9.5C10 7.57 11.71 6 13.5 6H16V9H14C13.06 9 13 9.97 13 10.5V12H16L15.6 15H13V21.95C17.74 21.45 22 17.18 22 12Z" />
+                    </svg>
+                </a>
+                <!-- Instagram Icon (Inactive) -->
+                <a href="#" class="social-icon" style="pointer-events: none;">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                        <path
+                            d="M7.8 2H16.2C19.4 2 22 4.6 22 7.8V16.2C22 19.4 19.4 22 16.2 22H7.8C4.6 22 2 19.4 2 16.2V7.8C2 4.6 4.6 2 7.8 2ZM7.6 4C5.6 4 4 5.6 4 7.6V16.4C4 18.4 5.6 20 7.6 20H16.4C18.4 20 20 18.4 20 16.4V7.6C20 5.6 18.4 4 16.4 4H7.6Z" />
+                        <path
+                            d="M12 7C9.2 7 7 9.2 7 12C7 14.8 9.2 17 12 17C14.8 17 17 14.8 17 12C17 9.2 14.8 7 12 7ZM12 15C10.3 15 9 13.7 9 12C9 10.3 10.3 9 12 9C13.7 9 15 10.3 15 12C15 13.7 13.7 15 12 15Z" />
+                        <circle cx="17" cy="7" r="1.5" />
+                    </svg>
+                </a>
+            </div>
+        </footer>
+    </div>
+
+    <section class="faq-section" id="faq">
+        <h2 class="faq-title" data-i18n="faq_title">FREQUENTLY ASKED QUESTIONS</h2>
+
+        <div class="faq-list">
+            <details class="faq-item">
+                <summary data-i18n="faq_q1">HOW LONG DOES A RENDERING TAKE?</summary>
+                <div class="faq-panel">
+                    <p data-i18n="faq_a1">It depends on the starting material, the complexity of the model, and the number of requested views. After receiving the files and goals, we give you a realistic timeline: not every render requires the same amount of work.</p>
+                </div>
+            </details>
+            <details class="faq-item">
+                <summary data-i18n="faq_q2">HOW MUCH DOES A RENDERING COST?</summary>
+                <div class="faq-panel">
+                    <p data-i18n="faq_a2">We do not use one fixed price for everything. The cost depends on modeling, project size, level of detail, number of images, urgency, and requested revisions. First we analyze the material, then we send you a clear quote.</p>
+                </div>
+            </details>
+            <details class="faq-item">
+                <summary data-i18n="faq_q3">DO I NEED TO ALREADY HAVE A 3D MODEL?</summary>
+                <div class="faq-panel">
+                    <p data-i18n="faq_a3">No. We can also start from DWG files, dimensioned PDFs, sketches, photos, or references. If a 3D model already exists, the work will be faster; if it needs to be built or fixed, we include that in the quote.</p>
+                </div>
+            </details>
+            <details class="faq-item">
+                <summary data-i18n="faq_q4">WHAT DOES THE SERVICE INCLUDE?</summary>
+                <div class="faq-panel">
+                    <p data-i18n="faq_a4">The service can include 3D modeling, photomontages, renders, visualizations, real estate sales images, interiors, exteriors, product images, and presentation content. More specific services, such as video, BIM, surveys, or design support, are evaluated as extras.</p>
+                </div>
+            </details>
+            <details class="faq-item">
+                <summary data-i18n="faq_q5">HOW MANY REVISIONS ARE INCLUDED?</summary>
+                <div class="faq-panel">
+                    <p data-i18n="faq_a5">Included revisions are defined in the quote. Small adjustments to materials, colors, lights, or details are part of the normal process; substantial changes to the project, view, or number of images are evaluated separately.</p>
+                </div>
+            </details>
+            <details class="faq-item">
+                <summary data-i18n="faq_q6">WHAT HAPPENS IF I WANT TO CHANGE SOMETHING AFTER THE DRAFT?</summary>
+                <div class="faq-panel">
+                    <p data-i18n="faq_a6">If it is a correction consistent with the agreed work, we handle it as a revision. If the change modifies the project or requires a new image, we tell you the timing and additional cost first.</p>
+                </div>
+            </details>
+            <details class="faq-item">
+                <summary data-i18n="faq_q7">DO YOU ALSO WORK WITH REAL ESTATE AGENCIES?</summary>
+                <div class="faq-panel">
+                    <p data-i18n="faq_a7">Yes. We help agencies, studios, and developers present properties that are not finished yet, empty, to be renovated, or difficult to communicate with simple photos.</p>
+                </div>
+            </details>
+            <details class="faq-item">
+                <summary data-i18n="faq_q8">IS REMOTE COLLABORATION POSSIBLE?</summary>
+                <div class="faq-panel">
+                    <p data-i18n="faq_a8">Yes. We manage remote collaborations through shared files, calls, and online revisions. When the starting material is complete, we can work precisely even without a direct meeting.</p>
+                </div>
+            </details>
+            <details class="faq-item">
+                <summary data-i18n="faq_q9">IS PAYMENT MADE ENTIRELY AT THE END?</summary>
+                <div class="faq-panel">
+                    <p data-i18n="faq_a9">For more structured work, we work in steps: initial deposit, verification drafts, and final balance on delivery. This makes the process safer and clearer for both parties.</p>
+                </div>
+            </details>
+            <details class="faq-item">
+                <summary data-i18n="faq_q10">CAN I REQUEST A PACKAGE OF MULTIPLE IMAGES?</summary>
+                <div class="faq-panel">
+                    <p data-i18n="faq_a10">Yes. It is often convenient: once the model has been built, multiple views of the same project help maintain consistency and optimize the work compared to unrelated single images.</p>
+                </div>
+            </details>
+        </div>
+    </section>
+
+    <!-- SHARED JS -->
+    <script src="js/translations.js?v=57"></script>
+    <script src="js/spotlight.js?v=49"></script>
+    <script src="js/main.js?v=74"></script>
+
+    <!-- CONTACT POPUP HTML -->
+    <div id="contact-popup" class="contact-popup">
+        <div class="contact-popup-content">
+            <span class="close-popup">&times;</span>
+            <h2 class="service-title" data-i18n="popup_title">GET IN TOUCH</h2>
+            <p class="service-desc" style="margin-bottom: 2rem;" data-i18n="popup_desc">We'd love to hear from you. Send us a message.</p>
+
+            <form id="contact-form">
+                <div class="form-group">
+                    <label for="email" class="service-desc" data-i18n="popup_email_label">Your email</label>
+                    <input type="email" id="email" name="email" required
+                        style="width: 100%; padding: 10px; margin-top: 5px; background: #222; border: 1px solid #444; color: white;">
+                </div>
+                <div class="form-group" style="margin-top: 1rem;">
+                    <label for="message" class="service-desc" data-i18n="popup_msg_label">Message</label>
+                    <textarea id="message" name="message" rows="4" required
+                        style="width: 100%; resize: vertical; padding: 10px; margin-top: 5px; background: #222; border: 1px solid #444; color: white;"></textarea>
+                </div>
+                <button type="submit"
+                    style="margin-top: 1.5rem; padding: 10px 20px; background: var(--QUBLY-WHITE); color: black; border: none; cursor: pointer; text-transform: uppercase; font-weight: bold;" data-i18n="popup_send">Send</button>
+            </form>
+        </div>
+    </div>
+
+</body>
+
+</html>

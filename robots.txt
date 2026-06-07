@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://infoqubly.github.io/qubly-site/sitemap.xml
