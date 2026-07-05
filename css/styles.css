@@ -2379,7 +2379,7 @@ textarea,
 
 
 /* ========================================= */
-/* MASONRY GALLERY (For Esterni, Interni, Spazi) */
+/* MASONRY GALLERY (For Esterni, Interni, Paesaggi) */
 /* ========================================= */
 .gallery-section {
   padding: 8vw 6.25vw;
@@ -2432,7 +2432,7 @@ textarea,
 .layout-2 .masonry-item:nth-child(5) { grid-column: span 2; grid-row: span 2; }
 .layout-2 .masonry-item:nth-child(9) { grid-column: span 2; }
 
-/* Layout 3: Spazi */
+/* Layout 3: Paesaggi */
 .layout-3 .masonry-item:nth-child(1) { grid-column: span 3; }
 .layout-3 .masonry-item:nth-child(3) { grid-column: span 2; }
 .layout-3 .masonry-item:nth-child(6) { grid-row: span 2; }

@@ -1176,7 +1176,7 @@ document.addEventListener("DOMContentLoaded", () => {
             [document.body.classList.contains("about-page-body"), "page_title_about"],
             [window.location.pathname.endsWith("esterni.html"), "page_title_esterni"],
             [window.location.pathname.endsWith("interni.html"), "page_title_interni"],
-            [window.location.pathname.endsWith("spazi.html"), "page_title_spaces"],
+            [window.location.pathname.endsWith("paesaggi.html"), "page_title_landscapes"],
             [window.location.pathname.endsWith("privacy-policy.html"), "page_title_privacy"]
         ];
         const titleKey = pageTitleKeys.find(([matches]) => matches)?.[1];
