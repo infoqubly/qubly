@@ -1,2 +1,2 @@
-# qubly-site
-Website for Qubly - architectural visualization studio.
+# Qubly
+Qubly - architectural visualization studio.
