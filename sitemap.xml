@@ -1,18 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="https://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://infoqubly.github.io/qubly-site/</loc>
+    <loc>https://qubly.studio/</loc>
   </url>
   <url>
-    <loc>https://infoqubly.github.io/qubly-site/about.html</loc>
+    <loc>https://qubly.studio/about.html</loc>
   </url>
   <url>
-    <loc>https://infoqubly.github.io/qubly-site/esterni.html</loc>
+    <loc>https://qubly.studio/esterni.html</loc>
   </url>
   <url>
-    <loc>https://infoqubly.github.io/qubly-site/interni.html</loc>
+    <loc>https://qubly.studio/interni.html</loc>
   </url>
   <url>
-    <loc>https://infoqubly.github.io/qubly-site/paesaggi.html</loc>
+    <loc>https://qubly.studio/paesaggi.html</loc>
+  </url>
+  <url>
+    <loc>https://qubly.studio/privacy-policy.html</loc>
+  </url>
+  <url>
+    <loc>https://qubly.studio/spazi.html</loc>
   </url>
 </urlset>
