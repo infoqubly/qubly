@@ -103,6 +103,12 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
+    document.querySelectorAll(".social-icon[href='#']").forEach((icon) => {
+        icon.addEventListener("click", (event) => {
+            event.preventDefault();
+        });
+    });
+
     if (logo) {
         logo.addEventListener("click", (event) => {
             const isHomeLocation = window.location.pathname.endsWith("index.html")
