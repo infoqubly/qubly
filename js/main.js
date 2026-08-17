@@ -111,8 +111,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (logo) {
         logo.addEventListener("click", (event) => {
-            const isHomeLocation = window.location.pathname.endsWith("index.html")
-                || window.location.pathname.endsWith("/");
+            const currentPath = window.location.pathname.replace(/\/+$/, "") || "/";
+            const isHomeLocation = currentPath === "/"
+                || currentPath.endsWith("/index.html");
 
             if (!isHomeLocation) {
                 return;
@@ -1177,13 +1178,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
         document.documentElement.lang = lang;
 
+        const currentPath = window.location.pathname.replace(/\/+$/, "") || "/";
         const pageTitleKeys = [
             [document.body.classList.contains("home-page"), "page_title_index"],
             [document.body.classList.contains("about-page-body"), "page_title_about"],
-            [window.location.pathname.endsWith("esterni.html"), "page_title_esterni"],
-            [window.location.pathname.endsWith("interni.html"), "page_title_interni"],
-            [window.location.pathname.endsWith("paesaggi.html"), "page_title_landscapes"],
-            [window.location.pathname.endsWith("privacy-policy.html"), "page_title_privacy"]
+            [currentPath.endsWith("/esterni") || currentPath.endsWith("/esterni.html"), "page_title_esterni"],
+            [currentPath.endsWith("/interni") || currentPath.endsWith("/interni.html"), "page_title_interni"],
+            [currentPath.endsWith("/paesaggi") || currentPath.endsWith("/paesaggi.html"), "page_title_landscapes"],
+            [currentPath.endsWith("/spazi") || currentPath.endsWith("/spazi.html"), "page_title_spaces"],
+            [currentPath.endsWith("/privacy-policy") || currentPath.endsWith("/privacy-policy.html"), "page_title_privacy"]
         ];
         const titleKey = pageTitleKeys.find(([matches]) => matches)?.[1];
         if (titleKey && dict[titleKey]) {

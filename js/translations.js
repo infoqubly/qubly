@@ -5,6 +5,7 @@ const translations = {
         page_title_esterni: "QUBLY - Exteriors",
         page_title_interni: "QUBLY - Interiors",
         page_title_landscapes: "QUBLY - Landscapes",
+        page_title_spaces: "QUBLY - Spaces",
         page_title_privacy: "QUBLY - Privacy Policy",
 
         meta_desc_index: "Architectural visualizations, exterior and interior renders, and imagery for real estate and architectural projects.",
@@ -109,6 +110,7 @@ const translations = {
         page_title_esterni: "QUBLY - Esterni",
         page_title_interni: "QUBLY - Interni",
         page_title_landscapes: "QUBLY - Paesaggi",
+        page_title_spaces: "QUBLY - Spazi",
         page_title_privacy: "QUBLY - Privacy Policy",
 
         meta_desc_index: "Visualizzazioni architettoniche, render esterni, interni e immagini per progetti immobiliari e architettonici.",
@@ -226,6 +228,7 @@ const translations = {
         page_title_esterni: "QUBLY - Zunanjost",
         page_title_interni: "QUBLY - Notranjost",
         page_title_landscapes: "QUBLY - Krajine",
+        page_title_spaces: "QUBLY - Prostori",
         page_title_privacy: "QUBLY - Politika Zasebnosti",
 
         meta_desc_index: "Arhitekturne vizualizacije, zunanji in notranji renderji ter slike za nepremičninske in arhitekturne projekte.",
