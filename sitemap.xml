@@ -2,23 +2,32 @@
 <urlset xmlns="https://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://qubly.studio/</loc>
+    <lastmod>2026-08-22</lastmod>
+    <priority>1.0</priority>
   </url>
   <url>
     <loc>https://qubly.studio/about</loc>
+    <lastmod>2026-08-22</lastmod>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://qubly.studio/esterni</loc>
+    <lastmod>2026-08-22</lastmod>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://qubly.studio/interni</loc>
+    <lastmod>2026-08-22</lastmod>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://qubly.studio/paesaggi</loc>
+    <lastmod>2026-08-22</lastmod>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://qubly.studio/privacy-policy</loc>
-  </url>
-  <url>
-    <loc>https://qubly.studio/spazi</loc>
+    <lastmod>2026-08-22</lastmod>
+    <priority>0.3</priority>
   </url>
 </urlset>

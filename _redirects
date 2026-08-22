@@ -9,5 +9,6 @@
 /paesaggi/ /paesaggi 301
 /privacy-policy.html /privacy-policy 301
 /privacy-policy/ /privacy-policy 301
-/spazi.html /spazi 301
-/spazi/ /spazi 301
+/spazi /paesaggi 301
+/spazi.html /paesaggi 301
+/spazi/ /paesaggi 301

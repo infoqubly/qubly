@@ -4,3 +4,8 @@
 .wrangler
 .dev.vars*
 .env*
+.codex-remote-attachments
+src
+wrangler.jsonc
+README.md
+.gitignore

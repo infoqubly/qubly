@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="it">
 
 <head>
     <meta charset="UTF-8">
@@ -7,13 +7,46 @@
     <title>QUBLY – Architectural Visualization</title>
     <meta name="description" content="Visualizzazioni architettoniche, render esterni, interni e immagini per progetti immobiliari e architettonici." data-i18n="meta_desc_index">
     <link rel="canonical" href="https://qubly.studio/">
+    <meta name="robots" content="index,follow">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="QUBLY">
+    <meta property="og:title" content="QUBLY - Visualizzazione Architettonica">
+    <meta property="og:description" content="Visualizzazioni architettoniche, render esterni, interni e immagini per progetti immobiliari e architettonici.">
+    <meta property="og:url" content="https://qubly.studio/">
+    <meta property="og:image" content="https://qubly.studio/PS/Selezione/01.jpg">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="QUBLY - Visualizzazione Architettonica">
+    <meta name="twitter:description" content="Visualizzazioni architettoniche, render esterni, interni e immagini per progetti immobiliari e architettonici.">
+    <meta name="twitter:image" content="https://qubly.studio/PS/Selezione/01.jpg">
 
     <!-- CSS -->
-    <link rel="stylesheet" href="css/styles.css?v=93">
+    <link rel="stylesheet" href="css/styles.css?v=94">
+    <noscript><style>.site-loader{display:none!important}body.is-loading{overflow:auto!important}</style></noscript>
     <link rel="icon" href="favicon.png" type="image/png">
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            "name": "QUBLY",
+            "url": "https://qubly.studio/",
+            "logo": "https://qubly.studio/logo.png",
+            "description": "Studio di visualizzazione architettonica per render esterni, interni, paesaggi e comunicazione immobiliare.",
+            "sameAs": [
+                "https://www.facebook.com/qubly.studio/",
+                "https://www.instagram.com/qubly.studio/"
+            ]
+        }
+    </script>
 </head>
+<body class="home-page is-loading">
 
-<body class="home-page">
+    <div class="site-loader" id="site-loader" role="status" aria-live="polite" aria-label="Caricamento 0%">
+        <div class="site-loader__mark" aria-hidden="true">
+            <img class="site-loader__logo site-loader__logo--base" src="logo.png" alt="">
+            <img class="site-loader__logo site-loader__logo--fill" src="logo.png" alt="">
+        </div>
+        <span class="site-loader__progress" data-loader-progress>0%</span>
+    </div>
 
     <!-- HEADER -->
     <header class="site-header">
@@ -42,7 +75,7 @@
     <!-- HERO SECTION -->
     <section class="hero-section">
         <div class="hero-video-container">
-            <video class="hero-video" autoplay loop muted playsinline disablePictureInPicture
+            <video class="hero-video" autoplay loop muted playsinline preload="auto" poster="PS/Selezione/01.webp" disablePictureInPicture
                 controlsList="nodownload noplaybackrate noremoteplayback">
                 <!-- PC: 1024px in su -->
                 <source src="hero-pc.mp4" media="(min-width: 1024px)" type="video/mp4">
@@ -61,7 +94,7 @@
     <!-- MAIN CONTENT WRAPPER to fix background scrolling issue -->
     <main id="main-content-wrapper">
         <!-- SCROLLING TEXTURE BACKGROUND -->
-        <img src="Sfondo.webp" id="scrolling-texture" alt="">
+        <img src="Sfondo.webp" id="scrolling-texture" alt="" loading="lazy" decoding="async" fetchpriority="low">
 
         <!-- INTRO TEXT -->
         <div class="section-wrapper" id="intro" data-snap-anchor data-snap-offset="0">
@@ -75,28 +108,28 @@
             <div class="scroll-showcase-stack" style="--showcase-card-count: 4;">
                 <div class="scroll-showcase-stage">
                     <article class="scroll-showcase-card">
-                        <img src="PS/Selezione/01.jpg" alt="Selected interior work 1" data-speed="0.94">
+                        <img src="PS/Selezione/01.webp" alt="Render di interni residenziali QUBLY" data-speed="0.94" loading="lazy" decoding="async">
                         <div class="showcase-tags">
                             <span>QUBLY</span>
                             <span data-i18n="showcase_tag_residential">RESIDENTIAL</span>
                         </div>
                     </article>
                     <article class="scroll-showcase-card">
-                        <img src="PS/Selezione/02.jpg" alt="Selected exterior work" data-speed="0.92">
+                        <img src="PS/Selezione/02.webp" alt="Render architettonico esterno QUBLY" data-speed="0.92" loading="lazy" decoding="async">
                         <div class="showcase-tags">
                             <span>QUBLY</span>
                             <span data-i18n="showcase_tag_architecture">ARCHITECTURE</span>
                         </div>
                     </article>
                     <article class="scroll-showcase-card">
-                        <img src="PS/Selezione/03.jpg" alt="Selected landscapes work" data-speed="0.9">
+                        <img src="PS/Selezione/03.webp" alt="Visualizzazione paesaggistica QUBLY" data-speed="0.9" loading="lazy" decoding="async">
                         <div class="showcase-tags">
                             <span>QUBLY</span>
                             <span data-i18n="showcase_tag_landscapes">LANDSCAPES</span>
                         </div>
                     </article>
                     <article class="scroll-showcase-card">
-                        <img src="PS/Selezione/04.png" alt="Selected redevelopment work" data-speed="0.88">
+                        <img src="PS/Selezione/04.webp" alt="Fotoinserimento e trasformazione architettonica QUBLY" data-speed="0.88" loading="lazy" decoding="async">
                         <div class="showcase-tags">
                             <span>QUBLY</span>
                             <span data-i18n="showcase_tag_transformation">TRANSFORMATION</span>
@@ -124,7 +157,7 @@
             <a class="case-card reveal from-left" href="#" data-delay="0">
                 <p class="case-kicker" data-i18n="kicker_need">Before</p>
                 <div class="case-media">
-                    <img src="PS/P1.png" alt="Case Study 1 Problem" />
+                    <img src="PS/P1.webp" alt="Disegno tecnico prima della visualizzazione architettonica" loading="lazy" decoding="async" />
                 </div>
                 <div class="case-body">
                     <p data-i18n="row1_prob">Drawings explain structure, but they don’t communicate how the architecture will actually look
@@ -136,7 +169,7 @@
             <a class="case-card reveal from-right" href="#" data-delay="700">
                 <p class="case-kicker" data-i18n="kicker_deliver">After</p>
                 <div class="case-media">
-                    <img src="PS/S1.png" alt="Case Study 1 Solution" />
+                    <img src="PS/S1.webp" alt="Render finale dopo la visualizzazione architettonica" loading="lazy" decoding="async" />
                 </div>
                 <div class="case-body">
                     <p data-i18n="row1_sol">Architectural visualizations that turn 2D intent into clear, tangible spatial reality.</p>
@@ -153,7 +186,7 @@
             <a class="case-card reveal from-left" href="#" data-delay="0">
                 <p class="case-kicker" data-i18n="kicker_need">Before</p>
                 <div class="case-media">
-                    <img src="PS/P5.png" alt="Case Study 2 Problem" />
+                    <img src="PS/P5.webp" alt="Progetto architettonico prima del render" loading="lazy" decoding="async" />
                 </div>
                 <div class="case-body">
                     <p data-i18n="row2_prob">A project can be precise and complete, but still difficult to read without a clear visual translation.</p>
@@ -164,7 +197,7 @@
             <a class="case-card reveal from-right" href="#" data-delay="700">
                 <p class="case-kicker" data-i18n="kicker_deliver">After</p>
                 <div class="case-media">
-                    <img src="PS/S5.png" alt="Case Study 2 Solution" />
+                    <img src="PS/S5.webp" alt="Render architettonico comunicativo del progetto" loading="lazy" decoding="async" />
                 </div>
                 <div class="case-body">
                     <p data-i18n="row2_sol">Images that turn the project into an immediate, readable and communicative architectural vision.</p>
@@ -181,7 +214,7 @@
             <a class="case-card reveal from-left" href="#" data-delay="0">
                 <p class="case-kicker" data-i18n="kicker_need">Before</p>
                 <div class="case-media">
-                    <img src="PS/P6.png" alt="Case Study 3 Problem" />
+                    <img src="PS/P6.webp" alt="Modello volumetrico prima del render" loading="lazy" decoding="async" />
                 </div>
                 <div class="case-body">
                     <p data-i18n="row3_prob">A model defines volumes and proportions, but it does not yet express atmosphere, materials and light.</p>
@@ -192,7 +225,7 @@
             <a class="case-card reveal from-right" href="#" data-delay="700">
                 <p class="case-kicker" data-i18n="kicker_deliver">After</p>
                 <div class="case-media">
-                    <img src="PS/S6.png" alt="Case Study 3 Solution" />
+                    <img src="PS/S6.webp" alt="Immagine renderizzata con materiali luce e atmosfera" loading="lazy" decoding="async" />
                 </div>
                 <div class="case-body">
                     <p data-i18n="row3_sol">Rendered images that transform the model into a complete visual experience, ready to communicate.</p>
@@ -209,7 +242,7 @@
             <a class="case-card reveal from-left" href="#" data-delay="0">
                 <p class="case-kicker" data-i18n="kicker_need">Before</p>
                 <div class="case-media">
-                    <img src="PS/P2.png" alt="Case Study 2 Problem" />
+                    <img src="PS/P2.webp" alt="Spazio interno vuoto prima della visualizzazione" loading="lazy" decoding="async" />
                 </div>
                 <div class="case-body">
                     <p data-i18n="row4_prob">Sometimes there is only an empty space, or just a project on paper, and it has to be sold before
@@ -221,7 +254,7 @@
             <a class="case-card reveal from-right" href="#" data-delay="700">
                 <p class="case-kicker" data-i18n="kicker_deliver">After</p>
                 <div class="case-media">
-                    <img src="PS/S2.png" alt="Case Study 2 Solution" />
+                    <img src="PS/S2.webp" alt="Visualizzazione fotorealistica di interni arredata" loading="lazy" decoding="async" />
                 </div>
                 <div class="case-body">
                     <p data-i18n="row4_sol">Photoreal visualizations that transform vacant or unbuilt spaces into desirable, market-ready
@@ -239,7 +272,7 @@
             <a class="case-card reveal from-left" href="#" data-delay="0">
                 <p class="case-kicker" data-i18n="kicker_need">Before</p>
                 <div class="case-media">
-                    <img src="PS/P3.png" alt="Case Study 3 Problem" />
+                    <img src="PS/P3.webp" alt="Edificio esistente prima del fotoinserimento" loading="lazy" decoding="async" />
                 </div>
                 <div class="case-body">
                     <p data-i18n="row5_prob">Existing buildings and sites don’t communicate their future potential.</p>
@@ -250,7 +283,7 @@
             <a class="case-card reveal from-right" href="#" data-delay="700">
                 <p class="case-kicker" data-i18n="kicker_deliver">After</p>
                 <div class="case-media">
-                    <img src="PS/S3.png" alt="Case Study 3 Solution" />
+                    <img src="PS/S3.webp" alt="Fotoinserimento architettonico del progetto nel contesto" loading="lazy" decoding="async" />
                 </div>
                 <div class="case-body">
                     <p data-i18n="row5_sol">Contextual photoinsertions that show the transformation as if it already exists.</p>
@@ -267,7 +300,7 @@
             <a class="case-card reveal from-left" href="#" data-delay="0">
                 <p class="case-kicker" data-i18n="kicker_need">Before</p>
                 <div class="case-media">
-                    <img src="PS/P4.png" alt="Case Study 4 Problem" />
+                    <img src="PS/P4.webp" alt="Confronto materiali prima della visualizzazione" loading="lazy" decoding="async" />
                 </div>
                 <div class="case-body">
                     <p data-i18n="row6_prob">Comparing finishes and alternatives is abstract without seeing them side by side.</p>
@@ -278,7 +311,7 @@
             <a class="case-card reveal from-right" href="#" data-delay="700">
                 <p class="case-kicker" data-i18n="kicker_deliver">After</p>
                 <div class="case-media">
-                    <img src="PS/S4.png" alt="Case Study 4 Solution" />
+                    <img src="PS/S4.webp" alt="Render comparativo di materiali e soluzioni" loading="lazy" decoding="async" />
                 </div>
                 <div class="case-body">
                     <p data-i18n="row6_sol">Consistent comparative renders that make choices immediate and concrete.</p>
@@ -298,7 +331,7 @@
             <a href="/esterni" class="case-card reveal from-left" data-delay="0">
                 <div class="case-media"
                     style="position: relative; aspect-ratio: 16/9; overflow: hidden;">
-                    <img src="PS/exterior.png" alt="Exterior"
+                    <img src="PS/exterior.webp" alt="Render esterni QUBLY" loading="lazy" decoding="async"
                         style="width: 100%; height: 100%; object-fit: cover; filter: brightness(0.9);">
                 </div>
                 <div class="case-body">
@@ -310,7 +343,7 @@
             <a href="/interni" class="case-card reveal from-left" data-delay="200">
                 <div class="case-media"
                     style="position: relative; aspect-ratio: 16/9; overflow: hidden;">
-                    <img src="PS/interior.png" alt="Interior"
+                    <img src="PS/interior.webp" alt="Render interni QUBLY" loading="lazy" decoding="async"
                         style="width: 100%; height: 100%; object-fit: cover; filter: brightness(0.9);">
                 </div>
                 <div class="case-body">
@@ -322,7 +355,7 @@
             <a href="/paesaggi" class="case-card reveal from-left" data-delay="400">
                 <div class="case-media"
                     style="position: relative; aspect-ratio: 16/9; overflow: hidden;">
-                    <img src="PS/paesaggi.png" alt="Landscapes"
+                    <img src="PS/paesaggi.webp" alt="Render paesaggi QUBLY" loading="lazy" decoding="async"
                         style="width: 100%; height: 100%; object-fit: cover; filter: brightness(0.9);">
                 </div>
                 <div class="case-body">
@@ -386,6 +419,7 @@
     <!-- JS -->
     <script src="js/translations.js?v=58"></script>
     <script src="js/spotlight.js?v=49"></script>
+    <script src="js/loader.js?v=1"></script>
     <script src="js/main.js?v=74"></script>
 </body>
 
