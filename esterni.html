@@ -20,28 +20,28 @@
     <meta name="twitter:image" content="https://qubly.studio/PS/esterni/01.jpg">
 
     <!-- CSS -->
-    <link rel="stylesheet" href="css/styles.css?v=95">
-    <link rel="preconnect" href="https://unpkg.com">
+    <link rel="stylesheet" href="css/styles.css?v=96">
+
     <!-- PhotoSwipe CSS -->
-    <link rel="stylesheet" href="https://unpkg.com/photoswipe@5.4.3/dist/photoswipe.css">
+    <link rel="stylesheet" href="vendor/photoswipe/photoswipe.css?v=5.4.3">
     <link rel="icon" href="favicon.png" type="image/png">
+<noscript><style>.menu-toggle{display:none}.fullscreen-menu{position:relative;opacity:1;visibility:visible;height:auto;padding:110px 20px 30px}.menu-list{display:flex;flex-wrap:wrap;justify-content:center;gap:16px}.menu-item{opacity:1;transform:none;font-size:18px;padding:6px}.site-header{position:absolute}</style></noscript>
 </head>
 
 <body>
+    <a class="skip-link" href="#main-content-wrapper" data-i18n="skip_content">Vai al contenuto</a>
 
     <!-- HEADER -->
     <header class="site-header">
         <a href="/" class="logo">
-            <img src="logo.png" alt="QUBLY">
+            <img src="logo-loader.webp?v=1" alt="QUBLY" width="640" height="640">
         </a>
 
-        <div class="menu-toggle">
-            <div class="hamburger-line"></div>
-        </div>
+        <button class="menu-toggle" type="button" aria-label="Menu" aria-expanded="false" aria-controls="site-menu"><span class="hamburger-line" aria-hidden="true"></span></button>
     </header>
 
     <!-- FULLSCREEN MENU -->
-    <div class="fullscreen-menu">
+    <nav class="fullscreen-menu" id="site-menu" aria-label="Menu">
         <ul class="menu-list">
             <li class="menu-item"><a href="/" data-i18n="nav_home">Home</a></li>
             <li class="menu-item"><a href="/about" data-i18n="nav_about">About Us</a></li>
@@ -49,32 +49,32 @@
             <li class="menu-item"><a href="/#projects" data-i18n="nav_projects">Projects</a></li>
             <li class="menu-item"><a href="/#contact" data-i18n="nav_contact">Contact Us</a></li>
         </ul>
-    </div>
+    </nav>
 
     <!-- MAIN CONTENT WRAPPER -->
     <main id="main-content-wrapper" style="position: relative; overflow: hidden; background-color: var(--bg-color); min-height: 100vh;">
         <!-- SCROLLING TEXTURE BACKGROUND -->
-        <img src="Sfondo.webp" id="scrolling-texture" alt="" decoding="async">
+        <img src="assets/optimized/Sfondo-1280.webp" width="2048" height="16383" srcset="assets/optimized/Sfondo-640.webp 640w, assets/optimized/Sfondo-1280.webp 1280w" sizes="100vw" id="scrolling-texture" alt="" decoding="async" fetchpriority="low">
 
         <!-- GALLERY SECTION -->
         <section class="gallery-section pswp-gallery" id="gallery">
-            <h2 class="service-title" style="margin-top: 6vw;" data-i18n="proj_exterior">EXTERIOR</h2>
+            <h1 class="service-title" style="margin-top: 6vw;" data-i18n="proj_exterior">EXTERIOR</h1>
             
             <div class="masonry-gallery layout-1">
                 <!-- IMMAGINI ESTERNI: Rinomina i tuoi file come 01.jpg, 02.jpg, ecc. e mettili nella cartella PS/esterni/ -->
                 <!-- Se il file non esiste, mostrerà l'immagine di default (exterior.png) -->
                 
-                <a href="PS/esterni/01.jpg" target="_blank" class="masonry-item">
-                    <img src="PS/esterni/01.webp" alt="Render esterno residenziale QUBLY" loading="lazy" decoding="async" />
+                <a href="PS/esterni/01.jpg" target="_blank" rel="noopener" class="masonry-item" data-pswp-width="1672" data-pswp-height="941">
+                    <img src="assets/optimized/PS/esterni/01-1672.webp" width="1672" height="941" srcset="assets/optimized/PS/esterni/01-640.webp 640w, assets/optimized/PS/esterni/01-1280.webp 1280w, assets/optimized/PS/esterni/01-1672.webp 1672w" sizes="(max-width: 767px) 88vw, (max-width: 1023px) 86vw, 60vw" alt="Render esterno residenziale QUBLY" loading="eager" fetchpriority="high" decoding="async" />
                 </a>
-                <a href="PS/esterni/02.jpg" target="_blank" class="masonry-item">
-                    <img src="PS/esterni/02.webp" alt="Visualizzazione architettonica esterna QUBLY" loading="lazy" decoding="async" />
+                <a href="PS/esterni/02.jpg" target="_blank" rel="noopener" class="masonry-item" data-pswp-width="3840" data-pswp-height="2192">
+                    <img src="assets/optimized/PS/esterni/02-1920.webp" width="3840" height="2192" srcset="assets/optimized/PS/esterni/02-640.webp 640w, assets/optimized/PS/esterni/02-1280.webp 1280w, assets/optimized/PS/esterni/02-1920.webp 1920w" sizes="(max-width: 767px) 88vw, (max-width: 1023px) 86vw, 60vw" alt="Visualizzazione architettonica esterna QUBLY" loading="eager" fetchpriority="high" decoding="async" />
                 </a>
-                <a href="PS/esterni/04.jpg" target="_blank" class="masonry-item">
-                    <img src="PS/esterni/04.webp" alt="Render fotorealistico di esterni QUBLY" loading="lazy" decoding="async" />
+                <a href="PS/esterni/04.jpg" target="_blank" rel="noopener" class="masonry-item" data-pswp-width="1448" data-pswp-height="1086">
+                    <img src="assets/optimized/PS/esterni/04-1448.webp" width="1448" height="1086" srcset="assets/optimized/PS/esterni/04-640.webp 640w, assets/optimized/PS/esterni/04-1280.webp 1280w, assets/optimized/PS/esterni/04-1448.webp 1448w" sizes="(max-width: 767px) 88vw, (max-width: 1023px) 86vw, 60vw" alt="Render fotorealistico di esterni QUBLY" loading="lazy" decoding="async" />
                 </a>
-                <a href="PS/esterni/05.jpg" target="_blank" class="masonry-item">
-                    <img src="PS/esterni/05.webp" alt="Immagine per progetto esterno e immobiliare QUBLY" loading="lazy" decoding="async" />
+                <a href="PS/esterni/05.jpg" target="_blank" rel="noopener" class="masonry-item" data-pswp-width="1576" data-pswp-height="998">
+                    <img src="assets/optimized/PS/esterni/05-1576.webp" width="1576" height="998" srcset="assets/optimized/PS/esterni/05-640.webp 640w, assets/optimized/PS/esterni/05-1280.webp 1280w, assets/optimized/PS/esterni/05-1576.webp 1576w" sizes="(max-width: 767px) 88vw, (max-width: 1023px) 86vw, 60vw" alt="Immagine per progetto esterno e immobiliare QUBLY" loading="lazy" decoding="async" />
                 </a>
             </div>
         </section>
@@ -84,21 +84,21 @@
             <div class="project-nav-grid">
                 <a href="/esterni" class="project-nav-card is-current" aria-current="page">
                     <div class="project-nav-media">
-                        <img src="PS/exterior.webp" alt="Render esterni QUBLY" loading="lazy" decoding="async">
+                        <img src="assets/optimized/PS/exterior-1448.webp" width="1448" height="1086" srcset="assets/optimized/PS/exterior-640.webp 640w, assets/optimized/PS/exterior-1280.webp 1280w, assets/optimized/PS/exterior-1448.webp 1448w" sizes="(max-width: 767px) 88vw, (max-width: 1023px) 86vw, 60vw" alt="Render esterni QUBLY" loading="lazy" decoding="async">
                     </div>
                     <span data-i18n="proj_exterior">EXTERIOR</span>
                 </a>
 
                 <a href="/interni" class="project-nav-card">
                     <div class="project-nav-media">
-                        <img src="PS/interior.webp" alt="Render interni QUBLY" loading="lazy" decoding="async">
+                        <img src="assets/optimized/PS/interior-1448.webp" width="1448" height="1086" srcset="assets/optimized/PS/interior-640.webp 640w, assets/optimized/PS/interior-1280.webp 1280w, assets/optimized/PS/interior-1448.webp 1448w" sizes="(max-width: 767px) 88vw, (max-width: 1023px) 86vw, 60vw" alt="Render interni QUBLY" loading="lazy" decoding="async">
                     </div>
                     <span data-i18n="proj_interior">INTERIOR</span>
                 </a>
 
                 <a href="/paesaggi" class="project-nav-card">
                     <div class="project-nav-media">
-                        <img src="PS/paesaggi.webp" alt="Render paesaggi QUBLY" loading="lazy" decoding="async">
+                        <img src="assets/optimized/PS/paesaggi-1448.webp" width="1448" height="1086" srcset="assets/optimized/PS/paesaggi-640.webp 640w, assets/optimized/PS/paesaggi-1280.webp 1280w, assets/optimized/PS/paesaggi-1448.webp 1448w" sizes="(max-width: 767px) 88vw, (max-width: 1023px) 86vw, 60vw" alt="Render paesaggi QUBLY" loading="lazy" decoding="async">
                     </div>
                     <span data-i18n="proj_landscapes">LANDSCAPES</span>
                 </a>
@@ -118,37 +118,11 @@
     <canvas id="spotlight-canvas"></canvas>
 
     <!-- JS -->
-    <script src="js/translations.js?v=58"></script>
-    <script src="js/spotlight.js?v=49"></script>
-    <script src="js/main.js?v=74"></script>
+    <script defer src="js/translations.js?v=59"></script>
+    <script defer src="js/spotlight.js?v=50"></script>
+    <script defer src="js/main.js?v=75"></script>
 
-    <!-- PHOTOSWIPE SCRIPT -->
-    <script type="module">
-        import PhotoSwipeLightbox from 'https://unpkg.com/photoswipe@5.4.3/dist/photoswipe-lightbox.esm.js';
-        
-        // Auto-calculate image dimensions for PhotoSwipe
-        document.querySelectorAll('.masonry-item').forEach(link => {
-            const img = link.querySelector('img');
-            const setDimensions = () => {
-                link.setAttribute('data-pswp-width', img.naturalWidth || 1920);
-                link.setAttribute('data-pswp-height', img.naturalHeight || 1080);
-            };
-            if(img.complete) {
-                setDimensions();
-            } else {
-                img.onload = setDimensions;
-            }
-        });
-
-        const lightbox = new PhotoSwipeLightbox({
-            gallery: '#gallery',
-            children: 'a.masonry-item',
-            pswpModule: () => import('https://unpkg.com/photoswipe@5.4.3/dist/photoswipe.esm.js'),
-            showHideAnimationType: 'zoom',
-            showAnimationDuration: 700,
-            hideAnimationDuration: 700
-        });
-        lightbox.init();
-    </script>
+    <script type="module" src="js/gallery.js?v=1"></script>
+    <div id="site-status" class="site-status" role="status" aria-live="polite"></div>
 </body>
 </html>

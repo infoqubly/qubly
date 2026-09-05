@@ -1,129 +1,255 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const docEl = document.documentElement;
     const body = document.body;
     const menuToggle = document.querySelector(".menu-toggle");
     const fullscreenMenu = document.querySelector(".fullscreen-menu");
-    const menuLinks = Array.from(document.querySelectorAll(".menu-item a"));
-    const scrollTrigger = document.querySelector(".scroll-trigger-zone");
-    const logo = document.querySelector(".logo");
-    const contactTriggers = document.querySelectorAll(".contact-trigger-link");
-    const revealItems = Array.from(document.querySelectorAll(".reveal"));
+    const menuLinks = [...document.querySelectorAll(".menu-item a")];
     const visualFlow = document.getElementById("visual-flow");
-    const scrollShowcaseCards = Array.from(document.querySelectorAll(".scroll-showcase-card"));
-    const isHomePage = body.classList.contains("home-page");
-    const isSnapPage = isHomePage || body.classList.contains("about-page-body");
-    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const revealTimers = new WeakMap();
-
-    function updateScrollbarWidth() {
-        const scrollbarWidth = Math.max(0, window.innerWidth - docEl.clientWidth);
-        docEl.style.setProperty("--scrollbar-width", `${scrollbarWidth}px`);
+    const scrollShowcaseCards = [...document.querySelectorAll(".scroll-showcase-card")];
+    const prefersReducedMotion = matchMedia("(prefers-reduced-motion: reduce)");
+    const requestedLanguage = new URLSearchParams(location.search).get("lang");
+    const language = (requestedLanguage || navigator.language.slice(0, 2)).toLowerCase();
+    const dict = typeof translations !== "undefined" ? (translations[language] || translations.en) : {};
+    const ui = key => dict[key] || key;
+    const scrollBehavior = () => prefersReducedMotion.matches ? "instant" : "smooth";
+    let activeLayer = null;
+    let inertElements = [];
+    let statusTimer = 0;
+    if (fullscreenMenu) {
+        fullscreenMenu.inert = true;
+        fullscreenMenu.setAttribute("aria-hidden", "true");
     }
 
-    updateScrollbarWidth();
-    window.addEventListener("resize", updateScrollbarWidth);
-
-    function isDesktopSnapEnabled() {
-        return isSnapPage
-            && !prefersReducedMotion.matches
-            && window.matchMedia("(min-width: 1024px) and (pointer: fine)").matches;
+    function activateLayer(layer, trigger, controls) {
+        activeLayer = { layer, trigger, controls };
+        const allowedRoots = layer === fullscreenMenu ? [layer, document.querySelector(".site-header")] : [layer];
+        const siblings = [...body.children].filter(el => !allowedRoots.includes(el) && !el.matches("script, style, link"));
+        if (layer === fullscreenMenu) siblings.push(document.querySelector(".logo"));
+        inertElements = siblings.filter(Boolean).map(el => [el, el.inert]);
+        inertElements.forEach(([el]) => { el.inert = true; });
+        controls[0]?.focus({ preventScroll: true });
     }
 
-    function closeMenu() {
-        if (!menuToggle || !fullscreenMenu) {
-            return;
-        }
+    function deactivateLayer() {
+        inertElements.forEach(([el, wasInert]) => { el.inert = wasInert; });
+        inertElements = [];
+        activeLayer = null;
+    }
 
+    function closeMenu(restoreFocus = true) {
+        if (!fullscreenMenu?.classList.contains("active")) return;
+        deactivateLayer();
         body.classList.remove("menu-open-body");
         menuToggle.classList.remove("menu-open");
         fullscreenMenu.classList.remove("active");
-        document.removeEventListener("keydown", handleEscKey);
+        menuToggle.setAttribute("aria-expanded", "false");
+        fullscreenMenu.setAttribute("aria-hidden", "true");
+        fullscreenMenu.inert = true;
+        if (restoreFocus) menuToggle.focus({ preventScroll: true });
     }
 
-    function toggleMenu() {
-        if (!menuToggle || !fullscreenMenu) {
+    menuToggle?.addEventListener("click", () => {
+        if (fullscreenMenu.classList.contains("active")) return closeMenu();
+        body.classList.add("menu-open-body");
+        menuToggle.classList.add("menu-open");
+        fullscreenMenu.classList.add("active");
+        fullscreenMenu.inert = false;
+        fullscreenMenu.setAttribute("aria-hidden", "false");
+        menuToggle.setAttribute("aria-expanded", "true");
+        activateLayer(fullscreenMenu, menuToggle, [...menuLinks, menuToggle]);
+    });
+
+    document.addEventListener("keydown", event => {
+        if (!activeLayer) return;
+        if (event.key === "Escape") closeMenu();
+        if (event.key !== "Tab" || !activeLayer) return;
+        const controls = activeLayer.controls;
+        const index = controls.indexOf(document.activeElement);
+        if (event.shiftKey && index <= 0) {
+            event.preventDefault(); controls.at(-1)?.focus();
+        } else if (!event.shiftKey && (index === controls.length - 1 || index === -1)) {
+            event.preventDefault(); controls[0]?.focus();
+        }
+    });
+    window.addEventListener("pageshow", () => closeMenu(false));
+
+    function scrollToTarget(target) {
+        if (!target) return;
+        target.tabIndex = -1;
+        target.focus({ preventScroll: true });
+        target.scrollIntoView({ behavior: scrollBehavior(), block: "start" });
+    }
+
+    document.addEventListener("click", event => {
+        const link = event.target.closest("a[href]");
+        if (!link || event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+        const url = new URL(link.href, location.href);
+        if (url.origin !== location.origin || url.pathname !== location.pathname || link.target === "_blank") return;
+        if (!url.hash) {
+            if (link.classList.contains("logo") && location.pathname === "/") {
+                event.preventDefault(); closeMenu(false);
+                window.scrollTo({ top: 0, behavior: scrollBehavior() });
+            }
             return;
         }
+        let target;
+        try { target = document.getElementById(decodeURIComponent(url.hash.slice(1))); } catch { return; }
+        if (!target) return;
+        event.preventDefault();
+        closeMenu(false);
+        if (location.hash !== url.hash) history.pushState(null, "", url);
+        scrollToTarget(target);
+    });
+    menuLinks.forEach(link => link.addEventListener("click", event => {
+        if (!event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey) closeMenu(false);
+    }));
 
-        body.classList.toggle("menu-open-body");
-        menuToggle.classList.toggle("menu-open");
-        fullscreenMenu.classList.toggle("active");
-
-        if (fullscreenMenu.classList.contains("active")) {
-            document.addEventListener("keydown", handleEscKey);
-        } else {
-            document.removeEventListener("keydown", handleEscKey);
-        }
-    }
-
-    function handleEscKey(event) {
-        if (event.key === "Escape") {
-            closeMenu();
-        }
-    }
-
-    function clearRevealTimer(element) {
-        const timerId = revealTimers.get(element);
-        if (timerId) {
-            window.clearTimeout(timerId);
-            revealTimers.delete(element);
-        }
-    }
-
-    function showRevealImmediately(element) {
-        clearRevealTimer(element);
-        element.classList.add("is-visible");
-    }
-
-    function hideReveal(element) {
-        clearRevealTimer(element);
-        element.classList.remove("is-visible");
-    }
-
-    function flushDelayedReveals(scope) {
-        if (!scope) {
-            return false;
-        }
-
-        const delayedReveals = Array.from(scope.querySelectorAll(".reveal"))
-            .filter((element) => Number.parseInt(element.getAttribute("data-delay") || "0", 10) > 0)
-            .filter((element) => !element.classList.contains("is-visible"));
-
-        delayedReveals.forEach((element) => showRevealImmediately(element));
-        return delayedReveals.length > 0;
-    }
-
-    if (menuToggle) {
-        menuToggle.addEventListener("click", toggleMenu);
-    }
-
-    document.querySelectorAll(".case-snapshots .case-card[href='#']").forEach((card) => {
-        card.addEventListener("click", (event) => {
+    document.querySelectorAll(".contact-trigger-link").forEach(trigger => {
+        trigger.addEventListener("click", async event => {
+            if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
             event.preventDefault();
+            const email = "info.qubly@gmail.com";
+            try {
+                await navigator.clipboard.writeText(email);
+                const status = document.getElementById("site-status");
+                if (status) {
+                    clearTimeout(statusTimer);
+                    status.textContent = ui("email_copied");
+                    statusTimer = setTimeout(() => { status.textContent = ""; }, 3000);
+                }
+            } catch { location.href = "mailto:" + email; }
         });
     });
 
-    document.querySelectorAll(".social-icon[href='#']").forEach((icon) => {
-        icon.addEventListener("click", (event) => {
-            event.preventDefault();
-        });
-    });
-
-    if (logo) {
-        logo.addEventListener("click", (event) => {
-            const currentPath = window.location.pathname.replace(/\/+$/, "") || "/";
-            const isHomeLocation = currentPath === "/"
-                || currentPath.endsWith("/index.html");
-
-            if (!isHomeLocation) {
+    function initScrollShowcase() {
+        if (!visualFlow || !scrollShowcaseCards.length) return;
+        const desktop = matchMedia("(min-width: 768px)");
+        const stack = visualFlow.querySelector(".scroll-showcase-stack");
+        const stage = visualFlow.querySelector(".scroll-showcase-stage");
+        const cards = scrollShowcaseCards.map((card, index) => ({card, image:card.querySelector("img"), index}));
+        let metrics = null;
+        let frame = 0;
+        let nearViewport = true;
+        let previousMode = "";
+        let previousProgress = -1;
+        const enhanced = () => desktop.matches && !prefersReducedMotion.matches;
+        function measure() {
+            frame = 0;
+            const enabled = enhanced();
+            visualFlow.classList.toggle("is-enhanced", enabled);
+            if (!enabled) {
+                stage.removeAttribute("style");
+                cards.forEach(({card,image}) => {card.removeAttribute("style"); image.style.transform = "";});
+                metrics = null;
                 return;
             }
-
-            event.preventDefault();
-            window.scrollTo({ top: 0, behavior: "smooth" });
-            closeMenu();
-        });
+            const rect = stack.getBoundingClientRect();
+            const rawTop = getComputedStyle(visualFlow).getPropertyValue("--showcase-stage-top").trim();
+            const top = parseFloat(rawTop) * (rawTop.endsWith("vh") ? innerHeight / 100 : 1);
+            const height = stage.offsetHeight;
+            metrics = {top, height, start:rect.top + scrollY - top, length:Math.max(1,stack.offsetHeight-height),left:rect.left,width:rect.width};
+            previousMode = ""; previousProgress = -1;
+            cards.forEach(({card,index}) => {card.style.zIndex = index + 1;});
+            update();
+        }
+        function update() {
+            frame = 0;
+            if (!metrics || !enhanced()) return;
+            const m = metrics;
+            const distance = Math.max(0, Math.min(m.length, scrollY - m.start));
+            const mode = scrollY <= m.start ? "before" : scrollY >= m.start + m.length ? "after" : "pinned";
+            if (mode !== previousMode) {
+                stage.style.position = mode === "pinned" ? "fixed" : "absolute";
+                stage.style.top = (mode === "pinned" ? m.top : mode === "after" ? m.length : 0) + "px";
+                stage.style.left = mode === "pinned" ? m.left + "px" : "0";
+                stage.style.width = mode === "pinned" ? m.width + "px" : "100%";
+                previousMode = mode;
+            }
+            if (distance === previousProgress) return;
+            previousProgress = distance;
+            const progress = distance / (m.length / Math.max(1,cards.length - 1));
+            const active = Math.min(cards.length - 1,Math.floor(progress + 0.55));
+            cards.forEach(({card,image,index}) => {
+                const local = index === 0 ? 1 : Math.max(0,Math.min(1,progress - index + 1));
+                const translate = index === 0 ? 0 : Math.min(116,104 + (index - 1)*2) * Math.pow(1-local,3);
+                const speed = parseFloat(image.dataset.speed || "0.92");
+                const shift = index === 0 ? -distance*0.012 : -(translate/100*m.height)*(1-speed+0.14);
+                card.classList.toggle("is-active", index === active);
+                card.style.transform = "translate3d(0," + translate.toFixed(3) + "%,0)";
+                card.style.opacity = index === 0 || local > 0 ? "1" : "0";
+                image.style.transform = "translate3d(0," + shift.toFixed(2) + "px,0) scale(1.035)";
+            });
+        }
+        function schedule() {
+            if (!frame && nearViewport && enhanced() && !document.hidden) frame = requestAnimationFrame(update);
+        }
+        function scheduleMeasure() { if (frame) cancelAnimationFrame(frame); frame = requestAnimationFrame(measure); }
+        addEventListener("scroll", schedule, {passive:true});
+        addEventListener("resize", scheduleMeasure, {passive:true});
+        addEventListener("pageshow", scheduleMeasure);
+        prefersReducedMotion.addEventListener("change", scheduleMeasure);
+        desktop.addEventListener("change", scheduleMeasure);
+        if ("ResizeObserver" in window) new ResizeObserver(scheduleMeasure).observe(stack);
+        if ("IntersectionObserver" in window) new IntersectionObserver(([entry]) => {
+            nearViewport = entry.isIntersecting;
+            visualFlow.classList.toggle("is-in-view", nearViewport);
+            // Apply the final position once on exit, then stop offscreen work.
+            if (!nearViewport) update(); else schedule();
+        }, {rootMargin:"100px"}).observe(visualFlow);
+        measure();
     }
+
+    const caseGroups = [...document.querySelectorAll(".case-group")];
+    if ("IntersectionObserver" in window) {
+        const titles = new IntersectionObserver(entries => entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add("is-title-filling");
+                titles.unobserve(entry.target);
+            }
+        }), {threshold:0.15});
+        caseGroups.forEach(group => titles.observe(group));
+    } else caseGroups.forEach(group => group.classList.add("is-title-filling"));
+
+    document.querySelectorAll(".faq-item").forEach(item => {
+        const summary = item.querySelector("summary");
+        const panel = item.querySelector(".faq-panel");
+        if (!summary || !panel) return;
+        let animation = null;
+        let expanded = item.open;
+        summary.addEventListener("click", event => {
+            if (prefersReducedMotion.matches || !panel.animate) return;
+            event.preventDefault();
+            const startHeight = item.open ? panel.getBoundingClientRect().height : 0;
+            expanded = !expanded;
+            animation?.cancel();
+            item.open = true;
+            animation = panel.animate({height:[startHeight + "px", (expanded ? panel.scrollHeight : 0) + "px"]},
+                {duration:220,easing:"cubic-bezier(0.22,1,0.36,1)"});
+            animation.onfinish = () => {item.open = expanded; animation = null;};
+        });
+        item.addEventListener("toggle", () => {if (!animation) expanded = item.open;});
+        prefersReducedMotion.addEventListener("change", () => {
+            animation?.cancel(); animation = null; item.open = expanded;
+        });
+    });
+
+    const revealItems = [...document.querySelectorAll(".reveal")];
+    if ("IntersectionObserver" in window && !prefersReducedMotion.matches) {
+        const observer = new IntersectionObserver(entries => entries.forEach(entry => {
+            if (!entry.isIntersecting) return;
+            entry.target.classList.remove("reveal-pending");
+            entry.target.classList.add("is-visible");
+            observer.unobserve(entry.target);
+        }), {threshold:0,rootMargin:"0px 0px 40px 0px"});
+        revealItems.forEach(el => {
+            el.style.transitionDelay = Math.min(120,Number(el.dataset.delay)||0) + "ms";
+            el.classList.add("reveal-pending"); observer.observe(el);
+        });
+        prefersReducedMotion.addEventListener("change", () => {
+            if (!prefersReducedMotion.matches) return;
+            observer.disconnect();
+            revealItems.forEach(el => {el.classList.remove("reveal-pending");el.classList.add("is-visible");});
+        });
+    } else revealItems.forEach(el => el.classList.add("is-visible"));
 
     function initMobileShowcaseZoom() {
         if (!visualFlow || scrollShowcaseCards.length === 0) {
@@ -136,6 +262,7 @@ document.addEventListener("DOMContentLoaded", () => {
         let slides = [];
         let activeIndex = 0;
         let scrollTimer = 0;
+        let zoomTrigger = null;
 
         function escapeHtml(value) {
             return value
@@ -154,10 +281,13 @@ document.addEventListener("DOMContentLoaded", () => {
             overlay = document.createElement("div");
             overlay.className = "mobile-showcase-zoom";
             overlay.setAttribute("aria-hidden", "true");
+            overlay.setAttribute("role", "dialog");
+            overlay.setAttribute("aria-modal", "true");
+            overlay.setAttribute("aria-label", ui("image_preview"));
 
             const slideMarkup = scrollShowcaseCards.map((card, index) => {
                 const image = card.querySelector("img");
-                const src = image?.currentSrc || image?.src || image?.getAttribute("src") || "";
+                const src = image?.src || image?.currentSrc || image?.getAttribute("src") || "";
                 const alt = image?.getAttribute("alt") || "";
                 const tagMarkup = Array.from(card.querySelectorAll(".showcase-tags span"))
                     .map((tag) => tag.textContent.trim())
@@ -167,7 +297,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 return `
                     <div class="mobile-showcase-zoom-slide" data-index="${index}">
                         <div class="mobile-showcase-zoom-frame">
-                            <img src="${src}" alt="${escapeHtml(alt)}" loading="eager" decoding="sync" draggable="false">
+                            <img src="${src}" alt="${escapeHtml(alt)}" loading="lazy" decoding="async" draggable="false">
                         </div>
                         <div class="mobile-showcase-zoom-tags">${tagMarkup}</div>
                     </div>
@@ -175,7 +305,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }).join("");
 
             overlay.innerHTML = `
-                <button class="mobile-showcase-zoom-close" type="button" aria-label="Close image preview"></button>
+                <button class="mobile-showcase-zoom-close" type="button" aria-label="${ui("close_preview")}"></button>
                 <div class="mobile-showcase-zoom-track">${slideMarkup}</div>
             `;
 
@@ -257,7 +387,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     opacity: 1
                 }
             ], {
-                duration: 560,
+                duration: 320,
                 easing: "cubic-bezier(0.22, 1, 0.36, 1)"
             });
         }
@@ -274,11 +404,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
             const sourceRect = card.getBoundingClientRect();
             const sourceRadius = getComputedStyle(card).borderRadius;
+            closeMenu(false);
+            zoomTrigger = card;
             setActiveSlide(index);
+            slides[activeIndex].querySelector("img").loading = "eager";
             overlay.classList.add("is-open");
             overlay.setAttribute("aria-hidden", "false");
             body.classList.add("mobile-showcase-zoom-open");
-            closeMenu();
+            activateLayer(overlay, card, [overlay.querySelector("button")]);
 
             window.requestAnimationFrame(() => {
                 track.scrollLeft = track.clientWidth * activeIndex;
@@ -287,18 +420,37 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         function closeZoom() {
-            if (!overlay) {
+            if (!overlay?.classList.contains("is-open")) {
                 return;
             }
 
+            deactivateLayer();
+            zoomTrigger?.focus({ preventScroll: true });
             overlay.classList.remove("is-open");
             overlay.setAttribute("aria-hidden", "true");
             body.classList.remove("mobile-showcase-zoom-open");
         }
 
         scrollShowcaseCards.forEach((card, index) => {
-            const image = card.querySelector("img");
-            image?.addEventListener("click", (event) => {
+            const syncControl = () => {
+                card.tabIndex = mobileQuery.matches ? 0 : -1;
+                if (mobileQuery.matches) {
+                    card.setAttribute("role", "button");
+                    card.setAttribute("aria-label", `${ui("image_preview")}: ${card.querySelector("img").alt}`);
+                } else {
+                    card.removeAttribute("role");
+                    card.removeAttribute("aria-label");
+                }
+            };
+            syncControl();
+            mobileQuery.addEventListener("change", syncControl);
+            card.addEventListener("keydown", (event) => {
+                if (mobileQuery.matches && (event.key === "Enter" || event.key === " ")) {
+                    event.preventDefault();
+                    openZoom(index, card);
+                }
+            });
+            card.addEventListener("click", (event) => {
                 if (!mobileQuery.matches) {
                     return;
                 }
@@ -313,6 +465,11 @@ document.addEventListener("DOMContentLoaded", () => {
             if (event.key === "Escape") {
                 closeZoom();
             }
+            if (overlay?.classList.contains("is-open") && ["ArrowLeft", "ArrowRight"].includes(event.key)) {
+                event.preventDefault();
+                setActiveSlide(activeIndex + (event.key === "ArrowRight" ? 1 : -1));
+                track.scrollTo({left: track.clientWidth * activeIndex, behavior: scrollBehavior()});
+            }
         });
 
         mobileQuery.addEventListener?.("change", () => {
@@ -322,848 +479,6 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    function getScrollDestination(target) {
-        if (!target) {
-            return 0;
-        }
-
-        const mobileOffsetlessTargets = new Set(["projects", "contact"]);
-        const useMobileOffsetlessSnap = window.matchMedia("(max-width: 767px)").matches
-            && mobileOffsetlessTargets.has(target.id);
-        const offsetRatio = useMobileOffsetlessSnap
-            ? 0
-            : Number.parseFloat(target.dataset.snapOffset || "0");
-        const targetTop = target.getBoundingClientRect().top + window.scrollY;
-
-        if (target.classList.contains("case-group") && window.matchMedia("(min-width: 1024px)").matches) {
-            const centeredOffset = Math.max(0, (window.innerHeight - target.offsetHeight) / 2);
-            return Math.max(0, Math.round(targetTop - centeredOffset));
-        }
-
-        return Math.max(0, Math.round(targetTop - (window.innerHeight * offsetRatio)));
-    }
-
-    function scrollToTarget(target) {
-        if (!target) {
-            return;
-        }
-
-        window.scrollTo({
-            top: getScrollDestination(target),
-            behavior: "smooth"
-        });
-    }
-
-    function resolveViewportOffsetFromCssVar(element, cssVarName) {
-        if (!element) {
-            return 0;
-        }
-
-        const rawValue = window.getComputedStyle(element).getPropertyValue(cssVarName).trim();
-        if (!rawValue) {
-            return 0;
-        }
-
-        if (rawValue.endsWith("vh")) {
-            return (window.innerHeight * Number.parseFloat(rawValue || "0")) / 100;
-        }
-
-        return Number.parseFloat(rawValue || "0") || 0;
-    }
-
-    function getVisualFlowScrollMetrics() {
-        if (!visualFlow) {
-            return null;
-        }
-
-        const showcaseStack = visualFlow.querySelector(".scroll-showcase-stack");
-        const showcaseStage = visualFlow.querySelector(".scroll-showcase-stage");
-        if (!showcaseStack || !showcaseStage) {
-            return null;
-        }
-
-        const stackTop = showcaseStack.getBoundingClientRect().top + window.scrollY;
-        const stageHeight = showcaseStage.offsetHeight;
-        const stageTopPx = resolveViewportOffsetFromCssVar(visualFlow, "--showcase-stage-top");
-        const availableScroll = Math.max(1, showcaseStack.offsetHeight - stageHeight);
-        const pinStart = stackTop - stageTopPx;
-        const pinEnd = pinStart + availableScroll;
-
-        return {
-            availableScroll,
-            pinEnd,
-            pinStart,
-            stackTop,
-            stageHeight,
-            stageTopPx
-        };
-    }
-
-    function getVisualFlowSnapMetrics() {
-        if (!visualFlow) {
-            return null;
-        }
-
-        const flowMetrics = getVisualFlowScrollMetrics();
-        const defaultTop = getScrollDestination(visualFlow);
-        const entryTop = flowMetrics
-            ? Math.max(0, Math.round(flowMetrics.pinStart))
-            : defaultTop;
-        const exitTop = flowMetrics
-            ? Math.max(entryTop + 1, Math.round(flowMetrics.pinEnd))
-            : defaultTop;
-
-        return {
-            entryTop,
-            exitTop,
-            flowMetrics
-        };
-    }
-
-    function initScrollShowcase() {
-        if (scrollShowcaseCards.length === 0 || !visualFlow) {
-            return;
-        }
-
-        const desktopMotionQuery = window.matchMedia("(min-width: 768px)");
-        const mobileQuery = window.matchMedia("(max-width: 767px)");
-        const showcaseStack = visualFlow.querySelector(".scroll-showcase-stack");
-        const showcaseStage = visualFlow.querySelector(".scroll-showcase-stage");
-        let showcaseTicking = false;
-
-        if (!showcaseStack || !showcaseStage) {
-            return;
-        }
-
-        visualFlow.classList.add("is-enhanced");
-
-        scrollShowcaseCards.forEach((card, index) => {
-            card.style.zIndex = `${index + 1}`;
-        });
-
-        function resetShowcaseStyles() {
-            showcaseStage.style.position = "";
-            showcaseStage.style.top = "";
-            showcaseStage.style.left = "";
-            showcaseStage.style.right = "";
-            showcaseStage.style.width = "";
-
-            scrollShowcaseCards.forEach((card, index) => {
-                card.style.transform = "";
-                card.style.opacity = "1";
-                card.classList.toggle("is-active", index === 0);
-
-                const image = card.querySelector("img");
-                if (image) {
-                    image.style.transform = "";
-                }
-            });
-        }
-
-        function clamp(value, min, max) {
-            return Math.min(Math.max(value, min), max);
-        }
-
-        function updateShowcase() {
-            showcaseTicking = false;
-
-            if (mobileQuery.matches) {
-                resetShowcaseStyles();
-                return;
-            }
-
-            const stageHeight = showcaseStage.offsetHeight;
-            const stackRect = showcaseStack.getBoundingClientRect();
-            const stackTop = stackRect.top + window.scrollY;
-            const availableScroll = Math.max(1, showcaseStack.offsetHeight - stageHeight);
-            const stageTopPx = resolveViewportOffsetFromCssVar(visualFlow, "--showcase-stage-top");
-            const pinStart = stackTop - stageTopPx;
-            const pinEnd = pinStart + availableScroll;
-            const currentScroll = clamp(window.scrollY - pinStart, 0, availableScroll);
-            const segment = availableScroll / Math.max(1, scrollShowcaseCards.length - 1);
-            const progress = segment > 0 ? currentScroll / segment : 0;
-            const activeIndex = clamp(Math.floor(progress + 0.55), 0, scrollShowcaseCards.length - 1);
-            const reduceMotion = prefersReducedMotion.matches;
-
-            if (window.scrollY <= pinStart) {
-                showcaseStage.style.position = "absolute";
-                showcaseStage.style.top = "0px";
-                showcaseStage.style.left = "0";
-                showcaseStage.style.right = "0";
-                showcaseStage.style.width = "";
-            } else if (window.scrollY >= pinEnd) {
-                showcaseStage.style.position = "absolute";
-                showcaseStage.style.top = `${availableScroll}px`;
-                showcaseStage.style.left = "0";
-                showcaseStage.style.right = "0";
-                showcaseStage.style.width = "";
-            } else {
-                showcaseStage.style.position = "fixed";
-                showcaseStage.style.top = `${stageTopPx}px`;
-                showcaseStage.style.left = `${stackRect.left}px`;
-                showcaseStage.style.right = "";
-                showcaseStage.style.width = `${stackRect.width}px`;
-            }
-
-            scrollShowcaseCards.forEach((card, index) => {
-                const image = card.querySelector("img");
-                const startOffset = index === 0 ? 0 : Math.min(116, 104 + ((index - 1) * 2));
-                const localProgress = index === 0 ? 1 : clamp(progress - (index - 1), 0, 1);
-                const easedProgress = reduceMotion
-                    ? localProgress
-                    : 1 - Math.pow(1 - localProgress, 3);
-                const translatePercent = index === 0 ? 0 : startOffset * (1 - easedProgress);
-                const speed = Number.parseFloat(image?.dataset.speed || "0.92");
-                const imageShift = reduceMotion
-                    ? 0
-                    : (index === 0
-                        ? -currentScroll * 0.012
-                        : -((translatePercent / 100) * stageHeight) * (1 - speed + 0.14));
-
-                card.classList.toggle("is-active", index === activeIndex);
-                card.style.transform = `translate3d(0, ${translatePercent.toFixed(3)}%, 0)`;
-                card.style.opacity = index === 0 || localProgress > 0 ? "1" : "0";
-
-                if (image) {
-                    image.style.transform = `translate3d(0, ${imageShift.toFixed(2)}px, 0) scale(1.035)`;
-                }
-            });
-        }
-
-        function scheduleShowcaseUpdate() {
-            if (showcaseTicking) {
-                return;
-            }
-
-            showcaseTicking = true;
-            window.requestAnimationFrame(updateShowcase);
-        }
-
-        window.addEventListener("scroll", scheduleShowcaseUpdate, { passive: true });
-        window.addEventListener("resize", scheduleShowcaseUpdate, { passive: true });
-        window.addEventListener("load", scheduleShowcaseUpdate);
-        prefersReducedMotion.addEventListener?.("change", scheduleShowcaseUpdate);
-        desktopMotionQuery.addEventListener?.("change", scheduleShowcaseUpdate);
-        scheduleShowcaseUpdate();
-    }
-
-    menuLinks.forEach((link) => {
-        link.addEventListener("click", (event) => {
-            closeMenu();
-
-            const href = link.getAttribute("href") || "";
-            if (!isHomePage || !href.startsWith("#")) {
-                return;
-            }
-
-            const target = document.querySelector(href);
-            if (!target) {
-                return;
-            }
-
-            event.preventDefault();
-            scrollToTarget(target);
-        });
-    });
-
-    contactTriggers.forEach((trigger) => {
-        trigger.addEventListener("click", async (event) => {
-            if (trigger.getAttribute("href") && trigger.getAttribute("href") !== "#") {
-                return;
-            }
-
-            event.preventDefault();
-            const email = "info.qubly@gmail.com";
-
-            try {
-                await navigator.clipboard.writeText(email);
-                const originalText = trigger.innerText;
-                trigger.innerText = "Email copied!";
-                window.setTimeout(() => {
-                    trigger.innerText = originalText;
-                }, 2000);
-            } catch (error) {
-                console.error("Failed to copy email:", error);
-            }
-        });
-    });
-
-    if (scrollTrigger) {
-        scrollTrigger.addEventListener("click", () => {
-            scrollToTarget(document.getElementById("intro"));
-        });
-    }
-
-    const caseGroups = Array.from(document.querySelectorAll(".case-snapshots .case-group"));
-    let activeCaseGroupIndex = -1;
-    let caseTitleTicking = false;
-
-    function restartCaseTitleFill(group) {
-        const title = group.querySelector(".case-row-title");
-        if (!title) {
-            return;
-        }
-
-        group.classList.remove("is-title-filling");
-        title.style.animation = "none";
-        title.offsetHeight;
-        title.style.animation = "";
-        group.classList.add("is-title-filling");
-    }
-
-    function updateActiveCaseTitle() {
-        caseTitleTicking = false;
-
-        if (caseGroups.length === 0) {
-            return;
-        }
-
-        const viewportTarget = window.innerHeight * 0.46;
-        let nextIndex = -1;
-        let nearestDistance = Number.POSITIVE_INFINITY;
-
-        caseGroups.forEach((group, index) => {
-            const rect = group.getBoundingClientRect();
-            const isNearViewport = rect.top < window.innerHeight * 0.95 && rect.bottom > window.innerHeight * 0.05;
-            if (!isNearViewport) {
-                return;
-            }
-
-            const title = group.querySelector(".case-row-title");
-            const titleRect = title ? title.getBoundingClientRect() : rect;
-            const distance = Math.abs(titleRect.top - viewportTarget);
-
-            if (distance < nearestDistance) {
-                nearestDistance = distance;
-                nextIndex = index;
-            }
-        });
-
-        if (nextIndex === -1 || nextIndex === activeCaseGroupIndex) {
-            return;
-        }
-
-        caseGroups.forEach((group) => group.classList.remove("is-title-filling"));
-        activeCaseGroupIndex = nextIndex;
-        restartCaseTitleFill(caseGroups[nextIndex]);
-    }
-
-    function scheduleCaseTitleActivation() {
-        if (caseTitleTicking || caseGroups.length === 0) {
-            return;
-        }
-
-        caseTitleTicking = true;
-        window.requestAnimationFrame(updateActiveCaseTitle);
-    }
-
-    window.addEventListener("scroll", scheduleCaseTitleActivation, { passive: true });
-    window.addEventListener("resize", scheduleCaseTitleActivation, { passive: true });
-    window.addEventListener("load", scheduleCaseTitleActivation);
-    if (caseGroups.length > 0) {
-        window.setInterval(updateActiveCaseTitle, 180);
-    }
-    if ("IntersectionObserver" in window && caseGroups.length > 0) {
-        const caseTitleObserver = new IntersectionObserver((entries) => {
-            entries.forEach((entry) => {
-                if (!entry.isIntersecting) {
-                    return;
-                }
-
-                const index = caseGroups.indexOf(entry.target);
-                if (index === -1 || index === activeCaseGroupIndex) {
-                    return;
-                }
-
-                caseGroups.forEach((group) => group.classList.remove("is-title-filling"));
-                activeCaseGroupIndex = index;
-                restartCaseTitleFill(entry.target);
-            });
-        }, {
-            root: null,
-            threshold: 0.18,
-            rootMargin: "-12% 0px -28% 0px"
-        });
-
-        caseGroups.forEach((group) => caseTitleObserver.observe(group));
-    }
-    updateActiveCaseTitle();
-
-    function initMobilePageSnap() {
-        if (!isHomePage) {
-            return;
-        }
-
-        const mobileQuery = window.matchMedia("(max-width: 767px)");
-        const horizontalScrollSelector = ".scroll-showcase-stage, .mobile-showcase-zoom-track";
-        const snapInputThreshold = 34;
-        let touchStartX = 0;
-        let touchStartY = 0;
-        let touchStartScrollY = 0;
-        let touchStartTarget = null;
-        let gestureAxis = null;
-        let snapLockUntil = 0;
-        let nearestSnapTimer = 0;
-
-        function isMobileSnapEnabled() {
-            return mobileQuery.matches
-                && !prefersReducedMotion.matches
-                && !body.classList.contains("menu-open-body")
-                && !body.classList.contains("mobile-showcase-zoom-open");
-        }
-
-        function getViewportHeight() {
-            return window.visualViewport?.height || window.innerHeight;
-        }
-
-        function getMaxPageScrollTop() {
-            return Math.max(0, docEl.scrollHeight - getViewportHeight());
-        }
-
-        function clampScrollTop(value) {
-            return Math.max(0, Math.min(Math.round(value), getMaxPageScrollTop()));
-        }
-
-        function getElementPageTop(element) {
-            return element.getBoundingClientRect().top + window.scrollY;
-        }
-
-        function getMobileTargetTop(element, mode = "start") {
-            const elementTop = getElementPageTop(element);
-
-            if (mode === "center") {
-                const elementHeight = element.getBoundingClientRect().height;
-                const centeredOffset = Math.max(0, (getViewportHeight() - elementHeight) / 2);
-                return clampScrollTop(elementTop - centeredOffset);
-            }
-
-            return clampScrollTop(elementTop);
-        }
-
-        function getMobileSnapPoints() {
-            const points = [{ element: null, key: "top", top: 0 }];
-            const caseIntro = document.getElementById("case-studies");
-            const intro = document.getElementById("intro");
-            const projects = document.getElementById("projects");
-            const contact = document.getElementById("contact");
-
-            [
-                [intro, "intro", "start"],
-                [visualFlow, "visual-flow", "start"],
-                [caseIntro, "case-title", "start"]
-            ].forEach(([element, key, mode]) => {
-                if (element) {
-                    points.push({ element, key, top: getMobileTargetTop(element, mode) });
-                }
-            });
-
-            caseGroups.forEach((group, index) => {
-                points.push({
-                    element: group,
-                    key: `case-${index + 1}`,
-                    top: getMobileTargetTop(group, "center")
-                });
-            });
-
-            [
-                [projects, "projects", "start"],
-                [contact, "contact", "start"]
-            ].forEach(([element, key, mode]) => {
-                if (element) {
-                    points.push({ element, key, top: getMobileTargetTop(element, mode) });
-                }
-            });
-
-            return points
-                .sort((left, right) => left.top - right.top)
-                .filter((point, index, sortedPoints) => index === 0 || Math.abs(point.top - sortedPoints[index - 1].top) > 8);
-        }
-
-        function getNearestMobileSnapIndex(points, scrollTop = window.scrollY) {
-            let nearestIndex = 0;
-            let nearestDistance = Number.POSITIVE_INFINITY;
-
-            points.forEach((point, index) => {
-                const distance = Math.abs(point.top - scrollTop);
-                if (distance < nearestDistance) {
-                    nearestDistance = distance;
-                    nearestIndex = index;
-                }
-            });
-
-            return nearestIndex;
-        }
-
-        function snapToMobileIndex(index, behavior = "smooth") {
-            if (!isMobileSnapEnabled()) {
-                return false;
-            }
-
-            const points = getMobileSnapPoints();
-            if (points.length === 0) {
-                return false;
-            }
-
-            const safeIndex = Math.max(0, Math.min(points.length - 1, index));
-            snapLockUntil = performance.now() + 560;
-            window.scrollTo({
-                top: points[safeIndex].top,
-                behavior
-            });
-            return true;
-        }
-
-        function snapByMobileDirection(direction) {
-            if (!isMobileSnapEnabled() || direction === 0) {
-                return false;
-            }
-
-            const points = getMobileSnapPoints();
-            const currentIndex = getNearestMobileSnapIndex(points, touchStartScrollY || window.scrollY);
-            const nextIndex = Math.max(0, Math.min(points.length - 1, currentIndex + direction));
-            return snapToMobileIndex(nextIndex);
-        }
-
-        function snapToNearestMobilePoint(delay = 120) {
-            window.clearTimeout(nearestSnapTimer);
-            if (!isMobileSnapEnabled() || performance.now() < snapLockUntil) {
-                return;
-            }
-
-            nearestSnapTimer = window.setTimeout(() => {
-                if (!isMobileSnapEnabled()) {
-                    return;
-                }
-
-                snapToMobileIndex(getNearestMobileSnapIndex(getMobileSnapPoints()));
-            }, delay);
-        }
-
-        function isHorizontalGestureTarget(target) {
-            return Boolean(target?.closest?.(horizontalScrollSelector));
-        }
-
-        function preventVerticalScroll(event) {
-            if (event.cancelable) {
-                event.preventDefault();
-            }
-        }
-
-        function handleMobileTouchStart(event) {
-            if (!isMobileSnapEnabled() || event.touches.length !== 1) {
-                return;
-            }
-
-            const touch = event.touches[0];
-            touchStartX = touch.clientX;
-            touchStartY = touch.clientY;
-            touchStartScrollY = window.scrollY;
-            touchStartTarget = event.target;
-            gestureAxis = null;
-            window.clearTimeout(nearestSnapTimer);
-        }
-
-        function handleMobileTouchMove(event) {
-            if (!isMobileSnapEnabled() || event.touches.length !== 1) {
-                return;
-            }
-
-            const touch = event.touches[0];
-            const deltaX = touch.clientX - touchStartX;
-            const deltaY = touch.clientY - touchStartY;
-
-            if (!gestureAxis && Math.max(Math.abs(deltaX), Math.abs(deltaY)) > 10) {
-                gestureAxis = Math.abs(deltaX) > Math.abs(deltaY) + 6 ? "x" : "y";
-            }
-
-            if (gestureAxis === "x" && isHorizontalGestureTarget(touchStartTarget)) {
-                return;
-            }
-
-            if (gestureAxis === "y") {
-                preventVerticalScroll(event);
-            }
-        }
-
-        function handleMobileTouchEnd(event) {
-            if (!isMobileSnapEnabled()) {
-                return;
-            }
-
-            const touch = event.changedTouches[0];
-            if (!touch) {
-                snapToNearestMobilePoint();
-                return;
-            }
-
-            const deltaX = touch.clientX - touchStartX;
-            const deltaY = touch.clientY - touchStartY;
-
-            if (Math.abs(deltaX) > Math.abs(deltaY) + 8 && isHorizontalGestureTarget(touchStartTarget)) {
-                return;
-            }
-
-            if (Math.abs(deltaY) < snapInputThreshold) {
-                snapToNearestMobilePoint(80);
-                return;
-            }
-
-            const direction = deltaY < 0 ? 1 : -1;
-            snapByMobileDirection(direction);
-        }
-
-        function handleMobileWheel(event) {
-            if (!isMobileSnapEnabled() || Math.abs(event.deltaY) < 10) {
-                return;
-            }
-
-            preventVerticalScroll(event);
-
-            if (performance.now() < snapLockUntil) {
-                return;
-            }
-
-            touchStartScrollY = window.scrollY;
-            snapByMobileDirection(event.deltaY > 0 ? 1 : -1);
-        }
-
-        document.addEventListener("touchstart", handleMobileTouchStart, { passive: true });
-        document.addEventListener("touchmove", handleMobileTouchMove, { passive: false });
-        document.addEventListener("touchend", handleMobileTouchEnd, { passive: true });
-        window.addEventListener("wheel", handleMobileWheel, { passive: false });
-        window.addEventListener("resize", () => snapToNearestMobilePoint(180), { passive: true });
-        mobileQuery.addEventListener?.("change", () => snapToNearestMobilePoint(0));
-    }
-
-    initMobilePageSnap();
-
-    document.querySelectorAll(".faq-item").forEach((item) => {
-        const summary = item.querySelector("summary");
-        const panel = item.querySelector(".faq-panel");
-
-        if (!summary || !panel) {
-            return;
-        }
-
-        item.dataset.faqEnhanced = "true";
-        panel.style.height = item.open ? `${panel.scrollHeight}px` : "0px";
-
-        item.addEventListener("click", (event) => {
-            if (!event.target.closest("summary")) {
-                return;
-            }
-
-            event.preventDefault();
-
-            const isOpen = item.open;
-            panel.style.overflow = "hidden";
-
-            if (isOpen) {
-                panel.style.height = `${panel.scrollHeight}px`;
-                panel.offsetHeight;
-                panel.style.height = "0px";
-                window.setTimeout(() => {
-                    item.open = false;
-                }, 280);
-                return;
-            }
-
-            item.open = true;
-            panel.style.height = "0px";
-            panel.offsetHeight;
-            panel.style.height = `${panel.scrollHeight}px`;
-        }, true);
-
-        item.addEventListener("toggle", () => {
-            if (!item.open || panel.style.height !== "0px") {
-                return;
-            }
-
-            window.requestAnimationFrame(() => {
-                panel.style.height = `${panel.scrollHeight}px`;
-            });
-        });
-
-        panel.addEventListener("transitionend", (event) => {
-            if (event.propertyName !== "height" || !item.open) {
-                return;
-            }
-
-            panel.style.height = "auto";
-            panel.style.overflow = "";
-        });
-    });
-
-    if (isSnapPage) {
-        const snapTargets = Array.from(document.querySelectorAll("[data-snap-anchor]"));
-        let requestedSnapIndex = null;
-        let lastSnapInputAt = 0;
-        let snapLockUntil = 0;
-        let scrollSettleTimer = 0;
-
-        function getNearestSnapIndex(points, scrollTop = window.scrollY) {
-            let nearestIndex = 0;
-            let nearestDistance = Number.POSITIVE_INFINITY;
-
-            points.forEach((point, index) => {
-                const distance = Math.abs(point.top - scrollTop);
-                if (distance < nearestDistance) {
-                    nearestDistance = distance;
-                    nearestIndex = index;
-                }
-            });
-
-            return nearestIndex;
-        }
-
-        function getSnapPoints() {
-            const targets = snapTargets
-                .flatMap((element) => {
-                    if (element === visualFlow) {
-                        const snapMetrics = getVisualFlowSnapMetrics();
-                        if (!snapMetrics || !snapMetrics.flowMetrics) {
-                            return [];
-                        }
-
-                        const cardCount = Math.max(1, scrollShowcaseCards.length);
-                        const segment = cardCount > 1
-                            ? snapMetrics.flowMetrics.availableScroll / (cardCount - 1)
-                            : 0;
-
-                        return Array.from({ length: cardCount }, (_, index) => ({
-                            element,
-                            kind: "visual-flow-step",
-                            top: Math.round(snapMetrics.entryTop + (segment * index))
-                        }));
-                    }
-
-                    if (element.classList.contains("faq-section")) {
-                        return [{
-                            element,
-                            kind: "default",
-                            top: Math.round(element.getBoundingClientRect().top + window.scrollY)
-                        }];
-                    }
-
-                    return [{
-                        element,
-                        kind: "default",
-                        top: getScrollDestination(element)
-                    }];
-                })
-                .sort((left, right) => left.top - right.top);
-
-            return [{ element: null, kind: "top", top: 0 }, ...targets]
-                .filter((point, index, points) => index === 0 || Math.abs(point.top - points[index - 1].top) > 6);
-        }
-
-        function syncRequestedSnapIndex() {
-            window.clearTimeout(scrollSettleTimer);
-            scrollSettleTimer = window.setTimeout(() => {
-                requestedSnapIndex = getNearestSnapIndex(getSnapPoints());
-            }, 120);
-        }
-
-        function moveToSnapIndex(nextIndex, points) {
-            const currentIndex = requestedSnapIndex ?? getNearestSnapIndex(points);
-            const isVisualFlowMove = points[currentIndex]?.kind === "visual-flow-step"
-                || points[nextIndex]?.kind === "visual-flow-step";
-
-            requestedSnapIndex = nextIndex;
-            lastSnapInputAt = performance.now();
-            snapLockUntil = lastSnapInputAt + (isVisualFlowMove ? 620 : 520);
-            window.scrollTo({
-                top: points[nextIndex].top,
-                behavior: "smooth"
-            });
-            syncRequestedSnapIndex();
-        }
-
-        requestedSnapIndex = getNearestSnapIndex(getSnapPoints());
-        window.addEventListener("scroll", syncRequestedSnapIndex, { passive: true });
-
-        window.addEventListener("wheel", (event) => {
-            if (!isDesktopSnapEnabled() || body.classList.contains("menu-open-body")) {
-                return;
-            }
-
-            if (Math.abs(event.deltaY) < 10) {
-                return;
-            }
-
-            const now = performance.now();
-            const direction = event.deltaY > 0 ? 1 : -1;
-            const snapPoints = getSnapPoints();
-
-            if (now < snapLockUntil || (now - lastSnapInputAt) < 90) {
-                event.preventDefault();
-                return;
-            }
-
-            const currentIndex = requestedSnapIndex ?? getNearestSnapIndex(snapPoints);
-            const currentTarget = snapPoints[currentIndex]?.element || null;
-
-            if (direction > 0 && flushDelayedReveals(currentTarget)) {
-                lastSnapInputAt = now;
-                event.preventDefault();
-                syncRequestedSnapIndex();
-                return;
-            }
-
-            const nextIndex = Math.max(0, Math.min(snapPoints.length - 1, currentIndex + direction));
-            if (nextIndex === currentIndex) {
-                return;
-            }
-
-            moveToSnapIndex(nextIndex, snapPoints);
-            event.preventDefault();
-        }, { passive: false });
-    }
-
-    initScrollShowcase();
-    initMobileShowcaseZoom();
-
-    const videos = document.querySelectorAll("video");
-    videos.forEach((video) => {
-        video.play().catch(() => {
-            video.muted = true;
-            video.play().catch(() => {
-                // Ignore final autoplay failure.
-            });
-        });
-    });
-
-    if (revealItems.length > 0) {
-        if ("IntersectionObserver" in window && !prefersReducedMotion.matches) {
-            const revealObserver = new IntersectionObserver((entries) => {
-                entries.forEach((entry) => {
-                    const element = entry.target;
-                    const delay = Number.parseInt(element.getAttribute("data-delay") || "0", 10);
-
-                    clearRevealTimer(element);
-
-                    if (entry.isIntersecting) {
-                        const timerId = window.setTimeout(() => {
-                            element.classList.add("is-visible");
-                            revealTimers.delete(element);
-                        }, delay);
-
-                        revealTimers.set(element, timerId);
-                    } else {
-                        hideReveal(element);
-                    }
-                });
-            }, {
-                root: null,
-                threshold: 0.2,
-                rootMargin: "0px 0px -8% 0px"
-            });
-
-            revealItems.forEach((element) => revealObserver.observe(element));
-        } else {
-            revealItems.forEach((element) => element.classList.add("is-visible"));
-        }
-    }
 
     function applyTranslations() {
         if (typeof translations === "undefined") {
@@ -1242,5 +557,18 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
+
     applyTranslations();
+    // Keep an explicitly selected language when following local links.
+    if (requestedLanguage && typeof translations !== "undefined" && translations[language]) {
+        document.querySelectorAll("a[href]").forEach(link => {
+            const url = new URL(link.href,location.href);
+            if (url.origin === location.origin && !link.hasAttribute("download") && !/\.(jpg|png|webp)$/i.test(url.pathname)) {
+                url.searchParams.set("lang",language);
+                link.href = url.pathname + url.search + url.hash;
+            }
+        });
+    }
+    initScrollShowcase();
+    initMobileShowcaseZoom();
 });

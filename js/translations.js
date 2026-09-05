@@ -1,5 +1,13 @@
 const translations = {
     en: {
+        skip_content: "Skip to content",
+        discover_qubly: "Discover QUBLY",
+        copy_email: "Copy email address",
+        email_copied: "Email address copied",
+        image_preview: "Image preview",
+        close_preview: "Close image preview",
+        pause_video: "Pause video",
+        play_video: "Play video",
         page_title_index: "QUBLY - Architectural Visualization",
         page_title_about: "QUBLY - About",
         page_title_esterni: "QUBLY - Exteriors",
@@ -105,6 +113,14 @@ const translations = {
         privacy_updated_date: "May 24, 2026"
     },
     it: {
+        skip_content: "Vai al contenuto",
+        discover_qubly: "Scopri QUBLY",
+        copy_email: "Copia indirizzo email",
+        email_copied: "Indirizzo email copiato",
+        image_preview: "Anteprima immagine",
+        close_preview: "Chiudi anteprima",
+        pause_video: "Metti in pausa il video",
+        play_video: "Riproduci il video",
         page_title_index: "QUBLY - Visualizzazione Architettonica",
         page_title_about: "QUBLY - Chi Siamo",
         page_title_esterni: "QUBLY - Esterni",
@@ -223,6 +239,14 @@ const translations = {
         privacy_updated_date: "24 maggio 2026"
     },
     sl: {
+        skip_content: "Preskoči na vsebino",
+        discover_qubly: "Odkrijte QUBLY",
+        copy_email: "Kopiraj e-poštni naslov",
+        email_copied: "E-poštni naslov je kopiran",
+        image_preview: "Predogled slike",
+        close_preview: "Zapri predogled",
+        pause_video: "Zaustavi video",
+        play_video: "Predvajaj video",
         page_title_index: "QUBLY - Arhitekturna Vizualizacija",
         page_title_about: "QUBLY - O Nas",
         page_title_esterni: "QUBLY - Zunanjost",
