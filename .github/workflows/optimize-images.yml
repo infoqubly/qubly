@@ -1,0 +1,52 @@
+name: Ottimizza immagini QUBLY
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "PS/**/*.jpg"
+      - "PS/**/*.jpeg"
+      - "PS/**/*.png"
+      - "scripts/optimize_images.py"
+      - ".github/workflows/optimize-images.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: optimize-images-main
+  cancel-in-progress: false
+
+jobs:
+  optimize:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Scarica il repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Prepara Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Installa il generatore immagini
+        run: python -m pip install Pillow==10.4.0
+
+      - name: Genera WebP e aggiorna le gallerie
+        run: python scripts/optimize_images.py
+
+      - name: Salva i file generati
+        shell: bash
+        run: |
+          git add -- assets/optimized/PS index.html esterni.html interni.html paesaggi.html
+          if git diff --cached --quiet; then
+            echo "Nessun aggiornamento necessario."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Aggiorna automaticamente le varianti WebP"
+          git push
