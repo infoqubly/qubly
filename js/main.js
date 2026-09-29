@@ -162,6 +162,126 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     } else revealItems.forEach(el => el.classList.add("is-visible"));
 
+    function initShowcaseCarousel() {
+        if (!visualFlow || scrollShowcaseCards.length < 2) return;
+
+        const stack = visualFlow.querySelector(".scroll-showcase-stack");
+        const stage = visualFlow.querySelector(".scroll-showcase-stage");
+        const track = visualFlow.querySelector(".scroll-showcase-track");
+        const counter = visualFlow.querySelector("[data-showcase-current]");
+        const previous = visualFlow.querySelector(".showcase-previous");
+        const next = visualFlow.querySelector(".showcase-next");
+        const desktopQuery = matchMedia("(min-width: 768px) and (hover: hover) and (pointer: fine)");
+        if (!stack || !stage || !track || !counter || !previous || !next) return;
+
+        let enhanced = false;
+        let start = 0;
+        let step = 1;
+        let activeIndex = -1;
+        let lastProgress = -1;
+        let frame = 0;
+
+        function setActive(index) {
+            index = Math.max(0, Math.min(scrollShowcaseCards.length - 1, index));
+            if (index === activeIndex) return;
+            activeIndex = index;
+            counter.textContent = String(index + 1).padStart(2, "0");
+            previous.disabled = index === 0;
+            next.disabled = index === scrollShowcaseCards.length - 1;
+            scrollShowcaseCards.forEach((card, cardIndex) => {
+                card.classList.toggle("is-active", cardIndex === index);
+                if (enhanced) card.setAttribute("aria-hidden", String(cardIndex !== index));
+                else card.removeAttribute("aria-hidden");
+            });
+        }
+
+        function updateDesktop() {
+            frame = 0;
+            if (!enhanced) return;
+            const progress = Math.max(0, Math.min(scrollShowcaseCards.length - 1, (scrollY - start) / step));
+            if (Math.abs(progress - lastProgress) < 0.001) return;
+            lastProgress = progress;
+            scrollShowcaseCards.forEach((card, index) => {
+                const offset = index === 0 ? 0 : Math.max(0, Math.min(1, index - progress));
+                card.style.transform = `translate3d(0, ${offset * 100}%, 0)`;
+            });
+            setActive(Math.round(progress));
+        }
+
+        function updateTrack() {
+            frame = 0;
+            if (enhanced) return;
+            const distance = scrollShowcaseCards[1].offsetLeft - scrollShowcaseCards[0].offsetLeft;
+            setActive(Math.round(track.scrollLeft / Math.max(1, distance)));
+        }
+
+        function scheduleUpdate() {
+            if (frame) return;
+            frame = requestAnimationFrame(enhanced ? updateDesktop : updateTrack);
+        }
+
+        function measure() {
+            if (!enhanced) return;
+            const stickyTop = parseFloat(getComputedStyle(stage).top) || 0;
+            start = scrollY + stack.getBoundingClientRect().top - stickyTop;
+            step = Math.max(1, (stack.offsetHeight - stage.offsetHeight) / (scrollShowcaseCards.length - 1));
+            lastProgress = -1;
+            scheduleUpdate();
+        }
+
+        function configure() {
+            enhanced = desktopQuery.matches && !prefersReducedMotion.matches;
+            visualFlow.classList.toggle("is-enhanced", enhanced);
+            scrollShowcaseCards.forEach(card => {
+                card.style.transform = "";
+                card.removeAttribute("aria-hidden");
+            });
+            activeIndex = -1;
+            lastProgress = -1;
+            cancelAnimationFrame(frame);
+            frame = 0;
+            if (enhanced) {
+                track.scrollLeft = 0;
+                requestAnimationFrame(measure);
+            } else {
+                updateTrack();
+            }
+        }
+
+        function goTo(index) {
+            index = Math.max(0, Math.min(scrollShowcaseCards.length - 1, index));
+            if (enhanced) {
+                scrollTo({ top: start + index * step, behavior: "smooth" });
+            } else {
+                const left = scrollShowcaseCards[index].offsetLeft - scrollShowcaseCards[0].offsetLeft;
+                track.scrollTo({ left, behavior: prefersReducedMotion.matches ? "auto" : "smooth" });
+            }
+        }
+
+        previous.addEventListener("click", () => goTo(activeIndex - 1));
+        next.addEventListener("click", () => goTo(activeIndex + 1));
+        visualFlow.addEventListener("keydown", event => {
+            if (!["ArrowLeft", "ArrowRight"].includes(event.key) ||
+                !visualFlow.contains(document.activeElement) ||
+                document.activeElement.classList.contains("scroll-showcase-card")) return;
+            event.preventDefault();
+            goTo(activeIndex + (event.key === "ArrowRight" ? 1 : -1));
+        });
+        window.addEventListener("scroll", () => { if (enhanced) scheduleUpdate(); }, { passive: true });
+        track.addEventListener("scroll", () => { if (!enhanced) scheduleUpdate(); }, { passive: true });
+        window.addEventListener("resize", measure, { passive: true });
+        desktopQuery.addEventListener("change", configure);
+        prefersReducedMotion.addEventListener("change", configure);
+        if ("ResizeObserver" in window) new ResizeObserver(measure).observe(stack);
+        if ("IntersectionObserver" in window) {
+            new IntersectionObserver(([entry]) => {
+                visualFlow.classList.toggle("is-in-view", entry.isIntersecting);
+            }).observe(visualFlow);
+        }
+        visualFlow.classList.add("is-ready");
+        configure();
+    }
+
     function initMobileShowcaseZoom() {
         if (!visualFlow || scrollShowcaseCards.length === 0) {
             return;
@@ -480,5 +600,6 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
     }
+    initShowcaseCarousel();
     initMobileShowcaseZoom();
 });

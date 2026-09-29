@@ -33,6 +33,9 @@ const translations = {
         showcase_tag_architecture: "ARCHITECTURE",
         showcase_tag_landscapes: "LANDSCAPES",
         showcase_tag_transformation: "TRANSFORMATION",
+        showcase_controls: "Image carousel controls",
+        showcase_previous: "Previous image",
+        showcase_next: "Next image",
         case_studies_title: "WHEN CLARITY DRIVES DECISIONS",
 
         row1_title: "From idea to image",
@@ -146,6 +149,9 @@ const translations = {
         showcase_tag_architecture: "ARCHITETTURA",
         showcase_tag_landscapes: "PAESAGGI",
         showcase_tag_transformation: "TRASFORMAZIONE",
+        showcase_controls: "Controlli del carosello immagini",
+        showcase_previous: "Immagine precedente",
+        showcase_next: "Immagine successiva",
         case_studies_title: "QUANDO LA CHIAREZZA GUIDA LE DECISIONI",
 
         row1_title: "Dall’idea all’immagine",
@@ -272,6 +278,9 @@ const translations = {
         showcase_tag_architecture: "ARHITEKTURA",
         showcase_tag_landscapes: "KRAJINE",
         showcase_tag_transformation: "PREOBRAZBA",
+        showcase_controls: "Kontrolniki slikovnega vrtiljaka",
+        showcase_previous: "Prejšnja slika",
+        showcase_next: "Naslednja slika",
         case_studies_title: "KO JASNOST VODI ODLO\u010cITVE",
 
         row1_title: "Od ideje do podobe",
