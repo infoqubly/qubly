@@ -36,11 +36,7 @@
     .card img { display: block; width: 100%; aspect-ratio: 1.45; object-fit: cover; background: #222; }
     .card-body { padding: 14px; }
     .card h2 { margin: 0 0 8px; font-size: 16px; font-weight: 600; line-height: 1.3; }
-    .card-id { margin: 0 0 14px; color: #999; font-family: ui-monospace, Consolas, monospace; font-size: 11px; overflow-wrap: anywhere; }
-    .card-actions { display: flex; align-items: center; gap: 10px; }
-    .card-actions .action { min-height: 34px; padding: 7px 11px; }
-    .copy { padding: 7px 4px; background: none; color: #aaa; font-size: 12px; }
-    .copy:hover { color: #fff; }
+    .card .action { min-height: 34px; padding: 7px 11px; }
     .status { min-height: 24px; margin: 16px 0 0; color: #bbb; font-size: 13px; }
     .empty { grid-column: 1 / -1; padding: 40px 20px; border: 1px dashed #444; border-radius: 12px; color: #aaa; text-align: center; }
     @media (max-width: 900px) { .grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
@@ -66,11 +62,11 @@
     <main>
       <div class="eyebrow">Gestione gallerie · GitHub</div>
       <h1>Scegli una foto, poi carica la nuova.</h1>
-      <p class="intro">Questo catalogo mostra le immagini pubblicate nelle tre sezioni. Chi ha il permesso di scrittura nel repository GitHub può sostituirne una o aggiungerne una nuova dal browser, anche da un altro computer.</p>
+      <p class="intro">Sei già nel catalogo: scegli una foto e premi <strong>Sostituisci</strong>, oppure premi <strong>Aggiungi foto</strong>. Si aprirà GitHub in una nuova scheda; se richiesto, accedi con l'account che ha il permesso di scrittura nel repository QUBLY.</p>
       <div class="steps" aria-label="Come funziona">
         <div class="step"><b>01 · SCEGLI</b><span>Trova la foto qui sotto, oppure seleziona la sezione a cui aggiungerne una.</span></div>
-        <div class="step"><b>02 · CARICA</b><span>Nel modulo GitHub scrivi un titolo breve e trascina la nuova immagine.</span></div>
-        <div class="step"><b>03 · PUBBLICA</b><span>Dopo l'invio, GitHub prepara le versioni leggere e aggiorna il sito.</span></div>
+        <div class="step"><b>02 · ACCEDI</b><span>Il pulsante apre GitHub. Accedi lì con il tuo account autorizzato.</span></div>
+        <div class="step"><b>03 · CARICA E INVIA</b><span>Scrivi un titolo, carica l'immagine e invia il modulo. Il sito si aggiornerà automaticamente.</span></div>
       </div>
       <div class="toolbar">
         <div class="tabs" role="group" aria-label="Sezione">
@@ -78,8 +74,8 @@
           <button class="tab" type="button" data-category="interni" aria-pressed="false">Interni</button>
           <button class="tab" type="button" data-category="paesaggi" aria-pressed="false">Paesaggi</button>
         </div>
-        <input class="search" type="search" id="search" placeholder="Cerca per titolo o ID" aria-label="Cerca una foto">
-        <a class="action" id="add" href="https://github.com/infoqubly/qubly/issues/new?template=aggiungi-foto.yml" target="_blank" rel="noopener">+ Aggiungi foto</a>
+        <input class="search" type="search" id="search" placeholder="Cerca una foto" aria-label="Cerca una foto">
+        <a class="action" id="add" href="https://github.com/infoqubly/qubly/issues/new?template=aggiungi-foto.yml" target="_blank" rel="noopener">+ Aggiungi foto ↗</a>
       </div>
       <div class="grid" id="grid" aria-live="polite"></div>
       <p class="status" id="status" role="status"></p>
@@ -129,31 +125,13 @@
         body.className = 'card-body';
         const title = document.createElement('h2');
         title.textContent = item.title;
-        const id = document.createElement('p');
-        id.className = 'card-id';
-        id.textContent = `ID: ${item.id}`;
-        const actions = document.createElement('div');
-        actions.className = 'card-actions';
         const replace = document.createElement('a');
         replace.className = 'action';
-        replace.textContent = 'Sostituisci';
+        replace.textContent = 'Sostituisci ↗';
         replace.href = formUrl('sostituisci-foto.yml', { foto: item.id, title: `[Sostituisci foto] ${item.title}` });
         replace.target = '_blank';
         replace.rel = 'noopener';
-        const copy = document.createElement('button');
-        copy.className = 'copy';
-        copy.type = 'button';
-        copy.textContent = 'Copia ID';
-        copy.addEventListener('click', async () => {
-          try {
-            await navigator.clipboard.writeText(item.id);
-            status.textContent = `ID copiato: ${item.id}`;
-          } catch {
-            status.textContent = `ID: ${item.id}`;
-          }
-        });
-        actions.append(replace, copy);
-        body.append(title, id, actions);
+        body.append(title, replace);
         card.append(image, body);
         grid.append(card);
       }
