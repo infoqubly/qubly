@@ -35,7 +35,7 @@ jobs:
       - name: Salva il sito aggiornato
         shell: bash
         run: |
-          git add -- esterni.html interni.html paesaggi.html gallery/catalog.json gallery/inbox assets/optimized/PS/managed
+          git add -A -- esterni.html interni.html paesaggi.html gallery assets/optimized/PS
           if git diff --cached --quiet; then
             echo "Nessuna pagina da aggiornare."
             exit 0
