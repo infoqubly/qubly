@@ -1,0 +1,44 @@
+name: Aggiungi una foto alle gallerie
+description: Carica una nuova immagine in Esterni, Interni o Paesaggi.
+title: "[Aggiungi foto] nuova immagine"
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Scegli la sezione, scrivi un titolo breve e carica **una sola immagine**. La foto sarà ottimizzata e pubblicata automaticamente dopo l'invio. Puoi vedere le immagini già presenti nel [catalogo visivo](https://qubly.studio/gestione-gallerie.html).
+  - type: dropdown
+    id: sezione
+    attributes:
+      label: Sezione
+      options:
+        - Esterni
+        - Interni
+        - Paesaggi
+    validations:
+      required: true
+  - type: input
+    id: titolo_it
+    attributes:
+      label: Titolo italiano
+      description: Breve soggetto della foto, visibile nella griglia.
+      placeholder: "Villa sul mare"
+    validations:
+      required: true
+  - type: input
+    id: titolo_en
+    attributes:
+      label: Titolo inglese
+      description: Facoltativo. Se vuoto, sarà usato il titolo italiano.
+  - type: input
+    id: titolo_sl
+    attributes:
+      label: Titolo sloveno
+      description: Facoltativo. Se vuoto, sarà usato il titolo italiano.
+  - type: upload
+    id: nuova_immagine
+    attributes:
+      label: Nuova immagine
+      description: Trascina qui un solo file PNG, JPG o WebP, fino a 10 MB e almeno 640 × 400 px.
+    validations:
+      required: true
+      accept: ".png,.jpg,.jpeg,.webp"

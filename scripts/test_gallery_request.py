@@ -1,0 +1,107 @@
+"""Local checks for the GitHub gallery issue workflow."""
+
+from __future__ import annotations
+
+import io
+import shutil
+import tempfile
+import unittest
+from pathlib import Path
+
+from PIL import Image
+
+import gallery_request
+import optimize_images
+
+
+SOURCE_ROOT = Path(__file__).resolve().parents[1]
+
+
+def fixture_image(color: str = "#4a6677") -> bytes:
+    output = io.BytesIO()
+    Image.new("RGB", (800, 600), color).save(output, "JPEG", quality=85)
+    return output.getvalue()
+
+
+def issue(number: int, title: str, fields: dict[str, str]) -> dict:
+    body = "\n\n".join(f"### {key}\n\n{value}" for key, value in fields.items())
+    return {"issue": {"number": number, "title": title, "body": body}}
+
+
+class GalleryRequestTests(unittest.TestCase):
+    def setUp(self) -> None:
+        self.temporary = tempfile.TemporaryDirectory()
+        self.root = Path(self.temporary.name)
+        for category in gallery_request.CATEGORIES:
+            shutil.copy2(SOURCE_ROOT / f"{category}.html", self.root / f"{category}.html")
+        gallery_request.ROOT = self.root
+        gallery_request.ASSET_DIR = self.root / "assets/optimized/PS/managed"
+        optimize_images.ROOT = self.root
+        optimize_images.PS_DIR = self.root / "PS"
+        optimize_images.OPTIMIZED_DIR = self.root / "assets/optimized/PS"
+
+    def tearDown(self) -> None:
+        self.temporary.cleanup()
+
+    def test_add_image_with_title_and_webp_variants(self) -> None:
+        event = issue(9001, "[Aggiungi foto] nuova immagine", {
+            "Sezione": "Paesaggi", "Titolo italiano": "Costa al tramonto",
+            "Titolo inglese": "Coast at sunset", "Titolo sloveno": "Obala ob sončnem zahodu",
+        })
+        category, gallery_id = gallery_request.apply_request(event, fixture_image())
+        self.assertEqual((category, gallery_id), ("paesaggi", "nuova-9001"))
+        page = (self.root / "paesaggi.html").read_text(encoding="utf-8")
+        self.assertEqual(page.count('data-gallery-id="nuova-9001"'), 1)
+        self.assertIn('data-caption-en="Coast at sunset"', page)
+        self.assertLess(page.index('data-gallery-id="nuova-9001"'), page.index("<!-- MANAGED-GALLERY:END -->"))
+        self.assertTrue((gallery_request.ASSET_DIR / "nuova-9001-640.webp").is_file())
+        self.assertTrue((gallery_request.ASSET_DIR / "nuova-9001-800.webp").is_file())
+
+    def test_replace_reviewed_image_keeps_its_place(self) -> None:
+        before = (self.root / "esterni.html").read_text(encoding="utf-8")
+        event = issue(9002, "[Sostituisci foto] facciata", {
+            "ID foto": "reviewed-28", "Titolo italiano": "Nuova facciata",
+        })
+        gallery_request.apply_request(event, fixture_image("#875d45"))
+        after = (self.root / "esterni.html").read_text(encoding="utf-8")
+        self.assertEqual(before.count('data-gallery-id="'), after.count('data-gallery-id="'))
+        self.assertEqual(after.count('data-gallery-id="reviewed-28"'), 1)
+        self.assertIn('data-caption-it="Nuova facciata"', after)
+        self.assertIn('data-gallery-managed="true"', after)
+        self.assertLess(after.index('data-gallery-id="reviewed-28"'), after.index('data-gallery-id="reviewed-03"'))
+
+    def test_original_image_replacement_survives_optimizer(self) -> None:
+        event = issue(9003, "[Sostituisci foto] complesso civico", {"ID foto": "esterni-01"})
+        gallery_request.apply_request(event, fixture_image("#274a48"))
+        source_dir = self.root / "PS/esterni"
+        source_dir.mkdir(parents=True)
+        (source_dir / "01.jpg").write_bytes(fixture_image("#4b4b4b"))
+        optimize_images.update_gallery("esterni")
+        page = (self.root / "esterni.html").read_text(encoding="utf-8")
+        self.assertEqual(page.count('data-gallery-id="esterni-01"'), 1)
+        self.assertIn('assets/optimized/PS/managed/esterni-01-800.webp', page)
+        self.assertIn('data-caption-it="Complesso civico"', page)
+
+    def test_unmodified_original_keeps_caption_after_optimizer(self) -> None:
+        source_dir = self.root / "PS/interni"
+        source_dir.mkdir(parents=True)
+        (source_dir / "01.jpg").write_bytes(fixture_image())
+        optimize_images.update_gallery("interni")
+        page = (self.root / "interni.html").read_text(encoding="utf-8")
+        self.assertIn('data-gallery-id="interni-01"', page)
+        self.assertIn('data-caption-it="Soggiorno contemporaneo"', page)
+
+    def test_rejects_invalid_target_and_untrusted_link(self) -> None:
+        event = issue(9004, "[Sostituisci foto] test", {"ID foto": "../../secrets"})
+        with self.assertRaises(ValueError):
+            gallery_request.apply_request(event, fixture_image())
+        with self.assertRaises(ValueError):
+            gallery_request.attachment_url("![photo](https://example.com/private.png)")
+
+    def test_reads_github_upload_link(self) -> None:
+        url = "https://github.com/user-attachments/assets/9e13f9bc"
+        self.assertEqual(gallery_request.attachment_url(f"![foto.jpg]({url})"), url)
+
+
+if __name__ == "__main__":
+    unittest.main()

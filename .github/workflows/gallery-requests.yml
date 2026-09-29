@@ -1,0 +1,47 @@
+name: Aggiorna le gallerie dalle richieste GitHub
+
+on:
+  issues:
+    types: [opened]
+
+permissions:
+  contents: write
+  issues: read
+
+jobs:
+  update-gallery:
+    if: >-
+      (startsWith(github.event.issue.title, '[Aggiungi foto]') ||
+      startsWith(github.event.issue.title, '[Sostituisci foto]')) &&
+      contains(fromJSON('["OWNER","MEMBER","COLLABORATOR"]'), github.event.issue.author_association)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Scarica il sito
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Prepara Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Installa il generatore WebP
+        run: python -m pip install Pillow==10.4.0
+
+      - name: Verifica la richiesta e aggiorna la foto
+        run: python scripts/gallery_request.py --event "$GITHUB_EVENT_PATH"
+
+      - name: Pubblica l'aggiornamento
+        shell: bash
+        run: |
+          git add -- esterni.html interni.html paesaggi.html assets/optimized/PS/managed
+          if git diff --cached --quiet; then
+            echo "Nessuna modifica prodotta dalla richiesta."
+            exit 1
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Aggiorna galleria dalla richiesta #${{ github.event.issue.number }}" -m "Fixes #${{ github.event.issue.number }}"
+          git pull --rebase origin main
+          git push origin HEAD:main

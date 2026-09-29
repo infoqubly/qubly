@@ -159,13 +159,12 @@ def existing_alt_texts(page: str, category: str) -> dict[str, str]:
     return {match.group("key"): html.unescape(match.group("alt")) for match in pattern.finditer(page)}
 
 
-def sizes_for(category: str, position: int) -> str:
-    config = CATEGORIES[category]
-    if position in config["full_positions"]:
-        return "(max-width: 767px) 90vw, (max-width: 1024px) 88vw, 88vw"
-    if position in config["wide_positions"]:
-        return "(max-width: 767px) 90vw, (max-width: 1024px) 88vw, 59vw"
-    return "(max-width: 767px) 90vw, (max-width: 1024px) 43vw, 29vw"
+def sizes_for(total_items: int) -> str:
+    """Match the compact gallery's responsive column count."""
+    mobile = "44vw" if total_items >= 10 else "90vw"
+    tablet = "29vw" if total_items >= 10 else "43vw"
+    desktop = "215px" if total_items >= 17 else "265px" if total_items >= 10 else "360px"
+    return f"(max-width: 767px) {mobile}, (max-width: 1024px) {tablet}, {desktop}"
 
 
 def variant_attributes(image: ResponsiveImage) -> tuple[str, str]:
@@ -176,19 +175,49 @@ def variant_attributes(image: ResponsiveImage) -> tuple[str, str]:
     return fallback, srcset
 
 
-def gallery_item(image: ResponsiveImage, category: str, position: int, alt_text: str) -> str:
+def gallery_item(
+    image: ResponsiveImage, category: str, position: int, alt_text: str,
+    caption: str, total_items: int, preceding_items: int,
+) -> str:
     fallback, srcset = variant_attributes(image)
     source = f"{image.source_url}?v={image.digest}"
     alt = html.escape(alt_text, quote=True)
-    eager = position <= 2
+    eager = preceding_items + position <= 2
     loading = 'loading="eager" fetchpriority="high"' if eager else 'loading="lazy"'
-    sizes = sizes_for(category, position)
+    sizes = sizes_for(total_items)
+    gallery_id = f"{category}-{image.key}"
     return (
         f'                <a href="{source}" target="_blank" rel="noopener" class="masonry-item" '
-        f'data-pswp-width="{image.width}" data-pswp-height="{image.height}">\n'
+        f'data-gallery-id="{gallery_id}" data-pswp-width="{image.width}" data-pswp-height="{image.height}">\n'
         f'                    <img src="{fallback}" width="{image.width}" height="{image.height}" '
         f'srcset="{srcset}" sizes="{sizes}" alt="{alt}" {loading} decoding="async" />\n'
+        f'                    {caption}\n'
         f"                </a>"
+    )
+
+
+def existing_gallery_items(page: str, category: str) -> dict[str, str]:
+    start = page.index("<!-- AUTO-GALLERY:START -->")
+    end = page.index("<!-- AUTO-GALLERY:END -->", start)
+    content = page[start:end]
+    items: dict[str, str] = {}
+    for match in re.finditer(r"(?m)^[ \t]*<a\b[^>]*>.*?^[ \t]*</a>", content, re.DOTALL):
+        block = match.group(0).strip()
+        key = re.search(r'data-gallery-id="([^"]+)"', block)
+        if key:
+            items[key.group(1)] = block
+    return items
+
+
+def existing_caption(block: str, alt_text: str) -> str:
+    match = re.search(r'<span class="masonry-caption"[^>]*>.*?</span></span>', block, re.DOTALL)
+    if match:
+        return match.group(0)
+    title = html.escape(alt_text, quote=True)
+    return (
+        '<span class="masonry-caption" aria-hidden="true">'
+        f'<span class="masonry-caption__title" data-caption-it="{title}" '
+        f'data-caption-en="{title}" data-caption-sl="{title}">{title}</span></span>'
     )
 
 
@@ -208,6 +237,7 @@ def update_gallery(category: str) -> int:
     page_path = ROOT / config["page"]
     page = read_document(page_path)
     alt_texts = existing_alt_texts(page, category)
+    old_items = existing_gallery_items(page, category)
     masters = source_files(PS_DIR / category, re.compile(r"\d+"), SOURCE_PRIORITY)
     if not masters:
         raise RuntimeError(f"Nessuna immagine sorgente trovata in PS/{category}")
@@ -219,15 +249,25 @@ def update_gallery(category: str) -> int:
         if match and match.group(1).isdigit() and match.group(1) not in current_keys:
             existing.unlink()
 
+    preceding_items = page[: page.index("<!-- AUTO-GALLERY:START -->")].count('data-gallery-id="')
+    total_items = preceding_items + len(masters)
     generated_items: list[str] = []
     for position, master in enumerate(masters, start=1):
+        gallery_id = f"{category}-{master.stem}"
+        old_item = old_items.get(gallery_id, "")
+        if 'data-gallery-managed="true"' in old_item:
+            generated_items.append("                " + old_item)
+            continue
         responsive = generate_variants(
             master,
             output_dir,
             f"assets/optimized/PS/{category}",
         )
         alt = alt_texts.get(master.stem, f'{config["default_alt"]} {master.stem}')
-        generated_items.append(gallery_item(responsive, category, position, alt))
+        caption = existing_caption(old_item, alt)
+        generated_items.append(gallery_item(
+            responsive, category, position, alt, caption, total_items, preceding_items,
+        ))
 
     page = replace_between_markers(
         page,

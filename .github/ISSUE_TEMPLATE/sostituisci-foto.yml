@@ -1,0 +1,39 @@
+name: Sostituisci una foto della galleria
+description: Scegli una foto esistente e carica la sua sostituta.
+title: "[Sostituisci foto] nuova immagine"
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Apri il [catalogo visivo](https://qubly.studio/gestione-gallerie.html), trova la foto e premi **Sostituisci**: il suo ID sarà già compilato. Puoi cambiare anche il titolo; lasciandolo vuoto, resta quello attuale. La sostituzione sarà ottimizzata e pubblicata automaticamente dopo l'invio.
+  - type: input
+    id: foto
+    attributes:
+      label: ID foto
+      description: Viene compilato dal pulsante Sostituisci nel catalogo visivo.
+      placeholder: "reviewed-28"
+    validations:
+      required: true
+  - type: input
+    id: titolo_it
+    attributes:
+      label: Titolo italiano
+      description: Facoltativo. Se vuoto, resta il titolo attuale.
+  - type: input
+    id: titolo_en
+    attributes:
+      label: Titolo inglese
+      description: Facoltativo. Se cambi il titolo italiano e lasci questo vuoto, sarà usato l'italiano.
+  - type: input
+    id: titolo_sl
+    attributes:
+      label: Titolo sloveno
+      description: Facoltativo. Se cambi il titolo italiano e lasci questo vuoto, sarà usato l'italiano.
+  - type: upload
+    id: nuova_immagine
+    attributes:
+      label: Nuova immagine
+      description: Trascina qui un solo file PNG, JPG o WebP, fino a 10 MB e almeno 640 × 400 px.
+    validations:
+      required: true
+      accept: ".png,.jpg,.jpeg,.webp"

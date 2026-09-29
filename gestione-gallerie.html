@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Gestione immagini · QUBLY</title>
+  <style>
+    :root { color-scheme: dark; font-family: "Helvetica Neue", "Segoe UI", Helvetica, Arial, sans-serif; }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: #0a0a0a; color: #f5f5f5; font-size: 16px; line-height: 1.5; }
+    a { color: inherit; }
+    .shell { max-width: 1240px; margin: auto; padding: 28px clamp(18px, 4vw, 56px) 90px; }
+    header { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding-bottom: 76px; }
+    .brand { font-size: 17px; font-weight: 750; letter-spacing: .12em; text-decoration: none; }
+    .back { color: #bcbcbc; text-decoration: none; font-size: 14px; }
+    .back:hover { color: #fff; }
+    .eyebrow { color: #aaa; font-size: 12px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; }
+    h1 { max-width: 800px; margin: 10px 0 14px; font-size: clamp(36px, 5vw, 68px); line-height: 1.02; font-weight: 600; letter-spacing: -.045em; }
+    .intro { max-width: 720px; margin: 0; color: #bdbdbd; font-size: clamp(15px, 1.45vw, 18px); }
+    .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 36px 0 48px; }
+    .step { min-height: 116px; padding: 20px; border: 1px solid #2c2c2c; border-radius: 12px; background: #111; }
+    .step b { display: block; margin-bottom: 8px; color: #858585; font-size: 12px; letter-spacing: .1em; }
+    .step span { display: block; font-size: 14px; }
+    .toolbar { display: flex; align-items: center; flex-wrap: wrap; gap: 14px; margin-bottom: 24px; }
+    .tabs { display: flex; flex-wrap: wrap; gap: 6px; }
+    button, .action { border: 0; border-radius: 8px; cursor: pointer; font: inherit; }
+    .tab { padding: 10px 14px; background: #1c1c1c; color: #bcbcbc; font-size: 13px; font-weight: 600; }
+    .tab[aria-pressed="true"] { background: #eee; color: #111; }
+    .search { flex: 1 1 180px; max-width: 270px; padding: 10px 14px; border: 1px solid #353535; border-radius: 8px; outline: none; background: #121212; color: #fff; font: inherit; font-size: 13px; }
+    .search:focus { border-color: #aaa; }
+    .action { display: inline-flex; align-items: center; justify-content: center; min-height: 39px; padding: 9px 14px; background: #eee; color: #111; text-decoration: none; font-size: 13px; font-weight: 700; white-space: nowrap; }
+    .action:hover { background: #fff; }
+    .grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 18px; }
+    .card { overflow: hidden; border: 1px solid #262626; border-radius: 13px; background: #141414; }
+    .card img { display: block; width: 100%; aspect-ratio: 1.45; object-fit: cover; background: #222; }
+    .card-body { padding: 14px; }
+    .card h2 { margin: 0 0 8px; font-size: 16px; font-weight: 600; line-height: 1.3; }
+    .card-id { margin: 0 0 14px; color: #999; font-family: ui-monospace, Consolas, monospace; font-size: 11px; overflow-wrap: anywhere; }
+    .card-actions { display: flex; align-items: center; gap: 10px; }
+    .card-actions .action { min-height: 34px; padding: 7px 11px; }
+    .copy { padding: 7px 4px; background: none; color: #aaa; font-size: 12px; }
+    .copy:hover { color: #fff; }
+    .status { min-height: 24px; margin: 16px 0 0; color: #bbb; font-size: 13px; }
+    .empty { grid-column: 1 / -1; padding: 40px 20px; border: 1px dashed #444; border-radius: 12px; color: #aaa; text-align: center; }
+    @media (max-width: 900px) { .grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+    @media (max-width: 650px) {
+      header { padding-bottom: 52px; }
+      .steps { grid-template-columns: 1fr; gap: 9px; }
+      .step { min-height: 0; }
+      .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+      .card-body { padding: 11px; }
+      .card h2 { font-size: 14px; }
+      .toolbar { align-items: stretch; }
+      .search { max-width: none; }
+    }
+    @media (max-width: 370px) { .grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <header>
+      <a class="brand" href="/">QUBLY</a>
+      <a class="back" href="/">Torna al sito ↗</a>
+    </header>
+    <main>
+      <div class="eyebrow">Gestione gallerie · GitHub</div>
+      <h1>Scegli una foto, poi carica la nuova.</h1>
+      <p class="intro">Questo catalogo mostra le immagini pubblicate nelle tre sezioni. Chi ha accesso al repository GitHub può sostituirne una o aggiungerne una nuova dal browser, anche da un altro computer.</p>
+      <div class="steps" aria-label="Come funziona">
+        <div class="step"><b>01 · SCEGLI</b><span>Trova la foto qui sotto, oppure seleziona la sezione a cui aggiungerne una.</span></div>
+        <div class="step"><b>02 · CARICA</b><span>Nel modulo GitHub scrivi un titolo breve e trascina la nuova immagine.</span></div>
+        <div class="step"><b>03 · PUBBLICA</b><span>Dopo l'invio, GitHub prepara le versioni leggere e aggiorna il sito.</span></div>
+      </div>
+      <div class="toolbar">
+        <div class="tabs" role="group" aria-label="Sezione">
+          <button class="tab" type="button" data-category="esterni" aria-pressed="true">Esterni</button>
+          <button class="tab" type="button" data-category="interni" aria-pressed="false">Interni</button>
+          <button class="tab" type="button" data-category="paesaggi" aria-pressed="false">Paesaggi</button>
+        </div>
+        <input class="search" type="search" id="search" placeholder="Cerca per titolo o ID" aria-label="Cerca una foto">
+        <a class="action" id="add" href="https://github.com/infoqubly/qubly/issues/new?template=aggiungi-foto.yml" target="_blank" rel="noopener">+ Aggiungi foto</a>
+      </div>
+      <div class="grid" id="grid" aria-live="polite"></div>
+      <p class="status" id="status" role="status"></p>
+    </main>
+  </div>
+  <script>
+    const categories = ['esterni', 'interni', 'paesaggi'];
+    const formBase = 'https://github.com/infoqubly/qubly/issues/new';
+    const grid = document.querySelector('#grid');
+    const status = document.querySelector('#status');
+    const search = document.querySelector('#search');
+    let selected = 'esterni';
+    let catalog = {};
+
+    function formUrl(template, params = {}) {
+      const url = new URL(formBase);
+      url.searchParams.set('template', template);
+      for (const [key, value] of Object.entries(params)) url.searchParams.set(key, value);
+      return url.href;
+    }
+
+    function render() {
+      document.querySelectorAll('.tab').forEach(tab => {
+        tab.setAttribute('aria-pressed', String(tab.dataset.category === selected));
+      });
+      document.querySelector('#add').href = formUrl('aggiungi-foto.yml', { sezione: selected[0].toUpperCase() + selected.slice(1) });
+      const query = search.value.trim().toLocaleLowerCase('it');
+      const items = (catalog[selected] || []).filter(item =>
+        `${item.title} ${item.id}`.toLocaleLowerCase('it').includes(query)
+      );
+      grid.replaceChildren();
+      if (!items.length) {
+        const empty = document.createElement('p');
+        empty.className = 'empty';
+        empty.textContent = catalog[selected] ? 'Nessuna foto trovata.' : 'Caricamento delle immagini…';
+        grid.append(empty);
+        return;
+      }
+      for (const item of items) {
+        const card = document.createElement('article');
+        card.className = 'card';
+        const image = document.createElement('img');
+        image.src = item.preview;
+        image.alt = item.title;
+        image.loading = 'lazy';
+        const body = document.createElement('div');
+        body.className = 'card-body';
+        const title = document.createElement('h2');
+        title.textContent = item.title;
+        const id = document.createElement('p');
+        id.className = 'card-id';
+        id.textContent = `ID: ${item.id}`;
+        const actions = document.createElement('div');
+        actions.className = 'card-actions';
+        const replace = document.createElement('a');
+        replace.className = 'action';
+        replace.textContent = 'Sostituisci';
+        replace.href = formUrl('sostituisci-foto.yml', { foto: item.id, title: `[Sostituisci foto] ${item.title}` });
+        replace.target = '_blank';
+        replace.rel = 'noopener';
+        const copy = document.createElement('button');
+        copy.className = 'copy';
+        copy.type = 'button';
+        copy.textContent = 'Copia ID';
+        copy.addEventListener('click', async () => {
+          try {
+            await navigator.clipboard.writeText(item.id);
+            status.textContent = `ID copiato: ${item.id}`;
+          } catch {
+            status.textContent = `ID: ${item.id}`;
+          }
+        });
+        actions.append(replace, copy);
+        body.append(title, id, actions);
+        card.append(image, body);
+        grid.append(card);
+      }
+    }
+
+    async function loadCatalog() {
+      try {
+        const results = await Promise.all(categories.map(async category => {
+          const response = await fetch(`/${category}.html`, { cache: 'no-store' });
+          if (!response.ok) throw new Error(`Impossibile caricare ${category}.`);
+          const page = new DOMParser().parseFromString(await response.text(), 'text/html');
+          const items = [...page.querySelectorAll('.masonry-gallery > .masonry-item')].map(link => {
+            const image = link.querySelector('img');
+            const firstSource = image?.getAttribute('srcset')?.split(',')[0]?.trim().split(/\s+/)[0];
+            const preview = new URL(firstSource || image?.getAttribute('src') || '', location.origin + '/').href;
+            return {
+              id: link.dataset.galleryId,
+              title: link.querySelector('.masonry-caption__title')?.dataset.captionIt || image?.alt || 'Senza titolo',
+              preview
+            };
+          }).filter(item => item.id);
+          return [category, items];
+        }));
+        catalog = Object.fromEntries(results);
+        status.textContent = 'Le modifiche inviate tramite GitHub vengono applicate automaticamente.';
+        render();
+      } catch (error) {
+        grid.replaceChildren();
+        const message = document.createElement('p');
+        message.className = 'empty';
+        message.textContent = 'Non riesco a caricare il catalogo. Ricarica la pagina tra poco.';
+        grid.append(message);
+        status.textContent = error.message;
+      }
+    }
+
+    document.querySelectorAll('.tab').forEach(tab => tab.addEventListener('click', () => {
+      selected = tab.dataset.category;
+      render();
+    }));
+    search.addEventListener('input', render);
+    render();
+    loadCatalog();
+  </script>
+</body>
+</html>
