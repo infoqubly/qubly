@@ -110,6 +110,14 @@ class GalleryRequestTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "italiano, inglese e sloveno"):
             gallery_request.apply_request(event, fixture_image())
 
+    def test_optimizer_preserves_crlf_documents(self) -> None:
+        page = "prima\r\n<!-- AUTO-GALLERY:START -->\r\nvecchio\r\n<!-- AUTO-GALLERY:END -->\r\ndopo\r\n"
+        updated = optimize_images.replace_between_markers(
+            page, "<!-- AUTO-GALLERY:START -->", "<!-- AUTO-GALLERY:END -->", "nuovo"
+        )
+        self.assertIn("nuovo\r\n<!-- AUTO-GALLERY:END -->", updated)
+        self.assertEqual(updated.count("\n"), updated.count("\r\n"))
+
 
 if __name__ == "__main__":
     unittest.main()

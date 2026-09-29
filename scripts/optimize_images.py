@@ -63,7 +63,7 @@ ROOT_SOURCE_PRIORITY = {".png": 0, ".jpg": 1, ".jpeg": 2}
 
 
 def read_document(path: Path) -> str:
-    with path.open("r", encoding="utf-8", newline=None) as handle:
+    with path.open("r", encoding="utf-8", newline="") as handle:
         return handle.read()
 
 
@@ -222,14 +222,20 @@ def existing_caption(block: str, alt_text: str) -> str:
 
 
 def replace_between_markers(page: str, start: str, end: str, generated: str) -> str:
+    line_ending = "\r\n" if "\r\n" in page else "\n"
+    normalized_page = page.replace("\r\n", "\n")
     pattern = re.compile(
         rf"(?P<start>^[ \t]*{re.escape(start)}[ \t]*$).*?(?P<end>^[ \t]*{re.escape(end)}[ \t]*$)",
         re.MULTILINE | re.DOTALL,
     )
-    match = pattern.search(page)
+    match = pattern.search(normalized_page)
     if not match:
         raise RuntimeError(f"Marker mancanti: {start} / {end}")
-    return page[: match.start()] + match.group("start") + "\n" + generated + "\n" + match.group("end") + page[match.end() :]
+    updated = (
+        normalized_page[: match.start()] + match.group("start") + "\n" + generated + "\n"
+        + match.group("end") + normalized_page[match.end() :]
+    )
+    return updated.replace("\n", line_ending)
 
 
 def update_gallery(category: str) -> int:
