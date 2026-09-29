@@ -12,6 +12,15 @@
         "preview": "assets/optimized/PS/reviewed/38-1280.webp"
       },
       {
+        "id": "reviewed-28",
+        "titles": {
+          "it": "Dettaglio di facciata",
+          "en": "Façade detail",
+          "sl": "Detajl fasade"
+        },
+        "preview": "assets/optimized/PS/reviewed/28-1280.webp"
+      },
+      {
         "id": "reviewed-03",
         "titles": {
           "it": "Casa mediterranea in pietra",
@@ -28,15 +37,6 @@
           "sl": "Paviljon iz modrega jekla"
         },
         "preview": "assets/optimized/PS/reviewed/46-1280.webp"
-      },
-      {
-        "id": "reviewed-28",
-        "titles": {
-          "it": "Dettaglio di facciata",
-          "en": "Façade detail",
-          "sl": "Detajl fasade"
-        },
-        "preview": "assets/optimized/PS/reviewed/28-1280.webp"
       },
       {
         "id": "reviewed-50",
@@ -111,15 +111,6 @@
         "preview": "assets/optimized/PS/esterni/01-1672.webp?v=336d4ac99c"
       },
       {
-        "id": "esterni-02",
-        "titles": {
-          "it": "Residenze nel verde",
-          "en": "Garden residences",
-          "sl": "Stanovanja med zelenjem"
-        },
-        "preview": "assets/optimized/PS/esterni/02-1920.webp?v=108406443e"
-      },
-      {
         "id": "esterni-04",
         "titles": {
           "it": "Edificio residenziale",
@@ -127,6 +118,15 @@
           "sl": "Stanovanjska stavba"
         },
         "preview": "assets/optimized/PS/esterni/04-1448.webp?v=40c0a483c1"
+      },
+      {
+        "id": "esterni-02",
+        "titles": {
+          "it": "Residenze nel verde",
+          "en": "Garden residences",
+          "sl": "Stanovanja med zelenjem"
+        },
+        "preview": "assets/optimized/PS/esterni/02-1920.webp?v=108406443e"
       },
       {
         "id": "esterni-05",
