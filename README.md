@@ -3,7 +3,7 @@ Qubly - architectural visualization studio.
 
 ## Aggiornare le gallerie fotografiche
 
-Apri il [catalogo visivo](https://qubly.studio/gestione-gallerie.html) da un browser. Serve un account GitHub con accesso al repository `infoqubly/qubly`; non serve avere una copia del sito sul computer.
+Apri il [catalogo visivo](https://qubly.studio/gestione-gallerie.html) da un browser. Serve un account GitHub con permesso di scrittura nel repository `infoqubly/qubly`; non serve avere una copia del sito sul computer.
 
 - Per **sostituire** una foto, seleziona la sezione e premi **Sostituisci** sotto la miniatura. Il modulo GitHub riceve già l'ID della foto. Carica una nuova immagine; puoi lasciare vuoti i titoli per conservare quelli esistenti.
 - Per **aggiungere** una foto, premi **Aggiungi foto**, scegli Esterni, Interni o Paesaggi, scrivi un titolo breve e carica l'immagine.
