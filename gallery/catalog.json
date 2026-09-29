@@ -12,15 +12,6 @@
         "preview": "assets/optimized/PS/reviewed/38-1280.webp"
       },
       {
-        "id": "reviewed-28",
-        "titles": {
-          "it": "Dettaglio di facciata",
-          "en": "Façade detail",
-          "sl": "Detajl fasade"
-        },
-        "preview": "assets/optimized/PS/reviewed/28-1280.webp"
-      },
-      {
         "id": "reviewed-03",
         "titles": {
           "it": "Casa mediterranea in pietra",
@@ -37,6 +28,15 @@
           "sl": "Paviljon iz modrega jekla"
         },
         "preview": "assets/optimized/PS/reviewed/46-1280.webp"
+      },
+      {
+        "id": "reviewed-28",
+        "titles": {
+          "it": "Dettaglio di facciata",
+          "en": "Façade detail",
+          "sl": "Detajl fasade"
+        },
+        "preview": "assets/optimized/PS/reviewed/28-1280.webp"
       },
       {
         "id": "reviewed-50",
