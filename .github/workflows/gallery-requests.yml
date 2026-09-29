@@ -11,8 +11,10 @@ permissions:
 jobs:
   update-gallery:
     if: >-
-      (startsWith(github.event.issue.title, '[Aggiungi foto]') ||
-      startsWith(github.event.issue.title, '[Sostituisci foto]')) &&
+      contains(github.event.issue.body, '### Nuova immagine') &&
+      (contains(github.event.issue.body, '### Sezione') ||
+      contains(github.event.issue.body, '### Foto selezionata') ||
+      contains(github.event.issue.body, '### ID foto')) &&
       contains(fromJSON('["OWNER","MEMBER","COLLABORATOR"]'), github.event.issue.author_association)
     runs-on: ubuntu-latest
     steps:

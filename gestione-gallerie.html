@@ -31,26 +31,50 @@
     .search:focus { border-color: #aaa; }
     .action { display: inline-flex; align-items: center; justify-content: center; min-height: 39px; padding: 9px 14px; background: #eee; color: #111; text-decoration: none; font-size: 13px; font-weight: 700; white-space: nowrap; }
     .action:hover { background: #fff; }
+    .catalog-meta { display: flex; align-items: center; justify-content: space-between; gap: 20px; margin: -6px 0 18px; }
+    .refresh { padding: 7px 0; background: transparent; color: #c5c5c5; font-size: 13px; white-space: nowrap; }
+    .refresh:hover { color: #fff; }
+    .refresh:disabled { opacity: .5; cursor: wait; }
     .grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 18px; }
     .card { overflow: hidden; border: 1px solid #262626; border-radius: 13px; background: #141414; }
     .card img { display: block; width: 100%; aspect-ratio: 1.45; object-fit: cover; background: #222; }
     .card-body { padding: 14px; }
     .card h2 { margin: 0 0 8px; font-size: 16px; font-weight: 600; line-height: 1.3; }
     .card .action { min-height: 34px; padding: 7px 11px; }
-    .status { min-height: 24px; margin: 16px 0 0; color: #bbb; font-size: 13px; }
+    .status { min-height: 24px; margin: 0; color: #bbb; font-size: 13px; }
     .empty { grid-column: 1 / -1; padding: 40px 20px; border: 1px dashed #444; border-radius: 12px; color: #aaa; text-align: center; }
+    .editor { width: min(560px, calc(100% - 28px)); max-height: min(88vh, 850px); padding: 0; border: 1px solid #353535; border-radius: 16px; background: #141414; color: #f5f5f5; box-shadow: 0 24px 80px #000b; }
+    .editor::backdrop { background: #000b; backdrop-filter: blur(6px); }
+    .editor form { padding: clamp(20px, 4vw, 34px); }
+    .editor-top { display: flex; justify-content: space-between; align-items: start; gap: 16px; }
+    .editor h2 { margin: 7px 0 8px; font-size: clamp(27px, 4vw, 38px); line-height: 1.1; letter-spacing: -.035em; }
+    .editor p { margin: 0 0 20px; color: #bcbcbc; font-size: 14px; }
+    .editor-close { flex: 0 0 auto; width: 34px; height: 34px; background: #292929; color: #fff; font-size: 22px; line-height: 1; }
+    .editor-preview { display: none; width: 100%; max-height: 210px; margin: 0 0 20px; border-radius: 9px; object-fit: cover; }
+    .editor-field { display: block; margin-bottom: 15px; font-size: 13px; font-weight: 650; }
+    .editor-field[hidden] { display: none; }
+    .editor-field input, .editor-field select { display: block; width: 100%; height: 42px; margin-top: 7px; padding: 9px 12px; border: 1px solid #454545; border-radius: 8px; outline: none; background: #1b1b1b; color: #fff; font: inherit; font-weight: 400; }
+    .editor-field input:focus, .editor-field select:focus { border-color: #eee; }
+    .editor .editor-note { margin: 18px 0; font-size: 13px; }
+    .editor-submit { width: 100%; min-height: 46px; }
+    .editor[open] { animation: editor-in .2s ease-out; }
+    @keyframes editor-in { from { transform: translateY(8px); } to { transform: translateY(0); } }
     @media (max-width: 900px) { .grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
     @media (max-width: 650px) {
-      header { padding-bottom: 52px; }
-      .steps { grid-template-columns: 1fr; gap: 9px; }
-      .step { min-height: 0; }
+      header { padding-bottom: 34px; }
+      .steps { display: block; margin: 25px 0 32px; }
+      .step { display: grid; grid-template-columns: 105px 1fr; gap: 12px; min-height: 0; padding: 12px 0; border: 0; border-top: 1px solid #303030; border-radius: 0; background: none; }
+      .step b { margin: 0; font-size: 10px; }
+      .step span { font-size: 13px; }
       .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
       .card-body { padding: 11px; }
       .card h2 { font-size: 14px; }
       .toolbar { align-items: stretch; }
       .search { max-width: none; }
+      .editor-preview { max-height: 155px; }
     }
     @media (max-width: 370px) { .grid { grid-template-columns: 1fr; } }
+    @media (prefers-reduced-motion: reduce) { .editor[open] { animation: none; } }
   </style>
 </head>
 <body>
@@ -61,12 +85,12 @@
     </header>
     <main>
       <div class="eyebrow">Gestione gallerie · GitHub</div>
-      <h1>Scegli una foto, poi carica la nuova.</h1>
-      <p class="intro">Sei già nel catalogo: scegli una foto e premi <strong>Sostituisci</strong>, oppure premi <strong>Aggiungi foto</strong>. Si aprirà GitHub in una nuova scheda; se richiesto, accedi con l'account che ha il permesso di scrittura nel repository QUBLY.</p>
+      <h1>Scegli la foto. Prepara la modifica qui.</h1>
+      <p class="intro">Scegli una foto da sostituire o aggiungine una, poi prepara i titoli in questa pagina. Solo alla fine si aprirà GitHub in una nuova scheda per caricare il file e confermare. Serve un account con permesso di scrittura nel repository QUBLY.</p>
       <div class="steps" aria-label="Come funziona">
         <div class="step"><b>01 · SCEGLI</b><span>Trova la foto qui sotto, oppure seleziona la sezione a cui aggiungerne una.</span></div>
-        <div class="step"><b>02 · ACCEDI</b><span>Il pulsante apre GitHub. Accedi lì con il tuo account autorizzato.</span></div>
-        <div class="step"><b>03 · CARICA E INVIA</b><span>Scrivi un titolo, carica l'immagine e invia il modulo. Il sito si aggiornerà automaticamente.</span></div>
+        <div class="step"><b>02 · PREPARA</b><span>Controlla o scrivi i titoli in italiano, inglese e sloveno qui nel catalogo.</span></div>
+        <div class="step"><b>03 · CARICA E CONFERMA</b><span>Su GitHub carica la nuova immagine e invia. Il sito si aggiornerà automaticamente.</span></div>
       </div>
       <div class="toolbar">
         <div class="tabs" role="group" aria-label="Sezione">
@@ -75,26 +99,82 @@
           <button class="tab" type="button" data-category="paesaggi" aria-pressed="false">Paesaggi</button>
         </div>
         <input class="search" type="search" id="search" placeholder="Cerca una foto" aria-label="Cerca una foto">
-        <a class="action" id="add" href="https://github.com/infoqubly/qubly/issues/new?template=aggiungi-foto.yml" target="_blank" rel="noopener">+ Aggiungi foto ↗</a>
+        <a class="action" id="add" href="https://github.com/infoqubly/qubly/issues/new?template=aggiungi-foto.yml" target="_blank" rel="noopener">+ Aggiungi foto</a>
       </div>
+      <div class="catalog-meta"><p class="status" id="status" role="status">Caricamento delle foto…</p><button class="refresh" id="refresh" type="button">↻ Aggiorna foto</button></div>
       <div class="grid" id="grid" aria-live="polite"></div>
-      <p class="status" id="status" role="status"></p>
     </main>
   </div>
+  <dialog class="editor" id="editor" aria-labelledby="editor-title">
+    <form id="editor-form">
+      <div class="editor-top">
+        <div><div class="eyebrow" id="editor-eyebrow">Modifica foto</div><h2 id="editor-title">Prepara la foto</h2></div>
+        <button class="editor-close" id="editor-close" type="button" aria-label="Chiudi">×</button>
+      </div>
+      <p id="editor-description"></p>
+      <img class="editor-preview" id="editor-preview" alt="">
+      <label class="editor-field" id="editor-category-field">Sezione
+        <select id="editor-category"><option value="esterni">Esterni</option><option value="interni">Interni</option><option value="paesaggi">Paesaggi</option></select>
+      </label>
+      <label class="editor-field">Titolo italiano<input id="editor-it" type="text" maxlength="90" required autocomplete="off"></label>
+      <label class="editor-field">Titolo inglese<input id="editor-en" type="text" maxlength="90" required autocomplete="off"></label>
+      <label class="editor-field">Titolo sloveno<input id="editor-sl" type="text" maxlength="90" required autocomplete="off"></label>
+      <p class="editor-note">I titoli saranno già compilati su GitHub. Lì dovrai scegliere la nuova immagine dal computer e premere il pulsante di invio.</p>
+      <button class="action editor-submit" type="submit">Continua su GitHub per caricare la foto ↗</button>
+    </form>
+  </dialog>
   <script>
     const categories = ['esterni', 'interni', 'paesaggi'];
     const formBase = 'https://github.com/infoqubly/qubly/issues/new';
     const grid = document.querySelector('#grid');
     const status = document.querySelector('#status');
     const search = document.querySelector('#search');
+    const editor = document.querySelector('#editor');
+    const editorForm = document.querySelector('#editor-form');
+    const refresh = document.querySelector('#refresh');
     let selected = 'esterni';
     let catalog = {};
+    let editingItem = null;
+    let editingMode = 'add';
+    let catalogSignature = '';
+    let lastLoaded = 0;
+    let refreshing = false;
 
     function formUrl(template, params = {}) {
       const url = new URL(formBase);
       url.searchParams.set('template', template);
       for (const [key, value] of Object.entries(params)) url.searchParams.set(key, value);
       return url.href;
+    }
+
+    function openEditor(item) {
+      editingItem = item;
+      editingMode = item ? 'replace' : 'add';
+      const category = item?.category || selected;
+      const categoryName = category[0].toUpperCase() + category.slice(1);
+      document.querySelector('#editor-eyebrow').textContent = `${categoryName} · ${item ? 'Sostituzione' : 'Nuova foto'}`;
+      document.querySelector('#editor-title').textContent = item ? `Sostituisci ${item.title}` : 'Aggiungi una foto';
+      document.querySelector('#editor-description').textContent = item
+        ? 'Questa è la foto attuale. Controlla i tre titoli; su GitHub caricherai la nuova immagine al suo posto.'
+        : 'Scegli la sezione e scrivi i tre titoli. Su GitHub caricherai l’immagine e confermerai la pubblicazione.';
+      const preview = document.querySelector('#editor-preview');
+      preview.style.display = item ? 'block' : 'none';
+      if (item) {
+        preview.src = item.preview;
+        preview.alt = `Foto attuale: ${item.title}`;
+      } else {
+        preview.removeAttribute('src');
+        preview.alt = '';
+      }
+      document.querySelector('#editor-category-field').hidden = Boolean(item);
+      document.querySelector('#editor-category').value = category;
+      for (const language of ['it', 'en', 'sl']) {
+        const input = document.querySelector(`#editor-${language}`);
+        input.value = item?.titles[language] || '';
+        input.setCustomValidity('');
+      }
+      editor.showModal();
+      document.querySelector('#editor-it').focus();
     }
 
     function render() {
@@ -125,12 +205,12 @@
         body.className = 'card-body';
         const title = document.createElement('h2');
         title.textContent = item.title;
-        const replace = document.createElement('a');
+        const replace = document.createElement('button');
         replace.className = 'action';
-        replace.textContent = 'Sostituisci ↗';
-        replace.href = formUrl('sostituisci-foto.yml', { foto: item.id, title: `[Sostituisci foto] ${item.title}` });
-        replace.target = '_blank';
-        replace.rel = 'noopener';
+        replace.type = 'button';
+        replace.textContent = 'Sostituisci';
+        replace.setAttribute('aria-label', `Sostituisci ${item.title}`);
+        replace.addEventListener('click', () => openEditor(item));
         body.append(title, replace);
         card.append(image, body);
         grid.append(card);
@@ -138,6 +218,9 @@
     }
 
     async function loadCatalog() {
+      if (refreshing) return;
+      refreshing = true;
+      refresh.disabled = true;
       try {
         const results = await Promise.all(categories.map(async category => {
           const response = await fetch(`/${category}.html`, { cache: 'no-store' });
@@ -145,26 +228,41 @@
           const page = new DOMParser().parseFromString(await response.text(), 'text/html');
           const items = [...page.querySelectorAll('.masonry-gallery > .masonry-item')].map(link => {
             const image = link.querySelector('img');
+            const caption = link.querySelector('.masonry-caption__title');
             const firstSource = image?.getAttribute('srcset')?.split(',')[0]?.trim().split(/\s+/)[0];
             const preview = new URL(firstSource || image?.getAttribute('src') || '', location.origin + '/').href;
+            const italian = caption?.dataset.captionIt || image?.alt || 'Senza titolo';
             return {
               id: link.dataset.galleryId,
-              title: link.querySelector('.masonry-caption__title')?.dataset.captionIt || image?.alt || 'Senza titolo',
+              category,
+              title: italian,
+              titles: { it: italian, en: caption?.dataset.captionEn || italian, sl: caption?.dataset.captionSl || italian },
               preview
             };
           }).filter(item => item.id);
           return [category, items];
         }));
-        catalog = Object.fromEntries(results);
-        status.textContent = 'Le modifiche inviate tramite GitHub vengono applicate automaticamente.';
-        render();
+        const next = Object.fromEntries(results);
+        const signature = JSON.stringify(next);
+        if (signature !== catalogSignature) {
+          catalog = next;
+          catalogSignature = signature;
+          render();
+        }
+        lastLoaded = Date.now();
+        status.textContent = `Foto aggiornate alle ${new Intl.DateTimeFormat('it', { hour: '2-digit', minute: '2-digit' }).format(new Date())}. Le nuove foto appaiono qui dopo la pubblicazione.`;
       } catch (error) {
-        grid.replaceChildren();
-        const message = document.createElement('p');
-        message.className = 'empty';
-        message.textContent = 'Non riesco a caricare il catalogo. Ricarica la pagina tra poco.';
-        grid.append(message);
-        status.textContent = error.message;
+        if (!catalogSignature) {
+          grid.replaceChildren();
+          const message = document.createElement('p');
+          message.className = 'empty';
+          message.textContent = 'Non riesco a caricare il catalogo. Riprova tra poco.';
+          grid.append(message);
+        }
+        status.textContent = `${error.message} Premi “Aggiorna foto” per riprovare.`;
+      } finally {
+        refreshing = false;
+        refresh.disabled = false;
       }
     }
 
@@ -172,9 +270,49 @@
       selected = tab.dataset.category;
       render();
     }));
+    document.querySelector('#add').addEventListener('click', event => {
+      event.preventDefault();
+      openEditor(null);
+    });
+    document.querySelector('#editor-close').addEventListener('click', () => editor.close());
+    editorForm.addEventListener('submit', event => {
+      event.preventDefault();
+      for (const language of ['it', 'en', 'sl']) {
+        const input = document.querySelector(`#editor-${language}`);
+        if (!input.value.trim()) {
+          input.setCustomValidity('Scrivi un titolo prima di continuare.');
+          input.reportValidity();
+          input.addEventListener('input', () => input.setCustomValidity(''), { once: true });
+          return;
+        }
+      }
+      const titles = Object.fromEntries(['it', 'en', 'sl'].map(language => [
+        language, document.querySelector(`#editor-${language}`).value.trim()
+      ]));
+      const category = document.querySelector('#editor-category').value;
+      const params = {
+        title: editingMode === 'replace' ? `Sostituzione di ${editingItem.title}` : `Nuova foto: ${titles.it}`,
+        titolo_it: titles.it,
+        titolo_en: titles.en,
+        titolo_sl: titles.sl,
+      };
+      if (editingMode === 'replace') params.foto = editingItem.id;
+      else params.sezione = category[0].toUpperCase() + category.slice(1);
+      const template = editingMode === 'replace' ? 'sostituisci-foto.yml' : 'aggiungi-foto.yml';
+      window.open(formUrl(template, params), '_blank', 'noopener');
+      editor.close();
+      status.textContent = 'Su GitHub scegli l’immagine, poi invia il modulo. Il catalogo si aggiorna dopo la pubblicazione.';
+    });
+    refresh.addEventListener('click', loadCatalog);
     search.addEventListener('input', render);
     render();
     loadCatalog();
+    document.addEventListener('visibilitychange', () => {
+      if (!document.hidden && Date.now() - lastLoaded > 15000) loadCatalog();
+    });
+    setInterval(() => {
+      if (!document.hidden && Date.now() - lastLoaded > 60000) loadCatalog();
+    }, 60000);
   </script>
 </body>
 </html>

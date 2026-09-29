@@ -44,7 +44,7 @@ class GalleryRequestTests(unittest.TestCase):
         self.temporary.cleanup()
 
     def test_add_image_with_title_and_webp_variants(self) -> None:
-        event = issue(9001, "[Aggiungi foto] nuova immagine", {
+        event = issue(9001, "Nuova foto: Costa al tramonto", {
             "Sezione": "Paesaggi", "Titolo italiano": "Costa al tramonto",
             "Titolo inglese": "Coast at sunset", "Titolo sloveno": "Obala ob sončnem zahodu",
         })
@@ -59,14 +59,15 @@ class GalleryRequestTests(unittest.TestCase):
 
     def test_replace_reviewed_image_keeps_its_place(self) -> None:
         before = (self.root / "esterni.html").read_text(encoding="utf-8")
-        event = issue(9002, "[Sostituisci foto] facciata", {
-            "ID foto": "reviewed-28", "Titolo italiano": "Nuova facciata",
+        event = issue(9002, "Sostituzione di facciata", {
+            "Foto selezionata": "reviewed-28", "Titolo italiano": "Nuova facciata",
         })
         gallery_request.apply_request(event, fixture_image("#875d45"))
         after = (self.root / "esterni.html").read_text(encoding="utf-8")
         self.assertEqual(before.count('data-gallery-id="'), after.count('data-gallery-id="'))
         self.assertEqual(after.count('data-gallery-id="reviewed-28"'), 1)
         self.assertIn('data-caption-it="Nuova facciata"', after)
+        self.assertIn('data-caption-en="Façade detail"', after)
         self.assertIn('data-gallery-managed="true"', after)
         self.assertLess(after.index('data-gallery-id="reviewed-28"'), after.index('data-gallery-id="reviewed-03"'))
 
@@ -101,6 +102,13 @@ class GalleryRequestTests(unittest.TestCase):
     def test_reads_github_upload_link(self) -> None:
         url = "https://github.com/user-attachments/assets/9e13f9bc"
         self.assertEqual(gallery_request.attachment_url(f"![foto.jpg]({url})"), url)
+
+    def test_new_photo_requires_three_written_titles(self) -> None:
+        event = issue(9005, "Nuova foto", {
+            "Sezione": "Esterni", "Titolo italiano": "Casa tra i pini",
+        })
+        with self.assertRaisesRegex(ValueError, "italiano, inglese e sloveno"):
+            gallery_request.apply_request(event, fixture_image())
 
 
 if __name__ == "__main__":

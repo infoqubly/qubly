@@ -63,7 +63,7 @@ ROOT_SOURCE_PRIORITY = {".png": 0, ".jpg": 1, ".jpeg": 2}
 
 
 def read_document(path: Path) -> str:
-    with path.open("r", encoding="utf-8", newline="") as handle:
+    with path.open("r", encoding="utf-8", newline=None) as handle:
         return handle.read()
 
 

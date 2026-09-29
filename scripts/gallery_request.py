@@ -144,11 +144,14 @@ def update_sizes(page: str) -> str:
 
 def apply_request(event: dict, image_data: bytes) -> tuple[str, str]:
     issue = event["issue"]
-    title = issue["title"]
     values = form_values(issue.get("body") or "")
     number = int(issue["number"])
+    adding = "Sezione" in values
+    replacing = "Foto selezionata" in values or "ID foto" in values
+    if adding == replacing:
+        raise ValueError("Usa il modulo Aggiungi foto o Sostituisci foto dal catalogo.")
 
-    if title.startswith("[Aggiungi foto]"):
+    if adding:
         category = values.get("Sezione", "").strip().lower()
         if category not in CATEGORIES:
             raise ValueError("Seleziona Esterni, Interni o Paesaggi.")
@@ -158,8 +161,10 @@ def apply_request(event: dict, image_data: bytes) -> tuple[str, str]:
         italian = clean_title(values.get("Titolo italiano", ""))
         if not italian:
             raise ValueError("Il titolo italiano è obbligatorio per una nuova foto.")
-        english = clean_title(values.get("Titolo inglese", "")) or italian
-        slovenian = clean_title(values.get("Titolo sloveno", "")) or italian
+        english = clean_title(values.get("Titolo inglese", ""))
+        slovenian = clean_title(values.get("Titolo sloveno", ""))
+        if not english or not slovenian:
+            raise ValueError("Scrivi i titoli in italiano, inglese e sloveno.")
         page_path = ROOT / f"{category}.html"
         page = page_path.read_text(encoding="utf-8")
         total = page.count('data-gallery-id="') + 1
@@ -172,20 +177,15 @@ def apply_request(event: dict, image_data: bytes) -> tuple[str, str]:
         if page.count(marker) != 1:
             raise ValueError("Blocco delle nuove immagini non trovato.")
         page = page.replace(marker, rendered + "\n" + marker)
-    elif title.startswith("[Sostituisci foto]"):
-        gallery_id = values.get("ID foto", "").strip().lower()
+    elif replacing:
+        gallery_id = (values.get("Foto selezionata") or values.get("ID foto") or "").strip().lower()
         if not ID_PATTERN.fullmatch(gallery_id):
             raise ValueError("ID foto non valido. Apri la richiesta dal catalogo visivo.")
         category, page, match = locate_item(gallery_id)
         old = match.group(0)
-        italian = clean_title(values.get("Titolo italiano", ""))
-        if italian:
-            english = clean_title(values.get("Titolo inglese", "")) or italian
-            slovenian = clean_title(values.get("Titolo sloveno", "")) or italian
-        else:
-            italian = title_from_item(old, "it")
-            english = title_from_item(old, "en") or italian
-            slovenian = title_from_item(old, "sl") or italian
+        italian = clean_title(values.get("Titolo italiano", "")) or title_from_item(old, "it")
+        english = clean_title(values.get("Titolo inglese", "")) or title_from_item(old, "en") or italian
+        slovenian = clean_title(values.get("Titolo sloveno", "")) or title_from_item(old, "sl") or italian
         if not italian:
             raise ValueError("La foto da sostituire non ha un titolo leggibile.")
         classes = re.search(r'class="([^"]+)"', old).group(1)
@@ -199,9 +199,6 @@ def apply_request(event: dict, image_data: bytes) -> tuple[str, str]:
             variants, classes, index < 2, total,
         )
         page = page[:match.start()] + rendered + page[match.end():]
-    else:
-        raise ValueError("Usa uno dei due moduli GitHub per le gallerie.")
-
     page = update_sizes(page)
     (ROOT / f"{category}.html").write_text(page, encoding="utf-8", newline="")
     return category, gallery_id
