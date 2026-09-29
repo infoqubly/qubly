@@ -3,6 +3,15 @@
   "sections": {
     "esterni": [
       {
+        "id": "reviewed-38",
+        "titles": {
+          "it": "Centro cinematografico",
+          "en": "Cinema centre",
+          "sl": "Filmski center"
+        },
+        "preview": "assets/optimized/PS/reviewed/38-1280.webp"
+      },
+      {
         "id": "reviewed-28",
         "titles": {
           "it": "Dettaglio di facciata",
@@ -19,15 +28,6 @@
           "sl": "Sredozemska kamnita hiša"
         },
         "preview": "assets/optimized/PS/reviewed/03-1280.webp"
-      },
-      {
-        "id": "reviewed-38",
-        "titles": {
-          "it": "Centro cinematografico",
-          "en": "Cinema centre",
-          "sl": "Filmski center"
-        },
-        "preview": "assets/optimized/PS/reviewed/38-1280.webp"
       },
       {
         "id": "reviewed-46",
