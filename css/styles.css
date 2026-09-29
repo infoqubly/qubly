@@ -2529,8 +2529,53 @@ textarea,
 .layout-3 .masonry-item:nth-child(6) { grid-row: span 2; }
 .layout-3 .masonry-item:nth-child(8) { grid-column: span 2; grid-row: span 2; }
 
+@media (min-width: 1025px) {
+  /* With two landscape images, a paired composition gives both a neighbour to exchange space with. */
+  .layout-3:has(> .masonry-item:nth-child(2):last-child) {
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+    grid-auto-rows: clamp(350px, 34vw, 540px);
+  }
+
+  .layout-3:has(> .masonry-item:nth-child(2):last-child) .masonry-item:first-child {
+    grid-column: span 1;
+    grid-row: span 1;
+  }
+
+  .layout-3:has(> .masonry-item:nth-child(2):last-child) .masonry-item:nth-child(2) img {
+    object-position: 70% center;
+  }
+}
+
 .masonry-item:hover img {
   transform: scale(1.05);
+}
+
+@media (min-width: 1025px) and (hover: hover) and (pointer: fine) {
+  .masonry-gallery.is-bento {
+    transition: grid-template-columns 520ms cubic-bezier(0.22, 1, 0.36, 1),
+      grid-template-rows 520ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .masonry-gallery.is-bento .masonry-item {
+    min-width: 0;
+    min-height: 0;
+    clip-path: none;
+  }
+
+  .masonry-gallery.is-bento .masonry-item img,
+  .masonry-gallery.is-bento .masonry-item:hover img {
+    transform: none;
+  }
+
+  .masonry-gallery.is-bento .masonry-item:focus-visible {
+    z-index: 2;
+    outline: 2px solid #fff;
+    outline-offset: -5px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .masonry-gallery.is-bento { transition: none; }
 }
 
 .project-nav-section {
