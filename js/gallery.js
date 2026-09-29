@@ -37,7 +37,7 @@ function initBentoHoverGallery() {
 
     function tracks(count, first = -1, span = 0, base = []) {
         return Array.from({ length: count }, (_, index) =>
-            `${((base[index] || 1) * (first < 0 ? 1 : index >= first && index < first + span ? 1.5 : 0.8)).toFixed(4)}fr`
+            `${((base[index] || 1) * (first < 0 ? 1 : index >= first && index < first + span ? 1.14 : 0.95)).toFixed(4)}fr`
         ).join(' ');
     }
 
