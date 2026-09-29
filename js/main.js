@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const language = (requestedLanguage || navigator.language.slice(0, 2)).toLowerCase();
     const dict = typeof translations !== "undefined" ? (translations[language] || translations.en) : {};
     const ui = key => dict[key] || key;
-    const scrollBehavior = () => prefersReducedMotion.matches ? "instant" : "smooth";
+    const scrollBehavior = (distance = 0) => prefersReducedMotion.matches || Math.abs(distance) > innerHeight * 1.5 ? "auto" : "smooth";
     let activeLayer = null;
     let inertElements = [];
     let statusTimer = 0;
@@ -76,7 +76,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!target) return;
         target.tabIndex = -1;
         target.focus({ preventScroll: true });
-        target.scrollIntoView({ behavior: scrollBehavior(), block: "start" });
+        target.scrollIntoView({ behavior: scrollBehavior(target.getBoundingClientRect().top), block: "start" });
     }
 
     document.addEventListener("click", event => {
@@ -87,7 +87,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!url.hash) {
             if (link.classList.contains("logo") && location.pathname === "/") {
                 event.preventDefault(); closeMenu(false);
-                window.scrollTo({ top: 0, behavior: scrollBehavior() });
+                window.scrollTo({ top: 0, behavior: scrollBehavior(scrollY) });
             }
             return;
         }
@@ -119,95 +119,6 @@ document.addEventListener("DOMContentLoaded", () => {
             } catch { location.href = "mailto:" + email; }
         });
     });
-
-    function initScrollShowcase() {
-        if (!visualFlow || !scrollShowcaseCards.length) return;
-        const desktop = matchMedia("(min-width: 768px)");
-        const stack = visualFlow.querySelector(".scroll-showcase-stack");
-        const stage = visualFlow.querySelector(".scroll-showcase-stage");
-        const cards = scrollShowcaseCards.map((card, index) => ({card, image:card.querySelector("img"), index}));
-        let metrics = null;
-        let frame = 0;
-        let nearViewport = true;
-        let previousMode = "";
-        let previousProgress = -1;
-        const enhanced = () => desktop.matches && !prefersReducedMotion.matches;
-        function measure() {
-            frame = 0;
-            const enabled = enhanced();
-            visualFlow.classList.toggle("is-enhanced", enabled);
-            if (!enabled) {
-                stage.removeAttribute("style");
-                cards.forEach(({card,image}) => {card.removeAttribute("style"); image.style.transform = "";});
-                metrics = null;
-                return;
-            }
-            const rect = stack.getBoundingClientRect();
-            const rawTop = getComputedStyle(visualFlow).getPropertyValue("--showcase-stage-top").trim();
-            const top = parseFloat(rawTop) * (rawTop.endsWith("vh") ? innerHeight / 100 : 1);
-            const height = stage.offsetHeight;
-            metrics = {top, height, start:rect.top + scrollY - top, length:Math.max(1,stack.offsetHeight-height),left:rect.left,width:rect.width};
-            previousMode = ""; previousProgress = -1;
-            cards.forEach(({card,index}) => {card.style.zIndex = index + 1;});
-            update();
-        }
-        function update() {
-            frame = 0;
-            if (!metrics || !enhanced()) return;
-            const m = metrics;
-            const distance = Math.max(0, Math.min(m.length, scrollY - m.start));
-            const mode = scrollY <= m.start ? "before" : scrollY >= m.start + m.length ? "after" : "pinned";
-            if (mode !== previousMode) {
-                stage.style.position = mode === "pinned" ? "fixed" : "absolute";
-                stage.style.top = (mode === "pinned" ? m.top : mode === "after" ? m.length : 0) + "px";
-                stage.style.left = mode === "pinned" ? m.left + "px" : "0";
-                stage.style.width = mode === "pinned" ? m.width + "px" : "100%";
-                previousMode = mode;
-            }
-            if (distance === previousProgress) return;
-            previousProgress = distance;
-            const progress = distance / (m.length / Math.max(1,cards.length - 1));
-            const active = Math.min(cards.length - 1,Math.floor(progress + 0.55));
-            cards.forEach(({card,image,index}) => {
-                const local = index === 0 ? 1 : Math.max(0,Math.min(1,progress - index + 1));
-                const translate = index === 0 ? 0 : Math.min(116,104 + (index - 1)*2) * Math.pow(1-local,3);
-                const speed = parseFloat(image.dataset.speed || "0.92");
-                const shift = index === 0 ? -distance*0.012 : -(translate/100*m.height)*(1-speed+0.14);
-                card.classList.toggle("is-active", index === active);
-                card.style.transform = "translate3d(0," + translate.toFixed(3) + "%,0)";
-                card.style.opacity = index === 0 || local > 0 ? "1" : "0";
-                image.style.transform = "translate3d(0," + shift.toFixed(2) + "px,0) scale(1.035)";
-            });
-        }
-        function schedule() {
-            if (!frame && nearViewport && enhanced() && !document.hidden) frame = requestAnimationFrame(update);
-        }
-        function scheduleMeasure() { if (frame) cancelAnimationFrame(frame); frame = requestAnimationFrame(measure); }
-        addEventListener("scroll", schedule, {passive:true});
-        addEventListener("resize", scheduleMeasure, {passive:true});
-        addEventListener("pageshow", scheduleMeasure);
-        prefersReducedMotion.addEventListener("change", scheduleMeasure);
-        desktop.addEventListener("change", scheduleMeasure);
-        if ("ResizeObserver" in window) new ResizeObserver(scheduleMeasure).observe(stack);
-        if ("IntersectionObserver" in window) new IntersectionObserver(([entry]) => {
-            nearViewport = entry.isIntersecting;
-            visualFlow.classList.toggle("is-in-view", nearViewport);
-            // Apply the final position once on exit, then stop offscreen work.
-            if (!nearViewport) update(); else schedule();
-        }, {rootMargin:"100px"}).observe(visualFlow);
-        measure();
-    }
-
-    const caseGroups = [...document.querySelectorAll(".case-group")];
-    if ("IntersectionObserver" in window) {
-        const titles = new IntersectionObserver(entries => entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add("is-title-filling");
-                titles.unobserve(entry.target);
-            }
-        }), {threshold:0.15});
-        caseGroups.forEach(group => titles.observe(group));
-    } else caseGroups.forEach(group => group.classList.add("is-title-filling"));
 
     document.querySelectorAll(".faq-item").forEach(item => {
         const summary = item.querySelector("summary");
@@ -569,6 +480,5 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
     }
-    initScrollShowcase();
     initMobileShowcaseZoom();
 });
