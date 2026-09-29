@@ -358,15 +358,6 @@
         "preview": "assets/optimized/PS/reviewed/24-1280.webp"
       },
       {
-        "id": "paesaggi-02",
-        "titles": {
-          "it": "Giardino notturno",
-          "en": "Night garden",
-          "sl": "Nočni vrt"
-        },
-        "preview": "assets/optimized/PS/paesaggi/02-1536.webp?v=02993152a0"
-      },
-      {
         "id": "paesaggi-01",
         "titles": {
           "it": "Yacht tra i Faraglioni",
@@ -374,6 +365,15 @@
           "sl": "Jahta ob Faraglionih"
         },
         "preview": "assets/optimized/PS/paesaggi/01-1536.webp?v=4d6f0f69bd"
+      },
+      {
+        "id": "paesaggi-02",
+        "titles": {
+          "it": "Giardino notturno",
+          "en": "Night garden",
+          "sl": "Nočni vrt"
+        },
+        "preview": "assets/optimized/PS/paesaggi/02-1536.webp?v=02993152a0"
       }
     ]
   }
