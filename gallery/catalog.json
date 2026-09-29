@@ -1,0 +1,380 @@
+{
+  "version": 1,
+  "sections": {
+    "esterni": [
+      {
+        "id": "reviewed-28",
+        "titles": {
+          "it": "Dettaglio di facciata",
+          "en": "Façade detail",
+          "sl": "Detajl fasade"
+        },
+        "preview": "assets/optimized/PS/reviewed/28-1280.webp"
+      },
+      {
+        "id": "reviewed-03",
+        "titles": {
+          "it": "Casa mediterranea in pietra",
+          "en": "Mediterranean stone house",
+          "sl": "Sredozemska kamnita hiša"
+        },
+        "preview": "assets/optimized/PS/reviewed/03-1280.webp"
+      },
+      {
+        "id": "reviewed-38",
+        "titles": {
+          "it": "Centro cinematografico",
+          "en": "Cinema centre",
+          "sl": "Filmski center"
+        },
+        "preview": "assets/optimized/PS/reviewed/38-1280.webp"
+      },
+      {
+        "id": "reviewed-46",
+        "titles": {
+          "it": "Padiglione in acciaio blu",
+          "en": "Blue steel pavilion",
+          "sl": "Paviljon iz modrega jekla"
+        },
+        "preview": "assets/optimized/PS/reviewed/46-1280.webp"
+      },
+      {
+        "id": "reviewed-50",
+        "titles": {
+          "it": "Ingresso metropolitano",
+          "en": "Metro entrance",
+          "sl": "Vhod v podzemno železnico"
+        },
+        "preview": "assets/optimized/PS/reviewed/50-1280.webp"
+      },
+      {
+        "id": "reviewed-32",
+        "titles": {
+          "it": "Museo del design",
+          "en": "Design museum",
+          "sl": "Muzej oblikovanja"
+        },
+        "preview": "assets/optimized/PS/reviewed/32-1280.webp"
+      },
+      {
+        "id": "reviewed-41",
+        "titles": {
+          "it": "Palazzo di giustizia",
+          "en": "Courthouse",
+          "sl": "Sodna palača"
+        },
+        "preview": "assets/optimized/PS/reviewed/41-1280.webp"
+      },
+      {
+        "id": "reviewed-33",
+        "titles": {
+          "it": "Scuola di architettura",
+          "en": "School of architecture",
+          "sl": "Šola za arhitekturo"
+        },
+        "preview": "assets/optimized/PS/reviewed/33-1280.webp"
+      },
+      {
+        "id": "reviewed-27",
+        "titles": {
+          "it": "Fabbrica riconvertita",
+          "en": "Converted factory",
+          "sl": "Prenovljena tovarna"
+        },
+        "preview": "assets/optimized/PS/reviewed/27-1280.webp"
+      },
+      {
+        "id": "reviewed-36",
+        "titles": {
+          "it": "Sala da concerto",
+          "en": "Concert hall",
+          "sl": "Koncertna dvorana"
+        },
+        "preview": "assets/optimized/PS/reviewed/36-1280.webp"
+      },
+      {
+        "id": "reviewed-04",
+        "titles": {
+          "it": "Museo brutalista",
+          "en": "Brutalist museum",
+          "sl": "Brutalistični muzej"
+        },
+        "preview": "assets/optimized/PS/reviewed/04-1280.webp"
+      },
+      {
+        "id": "esterni-01",
+        "titles": {
+          "it": "Complesso civico",
+          "en": "Civic complex",
+          "sl": "Javni kompleks"
+        },
+        "preview": "assets/optimized/PS/esterni/01-1672.webp?v=336d4ac99c"
+      },
+      {
+        "id": "esterni-02",
+        "titles": {
+          "it": "Residenze nel verde",
+          "en": "Garden residences",
+          "sl": "Stanovanja med zelenjem"
+        },
+        "preview": "assets/optimized/PS/esterni/02-1920.webp?v=108406443e"
+      },
+      {
+        "id": "esterni-04",
+        "titles": {
+          "it": "Edificio residenziale",
+          "en": "Residential building",
+          "sl": "Stanovanjska stavba"
+        },
+        "preview": "assets/optimized/PS/esterni/04-1448.webp?v=40c0a483c1"
+      },
+      {
+        "id": "esterni-05",
+        "titles": {
+          "it": "Villa mediterranea",
+          "en": "Mediterranean villa",
+          "sl": "Sredozemska vila"
+        },
+        "preview": "assets/optimized/PS/esterni/05-1576.webp?v=63fb6bb426"
+      }
+    ],
+    "interni": [
+      {
+        "id": "reviewed-06",
+        "titles": {
+          "it": "Casa attorno al patio",
+          "en": "Courtyard house",
+          "sl": "Hiša z notranjim dvoriščem"
+        },
+        "preview": "assets/optimized/PS/reviewed/06-1280.webp"
+      },
+      {
+        "id": "reviewed-08",
+        "titles": {
+          "it": "Soggiorno nella luce",
+          "en": "Sunlit living room",
+          "sl": "Svetla dnevna soba"
+        },
+        "preview": "assets/optimized/PS/reviewed/08-1280.webp"
+      },
+      {
+        "id": "reviewed-15",
+        "titles": {
+          "it": "Galleria d’arte",
+          "en": "Art gallery",
+          "sl": "Umetniška galerija"
+        },
+        "preview": "assets/optimized/PS/reviewed/15-1280.webp"
+      },
+      {
+        "id": "reviewed-11",
+        "titles": {
+          "it": "Bagno spa",
+          "en": "Spa bathroom",
+          "sl": "Kopalnica kot spa"
+        },
+        "preview": "assets/optimized/PS/reviewed/11-1280.webp"
+      },
+      {
+        "id": "reviewed-43",
+        "titles": {
+          "it": "Cappella di luce",
+          "en": "Chapel of light",
+          "sl": "Kapela svetlobe"
+        },
+        "preview": "assets/optimized/PS/reviewed/43-1280.webp"
+      },
+      {
+        "id": "reviewed-09",
+        "titles": {
+          "it": "Cucina in pietra e legno",
+          "en": "Stone and wood kitchen",
+          "sl": "Kuhinja iz kamna in lesa"
+        },
+        "preview": "assets/optimized/PS/reviewed/09-1280.webp"
+      },
+      {
+        "id": "reviewed-18",
+        "titles": {
+          "it": "Boutique contemporanea",
+          "en": "Contemporary boutique",
+          "sl": "Sodobni butik"
+        },
+        "preview": "assets/optimized/PS/reviewed/18-1280.webp"
+      },
+      {
+        "id": "reviewed-14",
+        "titles": {
+          "it": "Appartamento compatto",
+          "en": "Compact apartment",
+          "sl": "Kompaktno stanovanje"
+        },
+        "preview": "assets/optimized/PS/reviewed/14-1280.webp"
+      },
+      {
+        "id": "reviewed-29",
+        "titles": {
+          "it": "Poltrona di design",
+          "en": "Designer armchair",
+          "sl": "Dizajnerski naslanjač"
+        },
+        "preview": "assets/optimized/PS/reviewed/29-1280.webp"
+      },
+      {
+        "id": "reviewed-12",
+        "titles": {
+          "it": "Suite d’hotel",
+          "en": "Hotel suite",
+          "sl": "Hotelski apartma"
+        },
+        "preview": "assets/optimized/PS/reviewed/12-1280.webp"
+      },
+      {
+        "id": "reviewed-17",
+        "titles": {
+          "it": "Studio creativo",
+          "en": "Creative studio",
+          "sl": "Ustvarjalni studio"
+        },
+        "preview": "assets/optimized/PS/reviewed/17-1280.webp"
+      },
+      {
+        "id": "interni-01",
+        "titles": {
+          "it": "Soggiorno contemporaneo",
+          "en": "Contemporary living room",
+          "sl": "Sodobna dnevna soba"
+        },
+        "preview": "assets/optimized/PS/interni/01-1659.webp?v=dacbdb2aba"
+      },
+      {
+        "id": "interni-02",
+        "titles": {
+          "it": "Suite sul paesaggio",
+          "en": "Suite with a view",
+          "sl": "Apartma z razgledom"
+        },
+        "preview": "assets/optimized/PS/interni/02-1536.webp?v=603e3be9ae"
+      },
+      {
+        "id": "interni-03",
+        "titles": {
+          "it": "Salone dello yacht",
+          "en": "Yacht salon",
+          "sl": "Salon jahte"
+        },
+        "preview": "assets/optimized/PS/interni/03-1536.webp?v=7f67a92f07"
+      },
+      {
+        "id": "interni-04",
+        "titles": {
+          "it": "Cabina panoramica",
+          "en": "Panoramic cabin",
+          "sl": "Panoramska kabina"
+        },
+        "preview": "assets/optimized/PS/interni/04-1671.webp?v=25e4984121"
+      },
+      {
+        "id": "interni-05",
+        "titles": {
+          "it": "Galleria di sculture",
+          "en": "Sculpture gallery",
+          "sl": "Galerija skulptur"
+        },
+        "preview": "assets/optimized/PS/interni/05-1535.webp?v=d3a69949d0"
+      },
+      {
+        "id": "interni-06",
+        "titles": {
+          "it": "Spazio commerciale",
+          "en": "Retail interior",
+          "sl": "Prodajni prostor"
+        },
+        "preview": "assets/optimized/PS/interni/06-1672.webp?v=a616d6fa15"
+      },
+      {
+        "id": "interni-07",
+        "titles": {
+          "it": "Cucina contemporanea",
+          "en": "Contemporary kitchen",
+          "sl": "Sodobna kuhinja"
+        },
+        "preview": "assets/optimized/PS/interni/07-1672.webp?v=17770819e8"
+      },
+      {
+        "id": "interni-08",
+        "titles": {
+          "it": "Camera immersa nel verde",
+          "en": "Bedroom in the garden",
+          "sl": "Spalnica med zelenjem"
+        },
+        "preview": "assets/optimized/PS/interni/08-1920.webp?v=e9a361c51d"
+      },
+      {
+        "id": "interni-09",
+        "titles": {
+          "it": "Cucina residenziale",
+          "en": "Residential kitchen",
+          "sl": "Stanovanjska kuhinja"
+        },
+        "preview": "assets/optimized/PS/interni/09-1574.webp?v=67673e352d"
+      }
+    ],
+    "paesaggi": [
+      {
+        "id": "reviewed-01",
+        "titles": {
+          "it": "Villa sul mare",
+          "en": "Seaside villa",
+          "sl": "Vila ob morju"
+        },
+        "preview": "assets/optimized/PS/reviewed/01-1280.webp"
+      },
+      {
+        "id": "reviewed-00",
+        "titles": {
+          "it": "Casa nel bosco",
+          "en": "House in the woods",
+          "sl": "Hiša v gozdu"
+        },
+        "preview": "assets/optimized/PS/reviewed/00-1280.webp"
+      },
+      {
+        "id": "reviewed-20",
+        "titles": {
+          "it": "Terrazza panoramica",
+          "en": "Panoramic terrace",
+          "sl": "Panoramska terasa"
+        },
+        "preview": "assets/optimized/PS/reviewed/20-1280.webp"
+      },
+      {
+        "id": "reviewed-24",
+        "titles": {
+          "it": "Casa sulla scogliera",
+          "en": "Cliffside house",
+          "sl": "Hiša na pečini"
+        },
+        "preview": "assets/optimized/PS/reviewed/24-1280.webp"
+      },
+      {
+        "id": "paesaggi-01",
+        "titles": {
+          "it": "Yacht tra i Faraglioni",
+          "en": "Yacht by the Faraglioni",
+          "sl": "Jahta ob Faraglionih"
+        },
+        "preview": "assets/optimized/PS/paesaggi/01-1536.webp?v=4d6f0f69bd"
+      },
+      {
+        "id": "paesaggi-02",
+        "titles": {
+          "it": "Giardino notturno",
+          "en": "Night garden",
+          "sl": "Nočni vrt"
+        },
+        "preview": "assets/optimized/PS/paesaggi/02-1536.webp?v=02993152a0"
+      }
+    ]
+  }
+}

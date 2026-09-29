@@ -1,3 +1,5 @@
+import { handleGalleryApi } from "./gallery-api.js";
+
 const CANONICAL_PATHS = new Map([
     ["/index.html", "/"],
     ["/about.html", "/about"],
@@ -57,6 +59,13 @@ function addDocumentHeaders(response) {
 
 export default {
     async fetch(request, env) {
+        const pathname = new URL(request.url).pathname;
+        if (pathname === "/gestione-gallerie" || pathname === "/gestione-gallerie.html") {
+            return Response.redirect("https://infoqubly.github.io/qubly-tools/gestione-gallerie.html", 302);
+        }
+        if (pathname.startsWith("/api/gallery/")) {
+            return handleGalleryApi(request, env);
+        }
         const canonicalUrl = getCanonicalUrl(request);
 
         if (canonicalUrl) {
@@ -64,8 +73,6 @@ export default {
         }
 
         const response = await env.ASSETS.fetch(request);
-        const pathname = new URL(request.url).pathname;
-
         return DOCUMENT_PATHS.has(pathname) ? addDocumentHeaders(response) : response;
     }
 };

@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import io
+import json
 import shutil
 import tempfile
 import unittest
@@ -11,6 +12,8 @@ from pathlib import Path
 from PIL import Image
 
 import gallery_request
+import gallery_catalog
+import gallery_publish
 import optimize_images
 
 
@@ -34,11 +37,17 @@ class GalleryRequestTests(unittest.TestCase):
         self.root = Path(self.temporary.name)
         for category in gallery_request.CATEGORIES:
             shutil.copy2(SOURCE_ROOT / f"{category}.html", self.root / f"{category}.html")
+        (self.root / "gallery").mkdir()
+        shutil.copy2(SOURCE_ROOT / "gallery/catalog.json", self.root / "gallery/catalog.json")
+        gallery_catalog.ROOT = self.root
+        gallery_catalog.CATALOG_PATH = self.root / "gallery/catalog.json"
         gallery_request.ROOT = self.root
         gallery_request.ASSET_DIR = self.root / "assets/optimized/PS/managed"
         optimize_images.ROOT = self.root
         optimize_images.PS_DIR = self.root / "PS"
         optimize_images.OPTIMIZED_DIR = self.root / "assets/optimized/PS"
+        gallery_publish.ROOT = self.root
+        gallery_publish.INBOX = self.root / "gallery/inbox"
 
     def tearDown(self) -> None:
         self.temporary.cleanup()
@@ -53,7 +62,7 @@ class GalleryRequestTests(unittest.TestCase):
         page = (self.root / "paesaggi.html").read_text(encoding="utf-8")
         self.assertEqual(page.count('data-gallery-id="nuova-9001"'), 1)
         self.assertIn('data-caption-en="Coast at sunset"', page)
-        self.assertLess(page.index('data-gallery-id="nuova-9001"'), page.index("<!-- MANAGED-GALLERY:END -->"))
+        self.assertLess(page.index('data-gallery-id="nuova-9001"'), page.index("<!-- GALLERY-ITEMS:END -->"))
         self.assertTrue((gallery_request.ASSET_DIR / "nuova-9001-640.webp").is_file())
         self.assertTrue((gallery_request.ASSET_DIR / "nuova-9001-800.webp").is_file())
 
@@ -91,6 +100,37 @@ class GalleryRequestTests(unittest.TestCase):
         page = (self.root / "interni.html").read_text(encoding="utf-8")
         self.assertIn('data-gallery-id="interni-01"', page)
         self.assertIn('data-caption-it="Soggiorno contemporaneo"', page)
+
+    def test_reordered_reviewed_and_original_photos_survive_optimizer(self) -> None:
+        catalog = gallery_catalog.read_catalog()
+        exterior = catalog["sections"]["esterni"]
+        moved = exterior.pop(-1)
+        exterior.insert(0, moved)
+        gallery_catalog.CATALOG_PATH.write_text(json.dumps(catalog), encoding="utf-8")
+        gallery_catalog.sync_pages(catalog)
+        source_dir = self.root / "PS/esterni"
+        source_dir.mkdir(parents=True)
+        (source_dir / "01.jpg").write_bytes(fixture_image())
+        optimize_images.update_gallery("esterni")
+        page = (self.root / "esterni.html").read_text(encoding="utf-8")
+        self.assertEqual(list(gallery_catalog.item_blocks(page))[0], moved["id"])
+        self.assertEqual(len(gallery_catalog.item_blocks(page)), len(exterior))
+
+    def test_direct_upload_replaces_photo_and_updates_catalog(self) -> None:
+        gallery_publish.INBOX.mkdir()
+        request_id = "a" * 32
+        request = {
+            "mode": "replace", "category": "interni", "id": "interni-09",
+            "extension": "jpg", "titles": {"it": "Cucina luminosa", "en": "Bright kitchen", "sl": "Svetla kuhinja"},
+        }
+        (gallery_publish.INBOX / f"{request_id}.json").write_text(json.dumps(request), encoding="utf-8")
+        (gallery_publish.INBOX / f"{request_id}.jpg").write_bytes(fixture_image())
+        gallery_publish.main()
+        page = (self.root / "interni.html").read_text(encoding="utf-8")
+        self.assertIn('data-caption-it="Cucina luminosa"', gallery_catalog.item_blocks(page)["interni-09"])
+        self.assertTrue((gallery_request.ASSET_DIR / "interni-09-640.webp").exists())
+        updated = next(item for item in gallery_catalog.read_catalog()["sections"]["interni"] if item["id"] == "interni-09")
+        self.assertEqual(updated["titles"]["it"], "Cucina luminosa")
 
     def test_rejects_invalid_target_and_untrusted_link(self) -> None:
         event = issue(9004, "[Sostituisci foto] test", {"ID foto": "../../secrets"})

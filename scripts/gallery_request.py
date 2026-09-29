@@ -15,7 +15,8 @@ from pathlib import Path
 
 from PIL import Image, ImageOps
 
-from optimize_images import ROOT, sizes_for
+from gallery_catalog import item_blocks, replace_items
+from optimize_images import ROOT, read_document, sizes_for, write_document
 
 
 MAX_UPLOAD_BYTES = 10 * 1024 * 1024
@@ -83,13 +84,18 @@ def image_variants(gallery_id: str, data: bytes) -> tuple[int, int, str, list[tu
             image = image.resize((1920, round(image.height * 1920 / image.width)), Image.Resampling.LANCZOS)
         width, height = image.size
         variants = []
+        expected_files = set()
         for target_width in sorted({min(width, value) for value in (640, 1280, 1920)}):
             rendered = image if target_width == width else image.resize(
                 (target_width, round(height * target_width / width)), Image.Resampling.LANCZOS
             )
             filename = f"{gallery_id}-{target_width}.webp"
             rendered.save(ASSET_DIR / filename, "WEBP", quality=87 if target_width == width else 84, method=6)
+            expected_files.add(filename)
             variants.append((target_width, f"assets/optimized/PS/managed/{filename}?v={digest}"))
+        for stale in ASSET_DIR.glob(f"{gallery_id}-*.webp"):
+            if re.fullmatch(rf"{re.escape(gallery_id)}-\d+\.webp", stale.name) and stale.name not in expected_files:
+                stale.unlink()
     return width, height, digest, variants
 
 
@@ -121,7 +127,7 @@ def render_item(
 def locate_item(gallery_id: str) -> tuple[str, str, re.Match[str]]:
     matches = []
     for category in CATEGORIES:
-        page = (ROOT / f"{category}.html").read_text(encoding="utf-8")
+        page = read_document(ROOT / f"{category}.html")
         pattern = re.compile(
             rf'<a\b[^>]*data-gallery-id="{re.escape(gallery_id)}"[^>]*>.*?</a>', re.DOTALL
         )
@@ -166,17 +172,16 @@ def apply_request(event: dict, image_data: bytes) -> tuple[str, str]:
         if not english or not slovenian:
             raise ValueError("Scrivi i titoli in italiano, inglese e sloveno.")
         page_path = ROOT / f"{category}.html"
-        page = page_path.read_text(encoding="utf-8")
+        page = read_document(page_path)
         total = page.count('data-gallery-id="') + 1
         width, height, _, variants = image_variants(gallery_id, image_data)
         rendered = render_item(
             gallery_id, category, (italian, english, slovenian), width, height,
             variants, "masonry-item is-managed", total <= 2, total,
         )
-        marker = "                <!-- MANAGED-GALLERY:END -->"
-        if page.count(marker) != 1:
-            raise ValueError("Blocco delle nuove immagini non trovato.")
-        page = page.replace(marker, rendered + "\n" + marker)
+        blocks = item_blocks(page)
+        blocks[gallery_id] = rendered
+        page = replace_items(page, blocks, list(blocks))
     elif replacing:
         gallery_id = (values.get("Foto selezionata") or values.get("ID foto") or "").strip().lower()
         if not ID_PATTERN.fullmatch(gallery_id):
@@ -200,7 +205,7 @@ def apply_request(event: dict, image_data: bytes) -> tuple[str, str]:
         )
         page = page[:match.start()] + rendered + page[match.end():]
     page = update_sizes(page)
-    (ROOT / f"{category}.html").write_text(page, encoding="utf-8", newline="")
+    write_document(ROOT / f"{category}.html", page)
     return category, gallery_id
 
 

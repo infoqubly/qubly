@@ -18,6 +18,8 @@ from pathlib import Path
 
 from PIL import Image, ImageOps
 
+from gallery_catalog import item_blocks, read_catalog, refresh_catalog, replace_items, sync_pages
+
 
 ROOT = Path(__file__).resolve().parents[1]
 PS_DIR = ROOT / "PS"
@@ -197,16 +199,7 @@ def gallery_item(
 
 
 def existing_gallery_items(page: str, category: str) -> dict[str, str]:
-    start = page.index("<!-- AUTO-GALLERY:START -->")
-    end = page.index("<!-- AUTO-GALLERY:END -->", start)
-    content = page[start:end]
-    items: dict[str, str] = {}
-    for match in re.finditer(r"(?m)^[ \t]*<a\b[^>]*>.*?^[ \t]*</a>", content, re.DOTALL):
-        block = match.group(0).strip()
-        key = re.search(r'data-gallery-id="([^"]+)"', block)
-        if key:
-            items[key.group(1)] = block
-    return items
+    return item_blocks(page)
 
 
 def existing_caption(block: str, alt_text: str) -> str:
@@ -255,14 +248,12 @@ def update_gallery(category: str) -> int:
         if match and match.group(1).isdigit() and match.group(1) not in current_keys:
             existing.unlink()
 
-    preceding_items = page[: page.index("<!-- AUTO-GALLERY:START -->")].count('data-gallery-id="')
-    total_items = preceding_items + len(masters)
-    generated_items: list[str] = []
+    total_items = len(set(old_items) | {f"{category}-{master.stem}" for master in masters})
+    generated_items = dict(old_items)
     for position, master in enumerate(masters, start=1):
         gallery_id = f"{category}-{master.stem}"
         old_item = old_items.get(gallery_id, "")
         if 'data-gallery-managed="true"' in old_item:
-            generated_items.append("                " + old_item)
             continue
         responsive = generate_variants(
             master,
@@ -271,16 +262,14 @@ def update_gallery(category: str) -> int:
         )
         alt = alt_texts.get(master.stem, f'{config["default_alt"]} {master.stem}')
         caption = existing_caption(old_item, alt)
-        generated_items.append(gallery_item(
-            responsive, category, position, alt, caption, total_items, preceding_items,
-        ))
+        generated_items[gallery_id] = gallery_item(
+            responsive, category, position, alt, caption, total_items, len(old_items) - len(masters),
+        )
 
-    page = replace_between_markers(
-        page,
-        "<!-- AUTO-GALLERY:START -->",
-        "<!-- AUTO-GALLERY:END -->",
-        "\n".join(generated_items),
-    )
+    chosen = [item["id"] for item in read_catalog()["sections"][category]]
+    order = [gallery_id for gallery_id in chosen if gallery_id in generated_items]
+    order.extend(gallery_id for gallery_id in generated_items if gallery_id not in order)
+    page = replace_items(page, generated_items, order)
     write_document(page_path, page)
     return len(masters)
 
@@ -329,6 +318,7 @@ def update_problem_solution_images() -> int:
 
 def main() -> None:
     counts = {category: update_gallery(category) for category in CATEGORIES}
+    sync_pages(refresh_catalog())
     counts["problemi-soluzioni"] = update_problem_solution_images()
     summary = ", ".join(f"{name}: {count}" for name, count in counts.items())
     print(f"Immagini elaborate - {summary}")

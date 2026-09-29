@@ -32,12 +32,14 @@ jobs:
         run: python -m pip install Pillow==10.4.0
 
       - name: Verifica la richiesta e aggiorna la foto
-        run: python scripts/gallery_request.py --event "$GITHUB_EVENT_PATH"
+        run: |
+          python scripts/gallery_request.py --event "$GITHUB_EVENT_PATH"
+          python scripts/gallery_catalog.py
 
       - name: Pubblica l'aggiornamento
         shell: bash
         run: |
-          git add -- esterni.html interni.html paesaggi.html assets/optimized/PS/managed
+          git add -- esterni.html interni.html paesaggi.html gallery/catalog.json assets/optimized/PS/managed
           if git diff --cached --quiet; then
             echo "Nessuna modifica prodotta dalla richiesta."
             exit 1

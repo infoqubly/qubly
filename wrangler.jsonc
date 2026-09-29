@@ -31,7 +31,10 @@
       "/privacy-policy/",
       "/spazi",
       "/spazi.html",
-      "/spazi/"
+      "/spazi/",
+      "/gestione-gallerie",
+      "/gestione-gallerie.html",
+      "/api/gallery/*"
     ]
   },
   "compatibility_flags": [

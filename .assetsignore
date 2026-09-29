@@ -9,3 +9,4 @@ src
 wrangler.jsonc
 README.md
 .gitignore
+gallery/inbox/**

@@ -1,0 +1,47 @@
+name: Pubblica gallerie da QUBLY Tools
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - gallery/catalog.json
+      - gallery/inbox/**
+
+permissions:
+  contents: write
+
+concurrency:
+  group: gallery-tools-main
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Prepara il generatore immagini
+        run: python -m pip install Pillow==10.4.0
+
+      - name: Pubblica foto e ordine
+        run: python scripts/gallery_publish.py
+
+      - name: Salva il sito aggiornato
+        shell: bash
+        run: |
+          git add -- esterni.html interni.html paesaggi.html gallery/catalog.json gallery/inbox assets/optimized/PS/managed
+          if git diff --cached --quiet; then
+            echo "Nessuna pagina da aggiornare."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Pubblica gallerie da QUBLY Tools"
+          git pull --rebase origin main
+          git push origin HEAD:main
