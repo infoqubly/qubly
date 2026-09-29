@@ -2,6 +2,11 @@ import PhotoSwipeLightbox from '../vendor/photoswipe/photoswipe-lightbox.esm.js'
 
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
 const lang = (new URLSearchParams(location.search).get('lang') || navigator.language.slice(0, 2)).toLowerCase();
+const captionLang = ['it', 'sl'].includes(lang) ? lang : 'en';
+document.querySelectorAll('.masonry-caption__title').forEach(title => {
+    const key = `caption${captionLang[0].toUpperCase()}${captionLang.slice(1)}`;
+    title.textContent = title.dataset[key] || title.dataset.captionEn || title.textContent;
+});
 const labels = {
     it: {closeTitle:'Chiudi',zoomTitle:'Ingrandisci',arrowPrevTitle:'Immagine precedente',arrowNextTitle:'Immagine successiva',errorMsg:'Impossibile caricare l’immagine. Chiudi e riprova.'},
     sl: {closeTitle:'Zapri',zoomTitle:'Povečaj',arrowPrevTitle:'Prejšnja slika',arrowNextTitle:'Naslednja slika',errorMsg:'Slike ni mogoče naložiti. Zaprite in poskusite znova.'}
@@ -37,7 +42,7 @@ function initBentoHoverGallery() {
 
     function tracks(count, first = -1, span = 0, base = []) {
         return Array.from({ length: count }, (_, index) =>
-            `${((base[index] || 1) * (first < 0 ? 1 : index >= first && index < first + span ? 1.14 : 0.95)).toFixed(4)}fr`
+            `${((base[index] || 1) * (first < 0 ? 1 : index >= first && index < first + span ? 1.10 : 0.97)).toFixed(4)}fr`
         ).join(' ');
     }
 

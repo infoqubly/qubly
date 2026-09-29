@@ -2510,6 +2510,56 @@ textarea,
   transition: transform 0.5s ease;
 }
 
+.masonry-item::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 35%, rgba(0, 0, 0, 0.78) 100%);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 280ms ease;
+}
+
+.masonry-caption {
+  position: absolute;
+  z-index: 1;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: clamp(14px, 1.25vw, 20px);
+  color: #fff;
+  font-family: "Helvetica Neue", "Segoe UI", Helvetica, Arial, sans-serif;
+  font-size: clamp(14px, 1.06vw, 17px);
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: 0.012em;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.45);
+  opacity: 0;
+  transform: translateY(6px);
+  pointer-events: none;
+  transition: opacity 280ms ease, transform 280ms ease;
+}
+
+.masonry-item:is(:hover, :focus-visible)::after,
+.masonry-item:is(:hover, :focus-visible) .masonry-caption {
+  opacity: 1;
+}
+
+.masonry-item:is(:hover, :focus-visible) .masonry-caption {
+  transform: translateY(0);
+}
+
+@media (hover: none), (max-width: 1024px) {
+  .masonry-item::after,
+  .masonry-caption {
+    opacity: 1;
+  }
+
+  .masonry-caption {
+    transform: none;
+  }
+}
+
 /* Staggered, irregular horizontal rectangular crops for the grid view using CSS Grid spans */
 /* Layout 1: Esterni */
 .layout-1 .masonry-item:nth-child(1) { grid-column: span 2; grid-row: span 2; }
@@ -2595,6 +2645,8 @@ textarea,
 
 @media (prefers-reduced-motion: reduce) {
   .masonry-gallery.is-bento { transition: none; }
+  .masonry-item::after,
+  .masonry-caption { transition: none; }
 }
 
 .project-nav-section {
@@ -2672,6 +2724,16 @@ textarea,
   }
   .layout-1 .masonry-item:nth-child(1) { grid-column: span 2; grid-row: span 2; }
   .layout-3 .masonry-item:nth-child(1) { grid-column: span 2; }
+
+  .gallery-section .masonry-gallery:has(> .masonry-item:nth-child(10)) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-auto-rows: clamp(170px, 22vw, 230px);
+  }
+
+  .gallery-section .masonry-gallery:has(> .masonry-item:nth-child(10)) .masonry-item {
+    grid-column: auto;
+    grid-row: auto;
+  }
 }
 
 @media (max-width: 767px) {
@@ -2680,9 +2742,21 @@ textarea,
     grid-auto-rows: 55vw;
     gap: 4vw;
   }
+
+  .gallery-section .masonry-gallery:has(> .masonry-item:nth-child(10)) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-auto-rows: 43vw;
+    gap: 3vw;
+  }
+
   .masonry-item {
     grid-column: span 1 !important;
     grid-row: span 1 !important;
+  }
+
+  .masonry-caption {
+    padding: 12px;
+    font-size: clamp(12px, 3.35vw, 15px);
   }
   .gallery-section {
     padding: 25vw 5.08vw 10vw 5.08vw;
