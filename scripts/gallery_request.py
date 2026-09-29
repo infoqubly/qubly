@@ -71,9 +71,9 @@ def image_variants(gallery_id: str, data: bytes) -> tuple[int, int, str, list[tu
     with Image.open(io.BytesIO(data)) as opened:
         if opened.format not in {"JPEG", "PNG", "WEBP"} or getattr(opened, "n_frames", 1) != 1:
             raise ValueError("Il file deve essere una singola immagine PNG, JPG o WebP.")
-        image = ImageOps.exif_transpose(opened)
-        if image.width < 640 or image.height < 400 or image.width * image.height > MAX_PIXELS:
+        if opened.width < 640 or opened.height < 400 or opened.width * opened.height > MAX_PIXELS:
             raise ValueError("Usa un'immagine di almeno 640 × 400 px e non oltre 50 megapixel.")
+        image = ImageOps.exif_transpose(opened)
         if image.mode in {"RGBA", "LA"} or "transparency" in image.info:
             background = Image.new("RGB", image.size, "#0a0a0a")
             background.paste(image.convert("RGBA"), mask=image.convert("RGBA").getchannel("A"))

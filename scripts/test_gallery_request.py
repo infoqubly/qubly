@@ -5,8 +5,11 @@ from __future__ import annotations
 import io
 import json
 import shutil
+import struct
 import tempfile
 import unittest
+import warnings
+import zlib
 from pathlib import Path
 
 from PIL import Image
@@ -138,6 +141,17 @@ class GalleryRequestTests(unittest.TestCase):
             gallery_request.apply_request(event, fixture_image())
         with self.assertRaises(ValueError):
             gallery_request.attachment_url("![photo](https://example.com/private.png)")
+
+    def test_rejects_compressed_oversized_image_before_decoding(self) -> None:
+        output = io.BytesIO()
+        Image.new("RGB", (640, 400)).save(output, "PNG")
+        payload = bytearray(output.getvalue())
+        payload[16:24] = struct.pack(">II", 10_000, 10_000)
+        payload[29:33] = struct.pack(">I", zlib.crc32(payload[12:29]))
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore", Image.DecompressionBombWarning)
+            with self.assertRaisesRegex(ValueError, "50 megapixel"):
+                gallery_request.image_variants("oversized-image", bytes(payload))
 
     def test_reads_github_upload_link(self) -> None:
         url = "https://github.com/user-attachments/assets/9e13f9bc"
