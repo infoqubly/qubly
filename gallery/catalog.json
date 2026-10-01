@@ -84,15 +84,6 @@
         "preview": "assets/optimized/PS/reviewed/27-1280.webp"
       },
       {
-        "id": "reviewed-36",
-        "titles": {
-          "it": "Sala da concerto",
-          "en": "Concert hall",
-          "sl": "Koncertna dvorana"
-        },
-        "preview": "assets/optimized/PS/reviewed/36-1280.webp"
-      },
-      {
         "id": "reviewed-04",
         "titles": {
           "it": "Museo brutalista",
@@ -100,6 +91,15 @@
           "sl": "Brutalistični muzej"
         },
         "preview": "assets/optimized/PS/managed/reviewed-04-1024.webp?v=b39924278f"
+      },
+      {
+        "id": "reviewed-36",
+        "titles": {
+          "it": "Sala da concerto",
+          "en": "Concert hall",
+          "sl": "Koncertna dvorana"
+        },
+        "preview": "assets/optimized/PS/reviewed/36-1280.webp"
       },
       {
         "id": "esterni-01",
