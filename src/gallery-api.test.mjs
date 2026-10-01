@@ -80,6 +80,20 @@ test('GitHub login creates an encrypted session and reorder writes the catalog',
     }), env);
     assert.equal(order.status, 202);
     assert.deepEqual(published.sections.esterni.map(item => item.id), ['two', 'one']);
+    const removal = await handleGalleryApi(new Request(`${base}/publish`, {
+      method: 'POST',
+      headers: { Origin: origin, Authorization: `Bearer ${session}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ mode: 'remove', category: 'esterni', id: 'one' })
+    }), env);
+    assert.equal(removal.status, 202);
+    assert.deepEqual(published.sections.esterni.map(item => item.id), ['two']);
+    assert.deepEqual(published.removed, ['one']);
+    const missing = await handleGalleryApi(new Request(`${base}/publish`, {
+      method: 'POST',
+      headers: { Origin: origin, Authorization: `Bearer ${session}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ mode: 'remove', category: 'esterni', id: 'absent' })
+    }), env);
+    assert.equal(missing.status, 400);
     const upload = await handleGalleryApi(new Request(`${base}/publish`, {
       method: 'POST',
       headers: { Origin: origin, Authorization: `Bearer ${session}`, 'Content-Type': 'application/json' },

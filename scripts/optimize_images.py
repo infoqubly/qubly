@@ -248,10 +248,13 @@ def update_gallery(category: str) -> int:
         if match and match.group(1).isdigit() and match.group(1) not in current_keys:
             existing.unlink()
 
-    total_items = len(set(old_items) | {f"{category}-{master.stem}" for master in masters})
-    generated_items = dict(old_items)
+    removed = set(read_catalog().get("removed", []))
+    total_items = len((set(old_items) | {f"{category}-{master.stem}" for master in masters}) - removed)
+    generated_items = {gallery_id: block for gallery_id, block in old_items.items() if gallery_id not in removed}
     for position, master in enumerate(masters, start=1):
         gallery_id = f"{category}-{master.stem}"
+        if gallery_id in removed:
+            continue
         old_item = old_items.get(gallery_id, "")
         if 'data-gallery-managed="true"' in old_item:
             continue

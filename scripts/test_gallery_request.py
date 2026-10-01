@@ -135,6 +135,27 @@ class GalleryRequestTests(unittest.TestCase):
         updated = next(item for item in gallery_catalog.read_catalog()["sections"]["interni"] if item["id"] == "interni-09")
         self.assertEqual(updated["titles"]["it"], "Cucina luminosa")
 
+    def test_removed_photo_stays_hidden_after_gallery_regeneration(self) -> None:
+        catalog = gallery_catalog.read_catalog()
+        gallery_id = "esterni-01"
+        catalog["sections"]["esterni"] = [
+            item for item in catalog["sections"]["esterni"] if item["id"] != gallery_id
+        ]
+        catalog["removed"] = [gallery_id]
+        gallery_catalog.CATALOG_PATH.write_text(json.dumps(catalog), encoding="utf-8")
+        gallery_publish.main()
+        page = (self.root / "esterni.html").read_text(encoding="utf-8")
+        self.assertNotIn(f'data-gallery-id="{gallery_id}"', page)
+
+        source_dir = self.root / "PS/esterni"
+        source_dir.mkdir(parents=True)
+        (source_dir / "01.jpg").write_bytes(fixture_image())
+        optimize_images.update_gallery("esterni")
+        refreshed = gallery_catalog.refresh_catalog()
+        self.assertNotIn(gallery_id, gallery_catalog.item_blocks((self.root / "esterni.html").read_text(encoding="utf-8")))
+        self.assertNotIn(gallery_id, [item["id"] for item in refreshed["sections"]["esterni"]])
+        self.assertTrue((source_dir / "01.jpg").exists())
+
     def test_rejects_invalid_target_and_untrusted_link(self) -> None:
         event = issue(9004, "[Sostituisci foto] test", {"ID foto": "../../secrets"})
         with self.assertRaises(ValueError):

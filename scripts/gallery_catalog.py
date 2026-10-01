@@ -50,6 +50,9 @@ def read_catalog() -> dict:
         catalog = json.loads(CATALOG_PATH.read_text(encoding="utf-8"))
         if catalog.get("version") != 1 or set(catalog.get("sections", {})) != set(CATEGORIES):
             raise ValueError("Catalogo non valido")
+        removed = catalog.get("removed", [])
+        if not isinstance(removed, list) or any(not isinstance(gallery_id, str) for gallery_id in removed):
+            raise ValueError("Elenco delle foto rimosse non valido")
         return catalog
     return {"version": 1, "sections": {category: [] for category in CATEGORIES}}
 
@@ -57,9 +60,10 @@ def read_catalog() -> dict:
 def refresh_catalog() -> dict:
     """Read current HTML metadata, retaining the chosen order of known photos."""
     catalog = read_catalog()
+    removed = set(catalog.get("removed", []))
     for category in CATEGORIES:
         page = (ROOT / f"{category}.html").read_text(encoding="utf-8")
-        blocks = item_blocks(page)
+        blocks = {gallery_id: block for gallery_id, block in item_blocks(page).items() if gallery_id not in removed}
         old_order = [item["id"] for item in catalog["sections"][category]]
         order = [gallery_id for gallery_id in old_order if gallery_id in blocks]
         order.extend(gallery_id for gallery_id in blocks if gallery_id not in order)
@@ -92,11 +96,12 @@ def replace_items(page: str, blocks: dict[str, str], order: list[str]) -> str:
 
 def sync_pages(catalog: dict | None = None) -> None:
     catalog = catalog or read_catalog()
+    removed = set(catalog.get("removed", []))
     for category in CATEGORIES:
         path = ROOT / f"{category}.html"
         with path.open("r", encoding="utf-8", newline="") as handle:
             page = handle.read()
-        blocks = item_blocks(page)
+        blocks = {gallery_id: block for gallery_id, block in item_blocks(page).items() if gallery_id not in removed}
         order = [item["id"] for item in catalog["sections"][category]]
         updated = replace_items(page, blocks, order)
         with path.open("w", encoding="utf-8", newline="") as handle:

@@ -194,6 +194,26 @@ async function publishOrder(token, body) {
   return { status: "publishing" };
 }
 
+async function publishRemoval(token, body) {
+  const { category, id } = body;
+  if (!CATEGORIES.has(category) || typeof id !== "string") throw new Error("Foto non valida.");
+  const { catalog, sha } = await readCatalog(token);
+  const photos = catalog.sections?.[category];
+  if (!Array.isArray(photos) || photos.filter(photo => photo.id === id).length !== 1) {
+    throw new Error("La foto non è più presente. Aggiorna la pagina e riprova.");
+  }
+  if (!Array.isArray(catalog.removed || [])) {
+    throw new Error("Catalogo non valido. Riprova più tardi.");
+  }
+  catalog.sections[category] = photos.filter(photo => photo.id !== id);
+  catalog.removed = [...new Set([...(catalog.removed || []), id])];
+  await github("/contents/gallery/catalog.json", token, {
+    method: "PUT",
+    body: JSON.stringify({ message: `Rimuovi foto dalla galleria ${category}`, content: utf8base64(JSON.stringify(catalog, null, 2) + "\n"), sha, branch: "main" })
+  });
+  return { status: "publishing", id };
+}
+
 async function publishImage(token, body) {
   const { mode, category, id, titles, extension, image } = body;
   if (!CATEGORIES.has(category) || !["add", "replace"].includes(mode)) throw new Error("Operazione non valida.");
@@ -251,7 +271,9 @@ export async function handleGalleryApi(request, env) {
     if (path === "/api/gallery/session" && request.method === "GET") return cors(json({ login: session.login, expires: session.expires }));
     if (path !== "/api/gallery/publish" || request.method !== "POST") return cors(json({ error: "Operazione non disponibile." }, 405));
     const body = await readBody(request);
-    const result = body.mode === "reorder" ? await publishOrder(session.token, body) : await publishImage(session.token, body);
+    const result = body.mode === "reorder" ? await publishOrder(session.token, body)
+      : body.mode === "remove" ? await publishRemoval(session.token, body)
+      : await publishImage(session.token, body);
     return cors(json(result, 202));
   } catch (error) {
     if (error instanceof SyntaxError) return cors(json({ error: "Dati non validi. Riprova." }, 400));
