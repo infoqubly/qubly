@@ -3518,3 +3518,23 @@ html {
     padding: var(--home-section-space) var(--home-gutter);
   }
 }
+
+/* Keep the portrait film and its titles intact on taller phone screens. */
+@media (max-width: 767px) {
+  .home-page .hero-section {
+    height: 100svh;
+    min-height: 100svh;
+  }
+
+  .home-page .hero-section,
+  .home-page .hero-video-container,
+  .home-page .hero-video {
+    background: #faf7fb;
+  }
+
+  .home-page .hero-video,
+  .home-page .hero-poster {
+    object-fit: contain;
+    object-position: center;
+  }
+}
