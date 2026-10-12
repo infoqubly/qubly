@@ -53,7 +53,7 @@ class ManualImageTests(unittest.TestCase):
         self.image("assets/optimized/PS/Selezione/01-800.webp", (800, 600), "blue")
         self.document("index.html", '<link rel="preload" href="assets/optimized/PS/Selezione/01-800.webp" '
                       'imagesrcset="assets/optimized/PS/Selezione/01-640.webp 640w, assets/optimized/PS/Selezione/01-800.webp 800w">'
-                      '<img src="assets/optimized/PS/Selezione/01-800.webp" '
+                      '<img data-full-src="PS/Selezione/01.jpg" src="assets/optimized/PS/Selezione/01-800.webp" '
                       'srcset="assets/optimized/PS/Selezione/01-640.webp 640w, assets/optimized/PS/Selezione/01-800.webp 800w" '
                       'width="800" height="600" sizes="90vw" loading="lazy" alt="Titolo originale">')
 
@@ -67,6 +67,7 @@ class ManualImageTests(unittest.TestCase):
         self.assertIn('width="1000" height="500"', page)
         self.assertIn('sizes="90vw" loading="lazy" alt="Titolo originale"', page)
         self.assertIn("01-1000.webp?v=", page)
+        self.assertIn('data-full-src="PS/Selezione/01.jpg?v=', page)
         self.assertFalse((self.root / "assets/optimized/PS/Selezione/01-800.webp").exists())
         for width in (640, 1000):
             with Image.open(self.root / f"assets/optimized/PS/Selezione/01-{width}.webp") as image:
@@ -80,6 +81,9 @@ class ManualImageTests(unittest.TestCase):
         self.image("PS/Selezione/01.webp", (900, 450), "green")
         pipeline = self.run_pipeline()
         self.assertEqual(pipeline.selection["PS/Selezione/01"].suffix, ".webp")
+        page = (self.root / "index.html").read_text()
+        self.assertIn('data-full-src="PS/Selezione/01.webp?v=', page)
+        self.assertIn('width="900" height="450"', page)
         before = {path.relative_to(self.root): path.read_bytes() for path in self.root.rglob("*") if path.is_file()}
         self.run_pipeline()
         after = {path.relative_to(self.root): path.read_bytes() for path in self.root.rglob("*") if path.is_file()}

@@ -62,7 +62,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!activeLayer) return;
         if (event.key === "Escape") closeMenu();
         if (event.key !== "Tab" || !activeLayer) return;
-        const controls = activeLayer.controls;
+        const controls = activeLayer.controls.filter(control => !control.disabled);
         const index = controls.indexOf(document.activeElement);
         if (event.shiftKey && index <= 0) {
             event.preventDefault(); controls.at(-1)?.focus();
@@ -190,6 +190,7 @@ document.addEventListener("DOMContentLoaded", () => {
             next.disabled = index === scrollShowcaseCards.length - 1;
             scrollShowcaseCards.forEach((card, cardIndex) => {
                 card.classList.toggle("is-active", cardIndex === index);
+                card.tabIndex = enhanced && cardIndex !== index ? -1 : 0;
                 if (enhanced) card.setAttribute("aria-hidden", String(cardIndex !== index));
                 else card.removeAttribute("aria-hidden");
             });
@@ -282,12 +283,11 @@ document.addEventListener("DOMContentLoaded", () => {
         configure();
     }
 
-    function initMobileShowcaseZoom() {
+    function initShowcaseZoom() {
         if (!visualFlow || scrollShowcaseCards.length === 0) {
             return;
         }
 
-        const mobileQuery = window.matchMedia("(max-width: 767px)");
         let overlay = null;
         let track = null;
         let slides = [];
@@ -310,7 +310,8 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
             overlay = document.createElement("div");
-            overlay.className = "mobile-showcase-zoom";
+            overlay.className = "showcase-zoom";
+            overlay.inert = true;
             overlay.setAttribute("aria-hidden", "true");
             overlay.setAttribute("role", "dialog");
             overlay.setAttribute("aria-modal", "true");
@@ -318,7 +319,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             const slideMarkup = scrollShowcaseCards.map((card, index) => {
                 const image = card.querySelector("img");
-                const src = image?.src || image?.currentSrc || image?.getAttribute("src") || "";
+                const src = image?.dataset.fullSrc || image?.src || image?.currentSrc || "";
                 const alt = image?.getAttribute("alt") || "";
                 const tagMarkup = Array.from(card.querySelectorAll(".showcase-tags span"))
                     .map((tag) => tag.textContent.trim())
@@ -326,23 +327,28 @@ document.addEventListener("DOMContentLoaded", () => {
                     .map((text) => `<span>${escapeHtml(text)}</span>`)
                     .join("");
                 return `
-                    <div class="mobile-showcase-zoom-slide" data-index="${index}">
-                        <div class="mobile-showcase-zoom-frame">
-                            <img src="${src}" alt="${escapeHtml(alt)}" loading="lazy" decoding="async" draggable="false">
+                    <div class="showcase-zoom-slide" data-index="${index}">
+                        <div class="showcase-zoom-frame" style="aspect-ratio: ${Number(image?.getAttribute("width")) || 1} / ${Number(image?.getAttribute("height")) || 1}">
+                            <img src="${escapeHtml(src)}" alt="${escapeHtml(alt)}" loading="lazy" decoding="async" draggable="false">
                         </div>
-                        <div class="mobile-showcase-zoom-tags">${tagMarkup}</div>
+                        <div class="showcase-zoom-tags">${tagMarkup}</div>
                     </div>
                 `;
             }).join("");
 
             overlay.innerHTML = `
-                <button class="mobile-showcase-zoom-close" type="button" aria-label="${ui("close_preview")}"></button>
-                <div class="mobile-showcase-zoom-track">${slideMarkup}</div>
+                <button class="showcase-zoom-close" type="button" aria-label="${ui("close_preview")}">&#215;</button>
+                <div class="showcase-zoom-track">${slideMarkup}</div>
+                <div class="showcase-zoom-controls">
+                    <button class="showcase-zoom-previous" type="button" aria-label="${ui("showcase_previous")}">&#8592;</button>
+                    <span class="showcase-zoom-count" aria-live="polite" aria-atomic="true"></span>
+                    <button class="showcase-zoom-next" type="button" aria-label="${ui("showcase_next")}">&#8594;</button>
+                </div>
             `;
 
             body.appendChild(overlay);
-            track = overlay.querySelector(".mobile-showcase-zoom-track");
-            slides = Array.from(overlay.querySelectorAll(".mobile-showcase-zoom-slide"));
+            track = overlay.querySelector(".showcase-zoom-track");
+            slides = Array.from(overlay.querySelectorAll(".showcase-zoom-slide"));
 
             slides.forEach((slide) => {
                 const zoomImage = slide.querySelector("img");
@@ -363,9 +369,11 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             });
 
-            overlay.querySelector(".mobile-showcase-zoom-close")?.addEventListener("click", closeZoom);
+            overlay.querySelector(".showcase-zoom-close").addEventListener("click", closeZoom);
+            overlay.querySelector(".showcase-zoom-previous").addEventListener("click", () => goToSlide(activeIndex - 1));
+            overlay.querySelector(".showcase-zoom-next").addEventListener("click", () => goToSlide(activeIndex + 1));
             overlay.addEventListener("click", (event) => {
-                if (event.target === overlay) {
+                if (event.target === overlay || event.target.classList.contains("showcase-zoom-frame")) {
                     closeZoom();
                 }
             });
@@ -383,70 +391,37 @@ document.addEventListener("DOMContentLoaded", () => {
             activeIndex = Math.max(0, Math.min(slides.length - 1, index));
             slides.forEach((slide, slideIndex) => {
                 slide.classList.toggle("is-active", slideIndex === activeIndex);
+                slide.setAttribute("aria-hidden", String(slideIndex !== activeIndex));
+                slide.inert = slideIndex !== activeIndex;
             });
+            slides[activeIndex].querySelector("img").loading = "eager";
+            overlay.querySelector(".showcase-zoom-previous").disabled = activeIndex === 0;
+            overlay.querySelector(".showcase-zoom-next").disabled = activeIndex === slides.length - 1;
+            overlay.querySelector(".showcase-zoom-count").textContent = `${activeIndex + 1} / ${slides.length}`;
         }
 
-        function animateZoomFrom(sourceRect, sourceRadius) {
-            if (!overlay || prefersReducedMotion.matches) {
-                return;
-            }
-
-            const frame = slides[activeIndex]?.querySelector(".mobile-showcase-zoom-frame");
-            if (!frame?.animate) {
-                return;
-            }
-
-            const finalRect = frame.getBoundingClientRect();
-            if (!finalRect.width || !finalRect.height) {
-                return;
-            }
-
-            const scaleX = sourceRect.width / finalRect.width;
-            const scaleY = sourceRect.height / finalRect.height;
-            const translateX = sourceRect.left + (sourceRect.width / 2) - (finalRect.left + (finalRect.width / 2));
-            const translateY = sourceRect.top + (sourceRect.height / 2) - (finalRect.top + (finalRect.height / 2));
-
-            frame.animate([
-                {
-                    transform: `translate(${translateX}px, ${translateY}px) scale(${scaleX}, ${scaleY})`,
-                    borderRadius: sourceRadius,
-                    opacity: 0.72
-                },
-                {
-                    transform: "translate(0, 0) scale(1, 1)",
-                    borderRadius: getComputedStyle(frame).borderRadius,
-                    opacity: 1
-                }
-            ], {
-                duration: 320,
-                easing: "cubic-bezier(0.22, 1, 0.36, 1)"
-            });
+        function goToSlide(index) {
+            setActiveSlide(index);
+            track.scrollTo({ left: track.clientWidth * activeIndex, behavior: scrollBehavior() });
         }
 
         function openZoom(index, card) {
-            if (!mobileQuery.matches) {
-                return;
-            }
-
             ensureOverlay();
             if (!overlay || !track) {
                 return;
             }
 
-            const sourceRect = card.getBoundingClientRect();
-            const sourceRadius = getComputedStyle(card).borderRadius;
             closeMenu(false);
             zoomTrigger = card;
             setActiveSlide(index);
-            slides[activeIndex].querySelector("img").loading = "eager";
             overlay.classList.add("is-open");
+            overlay.inert = false;
             overlay.setAttribute("aria-hidden", "false");
-            body.classList.add("mobile-showcase-zoom-open");
-            activateLayer(overlay, card, [overlay.querySelector("button")]);
+            body.classList.add("showcase-zoom-open");
+            activateLayer(overlay, card, [...overlay.querySelectorAll("button")]);
 
             window.requestAnimationFrame(() => {
                 track.scrollLeft = track.clientWidth * activeIndex;
-                window.requestAnimationFrame(() => animateZoomFrom(sourceRect, sourceRadius));
             });
         }
 
@@ -458,33 +433,34 @@ document.addEventListener("DOMContentLoaded", () => {
             deactivateLayer();
             zoomTrigger?.focus({ preventScroll: true });
             overlay.classList.remove("is-open");
+            overlay.inert = true;
             overlay.setAttribute("aria-hidden", "true");
-            body.classList.remove("mobile-showcase-zoom-open");
+            body.classList.remove("showcase-zoom-open");
         }
 
         scrollShowcaseCards.forEach((card, index) => {
-            const syncControl = () => {
-                card.tabIndex = mobileQuery.matches ? 0 : -1;
-                if (mobileQuery.matches) {
-                    card.setAttribute("role", "button");
-                    card.setAttribute("aria-label", `${ui("image_preview")}: ${card.querySelector("img").alt}`);
-                } else {
-                    card.removeAttribute("role");
-                    card.removeAttribute("aria-label");
-                }
-            };
-            syncControl();
-            mobileQuery.addEventListener("change", syncControl);
+            card.setAttribute("role", "button");
+            card.setAttribute("aria-haspopup", "dialog");
+            card.setAttribute("aria-label", `${ui("image_preview")}: ${card.querySelector("img").alt}`);
+            let pointerStart = null;
+            let dragged = false;
+            card.addEventListener("pointerdown", event => {
+                pointerStart = [event.clientX, event.clientY];
+                dragged = false;
+            }, { passive: true });
+            card.addEventListener("pointerup", event => {
+                dragged = pointerStart && Math.hypot(event.clientX - pointerStart[0], event.clientY - pointerStart[1]) > 10;
+                pointerStart = null;
+            }, { passive: true });
+            card.addEventListener("pointercancel", () => { dragged = true; pointerStart = null; });
             card.addEventListener("keydown", (event) => {
-                if (mobileQuery.matches && (event.key === "Enter" || event.key === " ")) {
+                if (event.key === "Enter" || event.key === " ") {
                     event.preventDefault();
                     openZoom(index, card);
                 }
             });
             card.addEventListener("click", (event) => {
-                if (!mobileQuery.matches) {
-                    return;
-                }
+                if (dragged && event.detail !== 0) return;
 
                 event.preventDefault();
                 event.stopPropagation();
@@ -498,16 +474,13 @@ document.addEventListener("DOMContentLoaded", () => {
             }
             if (overlay?.classList.contains("is-open") && ["ArrowLeft", "ArrowRight"].includes(event.key)) {
                 event.preventDefault();
-                setActiveSlide(activeIndex + (event.key === "ArrowRight" ? 1 : -1));
-                track.scrollTo({left: track.clientWidth * activeIndex, behavior: scrollBehavior()});
+                goToSlide(activeIndex + (event.key === "ArrowRight" ? 1 : -1));
             }
         });
 
-        mobileQuery.addEventListener?.("change", () => {
-            if (!mobileQuery.matches) {
-                closeZoom();
-            }
-        });
+        window.addEventListener("resize", () => {
+            if (overlay?.classList.contains("is-open")) track.scrollLeft = track.clientWidth * activeIndex;
+        }, { passive: true });
     }
 
 
@@ -601,5 +574,5 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
     initShowcaseCarousel();
-    initMobileShowcaseZoom();
+    initShowcaseZoom();
 });
