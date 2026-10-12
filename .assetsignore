@@ -10,3 +10,6 @@ wrangler.jsonc
 README.md
 .gitignore
 gallery/inbox/**
+.github
+scripts
+AGGIORNARE-IMMAGINI.md

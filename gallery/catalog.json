@@ -9,7 +9,7 @@
           "en": "Cinema centre",
           "sl": "Filmski center"
         },
-        "preview": "assets/optimized/PS/reviewed/38-1280.webp"
+        "preview": "assets/optimized/PS/reviewed/38-1536.webp?v=42d275924f"
       },
       {
         "id": "reviewed-28",
@@ -18,7 +18,7 @@
           "en": "Façade detail",
           "sl": "Detajl fasade"
         },
-        "preview": "assets/optimized/PS/reviewed/28-1280.webp"
+        "preview": "assets/optimized/PS/reviewed/28-1370.webp?v=1361894ed7"
       },
       {
         "id": "reviewed-03",
@@ -27,7 +27,7 @@
           "en": "Mediterranean stone house",
           "sl": "Sredozemska kamnita hiša"
         },
-        "preview": "assets/optimized/PS/reviewed/03-1280.webp"
+        "preview": "assets/optimized/PS/reviewed/03-1370.webp?v=e965eab9a1"
       },
       {
         "id": "reviewed-46",
@@ -36,7 +36,7 @@
           "en": "Blue steel pavilion",
           "sl": "Paviljon iz modrega jekla"
         },
-        "preview": "assets/optimized/PS/reviewed/46-1280.webp"
+        "preview": "assets/optimized/PS/reviewed/46-1536.webp?v=8a6524f1e0"
       },
       {
         "id": "reviewed-50",
@@ -45,7 +45,7 @@
           "en": "Metro entrance",
           "sl": "Vhod v podzemno železnico"
         },
-        "preview": "assets/optimized/PS/reviewed/50-1280.webp"
+        "preview": "assets/optimized/PS/reviewed/50-1312.webp?v=cd0317b6a5"
       },
       {
         "id": "reviewed-32",
@@ -54,7 +54,7 @@
           "en": "Design museum",
           "sl": "Muzej oblikovanja"
         },
-        "preview": "assets/optimized/PS/reviewed/32-1280.webp"
+        "preview": "assets/optimized/PS/reviewed/32-1536.webp?v=93c786d175"
       },
       {
         "id": "reviewed-41",
@@ -63,7 +63,7 @@
           "en": "Courthouse",
           "sl": "Sodna palača"
         },
-        "preview": "assets/optimized/PS/reviewed/41-1280.webp"
+        "preview": "assets/optimized/PS/reviewed/41-1536.webp?v=67df163acc"
       },
       {
         "id": "reviewed-33",
@@ -72,7 +72,7 @@
           "en": "School of architecture",
           "sl": "Šola za arhitekturo"
         },
-        "preview": "assets/optimized/PS/reviewed/33-1280.webp"
+        "preview": "assets/optimized/PS/reviewed/33-1312.webp?v=c33519e6b5"
       },
       {
         "id": "reviewed-27",
@@ -81,7 +81,7 @@
           "en": "Converted factory",
           "sl": "Prenovljena tovarna"
         },
-        "preview": "assets/optimized/PS/reviewed/27-1280.webp"
+        "preview": "assets/optimized/PS/reviewed/27-1370.webp?v=e710ab58b7"
       },
       {
         "id": "reviewed-04",
@@ -90,7 +90,7 @@
           "en": "Brutalist museum",
           "sl": "Brutalistični muzej"
         },
-        "preview": "assets/optimized/PS/managed/reviewed-04-1024.webp?v=90224cad7e"
+        "preview": "assets/optimized/PS/managed/reviewed-04-1024.webp?v=283b8b0eff"
       },
       {
         "id": "reviewed-36",
@@ -99,7 +99,7 @@
           "en": "Concert hall",
           "sl": "Koncertna dvorana"
         },
-        "preview": "assets/optimized/PS/reviewed/36-1280.webp"
+        "preview": "assets/optimized/PS/reviewed/36-1536.webp?v=c92e6c98d0"
       },
       {
         "id": "esterni-01",
@@ -108,7 +108,7 @@
           "en": "Civic complex",
           "sl": "Javni kompleks"
         },
-        "preview": "assets/optimized/PS/esterni/01-1672.webp?v=336d4ac99c"
+        "preview": "assets/optimized/PS/esterni/01-1672.webp?v=1155d1d4d6"
       },
       {
         "id": "esterni-04",
@@ -117,7 +117,7 @@
           "en": "Residential building",
           "sl": "Stanovanjska stavba"
         },
-        "preview": "assets/optimized/PS/esterni/04-1448.webp?v=40c0a483c1"
+        "preview": "assets/optimized/PS/esterni/04-1448.webp?v=c7b4d59930"
       },
       {
         "id": "esterni-02",
@@ -126,7 +126,7 @@
           "en": "Garden residences",
           "sl": "Stanovanja med zelenjem"
         },
-        "preview": "assets/optimized/PS/esterni/02-1920.webp?v=108406443e"
+        "preview": "assets/optimized/PS/esterni/02-1920.webp?v=587649bdbd"
       },
       {
         "id": "esterni-05",
@@ -135,7 +135,7 @@
           "en": "Mediterranean villa",
           "sl": "Sredozemska vila"
         },
-        "preview": "assets/optimized/PS/esterni/05-1576.webp?v=63fb6bb426"
+        "preview": "assets/optimized/PS/esterni/05-1576.webp?v=4c265691b3"
       }
     ],
     "interni": [
@@ -146,7 +146,7 @@
           "en": "Courtyard house",
           "sl": "Hiša z notranjim dvoriščem"
         },
-        "preview": "assets/optimized/PS/reviewed/06-1280.webp"
+        "preview": "assets/optimized/PS/reviewed/06-1370.webp?v=53bdae6dc0"
       },
       {
         "id": "reviewed-08",
@@ -155,7 +155,7 @@
           "en": "Sunlit living room",
           "sl": "Svetla dnevna soba"
         },
-        "preview": "assets/optimized/PS/reviewed/08-1280.webp"
+        "preview": "assets/optimized/PS/reviewed/08-1536.webp?v=e9e8f580d2"
       },
       {
         "id": "reviewed-15",
@@ -164,7 +164,7 @@
           "en": "Art gallery",
           "sl": "Umetniška galerija"
         },
-        "preview": "assets/optimized/PS/reviewed/15-1280.webp"
+        "preview": "assets/optimized/PS/reviewed/15-1536.webp?v=a66a20c091"
       },
       {
         "id": "reviewed-11",
@@ -173,7 +173,7 @@
           "en": "Spa bathroom",
           "sl": "Kopalnica kot spa"
         },
-        "preview": "assets/optimized/PS/reviewed/11-1280.webp"
+        "preview": "assets/optimized/PS/reviewed/11-1312.webp?v=9cbe598cdd"
       },
       {
         "id": "reviewed-43",
@@ -182,7 +182,7 @@
           "en": "Chapel of light",
           "sl": "Kapela svetlobe"
         },
-        "preview": "assets/optimized/PS/reviewed/43-1280.webp"
+        "preview": "assets/optimized/PS/reviewed/43-1312.webp?v=4c78f49203"
       },
       {
         "id": "reviewed-09",
@@ -191,7 +191,7 @@
           "en": "Stone and wood kitchen",
           "sl": "Kuhinja iz kamna in lesa"
         },
-        "preview": "assets/optimized/PS/reviewed/09-1280.webp"
+        "preview": "assets/optimized/PS/reviewed/09-1370.webp?v=f2eecd6106"
       },
       {
         "id": "reviewed-18",
@@ -200,7 +200,7 @@
           "en": "Contemporary boutique",
           "sl": "Sodobni butik"
         },
-        "preview": "assets/optimized/PS/reviewed/18-1280.webp"
+        "preview": "assets/optimized/PS/reviewed/18-1370.webp?v=5c46f5d891"
       },
       {
         "id": "reviewed-14",
@@ -209,7 +209,7 @@
           "en": "Compact apartment",
           "sl": "Kompaktno stanovanje"
         },
-        "preview": "assets/optimized/PS/reviewed/14-1280.webp"
+        "preview": "assets/optimized/PS/reviewed/14-1370.webp?v=6a95e7aefa"
       },
       {
         "id": "reviewed-29",
@@ -218,7 +218,7 @@
           "en": "Designer armchair",
           "sl": "Dizajnerski naslanjač"
         },
-        "preview": "assets/optimized/PS/reviewed/29-1280.webp"
+        "preview": "assets/optimized/PS/reviewed/29-1312.webp?v=527011092c"
       },
       {
         "id": "reviewed-12",
@@ -227,7 +227,7 @@
           "en": "Hotel suite",
           "sl": "Hotelski apartma"
         },
-        "preview": "assets/optimized/PS/reviewed/12-1280.webp"
+        "preview": "assets/optimized/PS/reviewed/12-1536.webp?v=bd606833cc"
       },
       {
         "id": "reviewed-17",
@@ -236,7 +236,7 @@
           "en": "Creative studio",
           "sl": "Ustvarjalni studio"
         },
-        "preview": "assets/optimized/PS/reviewed/17-1280.webp"
+        "preview": "assets/optimized/PS/reviewed/17-1536.webp?v=de3ae9ecfa"
       },
       {
         "id": "interni-01",
@@ -245,7 +245,7 @@
           "en": "Contemporary living room",
           "sl": "Sodobna dnevna soba"
         },
-        "preview": "assets/optimized/PS/interni/01-1659.webp?v=dacbdb2aba"
+        "preview": "assets/optimized/PS/interni/01-1659.webp?v=ceffb6e3ae"
       },
       {
         "id": "interni-02",
@@ -254,7 +254,7 @@
           "en": "Suite with a view",
           "sl": "Apartma z razgledom"
         },
-        "preview": "assets/optimized/PS/interni/02-1536.webp?v=603e3be9ae"
+        "preview": "assets/optimized/PS/interni/02-1536.webp?v=bf3553d801"
       },
       {
         "id": "interni-03",
@@ -263,7 +263,7 @@
           "en": "Yacht salon",
           "sl": "Salon jahte"
         },
-        "preview": "assets/optimized/PS/interni/03-1536.webp?v=7f67a92f07"
+        "preview": "assets/optimized/PS/interni/03-1536.webp?v=e9088a17a0"
       },
       {
         "id": "interni-04",
@@ -272,7 +272,7 @@
           "en": "Panoramic cabin",
           "sl": "Panoramska kabina"
         },
-        "preview": "assets/optimized/PS/interni/04-1671.webp?v=25e4984121"
+        "preview": "assets/optimized/PS/interni/04-1671.webp?v=ee0013f8d8"
       },
       {
         "id": "interni-05",
@@ -281,7 +281,7 @@
           "en": "Sculpture gallery",
           "sl": "Galerija skulptur"
         },
-        "preview": "assets/optimized/PS/interni/05-1535.webp?v=d3a69949d0"
+        "preview": "assets/optimized/PS/interni/05-1535.webp?v=c8ac891175"
       },
       {
         "id": "interni-06",
@@ -290,7 +290,7 @@
           "en": "Retail interior",
           "sl": "Prodajni prostor"
         },
-        "preview": "assets/optimized/PS/interni/06-1672.webp?v=a616d6fa15"
+        "preview": "assets/optimized/PS/interni/06-1672.webp?v=237b0d19f1"
       },
       {
         "id": "interni-07",
@@ -299,7 +299,7 @@
           "en": "Contemporary kitchen",
           "sl": "Sodobna kuhinja"
         },
-        "preview": "assets/optimized/PS/interni/07-1672.webp?v=17770819e8"
+        "preview": "assets/optimized/PS/interni/07-1672.webp?v=b374514d9f"
       },
       {
         "id": "interni-08",
@@ -308,7 +308,7 @@
           "en": "Bedroom in the garden",
           "sl": "Spalnica med zelenjem"
         },
-        "preview": "assets/optimized/PS/interni/08-1920.webp?v=e9a361c51d"
+        "preview": "assets/optimized/PS/interni/08-1920.webp?v=a3d407a8e0"
       },
       {
         "id": "interni-09",
@@ -317,7 +317,7 @@
           "en": "Residential kitchen",
           "sl": "Stanovanjska kuhinja"
         },
-        "preview": "assets/optimized/PS/interni/09-1574.webp?v=67673e352d"
+        "preview": "assets/optimized/PS/interni/09-1574.webp?v=36e17df48c"
       }
     ],
     "paesaggi": [
@@ -328,7 +328,7 @@
           "en": "Seaside villa",
           "sl": "Vila ob morju"
         },
-        "preview": "assets/optimized/PS/reviewed/01-1280.webp"
+        "preview": "assets/optimized/PS/reviewed/01-1536.webp?v=d9b6e59439"
       },
       {
         "id": "reviewed-00",
@@ -337,7 +337,7 @@
           "en": "House in the woods",
           "sl": "Hiša v gozdu"
         },
-        "preview": "assets/optimized/PS/reviewed/00-1280.webp"
+        "preview": "assets/optimized/PS/reviewed/00-1536.webp?v=1203acdd73"
       },
       {
         "id": "reviewed-20",
@@ -346,7 +346,7 @@
           "en": "Panoramic terrace",
           "sl": "Panoramska terasa"
         },
-        "preview": "assets/optimized/PS/reviewed/20-1280.webp"
+        "preview": "assets/optimized/PS/reviewed/20-1536.webp?v=d31d315bf0"
       },
       {
         "id": "reviewed-24",
@@ -355,7 +355,7 @@
           "en": "Cliffside house",
           "sl": "Hiša na pečini"
         },
-        "preview": "assets/optimized/PS/reviewed/24-1280.webp"
+        "preview": "assets/optimized/PS/reviewed/24-1536.webp?v=a526e4af35"
       },
       {
         "id": "paesaggi-01",
@@ -364,7 +364,7 @@
           "en": "Yacht by the Faraglioni",
           "sl": "Jahta ob Faraglionih"
         },
-        "preview": "assets/optimized/PS/paesaggi/01-1536.webp?v=4d6f0f69bd"
+        "preview": "assets/optimized/PS/paesaggi/01-1536.webp?v=d9306e28b2"
       },
       {
         "id": "paesaggi-02",
@@ -373,7 +373,7 @@
           "en": "Night garden",
           "sl": "Nočni vrt"
         },
-        "preview": "assets/optimized/PS/paesaggi/02-1536.webp?v=02993152a0"
+        "preview": "assets/optimized/PS/paesaggi/02-1536.webp?v=fcb30dd22e"
       }
     ]
   }

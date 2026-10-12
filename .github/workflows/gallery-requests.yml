@@ -8,6 +8,10 @@ permissions:
   contents: write
   issues: read
 
+concurrency:
+  group: qubly-site-publication-main
+  cancel-in-progress: false
+
 jobs:
   update-gallery:
     if: >-
@@ -34,12 +38,12 @@ jobs:
       - name: Verifica la richiesta e aggiorna la foto
         run: |
           python scripts/gallery_request.py --event "$GITHUB_EVENT_PATH"
-          python scripts/gallery_catalog.py
+          python -B scripts/optimize_images.py
 
       - name: Pubblica l'aggiornamento
         shell: bash
         run: |
-          git add -- esterni.html interni.html paesaggi.html gallery/catalog.json assets/optimized/PS/managed
+          git add -A -- PS assets/optimized scripts/image-state.json gallery/catalog.json '*.html' css js
           if git diff --cached --quiet; then
             echo "Nessuna modifica prodotta dalla richiesta."
             exit 1

@@ -1,11 +1,8 @@
 #!/usr/bin/env python3
 """Generate responsive WebP images and keep QUBLY galleries in sync.
 
-Sources of truth:
-- PS/esterni, PS/interni, PS/paesaggi: numbered JPG/JPEG/PNG files.
-- PS/P*.png and PS/S*.png: homepage problem/solution images.
-
-The generated files in assets/optimized/PS must not be edited by hand.
+Original uploads, responsive copies and every published image reference are
+kept in sync. See AGGIORNARE-IMMAGINI.md for the supported upload locations.
 """
 
 from __future__ import annotations
@@ -60,8 +57,10 @@ CATEGORIES = {
     },
 }
 
-SOURCE_PRIORITY = {".jpg": 0, ".jpeg": 1, ".png": 2}
-ROOT_SOURCE_PRIORITY = {".png": 0, ".jpg": 1, ".jpeg": 2}
+SOURCE_PRIORITY = {".jpg": 0, ".jpeg": 1, ".png": 2, ".webp": 3, ".avif": 4}
+ROOT_SOURCE_PRIORITY = {".png": 0, ".jpg": 1, ".jpeg": 2, ".webp": 3, ".avif": 4}
+SOURCE_SELECTION: dict[str, Path] = {}
+GENERATION_STATE: dict = {}
 
 
 def read_document(path: Path) -> str:
@@ -94,7 +93,8 @@ def source_files(directory: Path, pattern: re.Pattern[str], priority: dict[str, 
             return (0, int(path.stem))
         return (1, path.stem)
 
-    return sorted(selected.values(), key=natural_key)
+    return sorted((SOURCE_SELECTION.get(path.relative_to(ROOT).with_suffix("").as_posix(), path)
+                   for path in selected.values()), key=natural_key)
 
 
 def webp_mode(image: Image.Image) -> Image.Image:
@@ -103,16 +103,30 @@ def webp_mode(image: Image.Image) -> Image.Image:
     return image.convert("RGB")
 
 
-def generate_variants(source: Path, output_dir: Path, url_dir: str) -> ResponsiveImage:
+def generate_variants(source: Path, output_dir: Path, url_dir: str,
+                      target_widths: tuple[int, ...] = TARGET_WIDTHS) -> ResponsiveImage:
     output_dir.mkdir(parents=True, exist_ok=True)
     digest = version_for(source)
+    state_key = f"{url_dir}/{source.stem}"
+    previous = GENERATION_STATE.get(state_key, {})
+    if (previous.get("source") == source.relative_to(ROOT).as_posix()
+            and previous.get("digest") == digest
+            and previous.get("targets") == list(target_widths)
+            and previous.get("variants")
+            and all((ROOT / url).is_file() and version_for(ROOT / url) == output_digest
+                    for _, url, output_digest in previous["variants"])):
+        return ResponsiveImage(source.stem, source, source.relative_to(ROOT).as_posix(),
+                               previous["width"], previous["height"], digest,
+                               tuple((width, url) for width, url, _ in previous["variants"]))
 
     with Image.open(source) as opened:
+        if getattr(opened, "n_frames", 1) != 1:
+            raise ValueError(f"Le varianti responsive richiedono un'immagine statica: {source}")
         transposed = ImageOps.exif_transpose(opened)
         prepared = webp_mode(transposed)
         original_width, original_height = prepared.size
 
-        widths = sorted({min(original_width, requested) for requested in TARGET_WIDTHS})
+        widths = sorted({min(original_width, requested) for requested in target_widths})
         variants: list[tuple[int, str]] = []
         expected_files: set[Path] = set()
 
@@ -141,6 +155,11 @@ def generate_variants(source: Path, output_dir: Path, url_dir: str) -> Responsiv
         if existing.is_file() and stale_pattern.fullmatch(existing.name) and existing not in expected_files:
             existing.unlink()
 
+    GENERATION_STATE[state_key] = {
+        "source": source.relative_to(ROOT).as_posix(), "digest": digest,
+        "width": original_width, "height": original_height, "targets": list(target_widths),
+        "variants": [[width, url, version_for(ROOT / url)] for width, url in variants],
+    }
     return ResponsiveImage(
         key=source.stem,
         source_path=source,
@@ -320,9 +339,18 @@ def update_problem_solution_images() -> int:
 
 
 def main() -> None:
+    from image_assets import ImageAssets
+
+    global SOURCE_SELECTION, GENERATION_STATE
+    assets = ImageAssets(ROOT, generate_variants)
+    SOURCE_SELECTION = assets.prepare_sources()
+    GENERATION_STATE = assets.state.setdefault("generated", {})
     counts = {category: update_gallery(category) for category in CATEGORIES}
-    sync_pages(refresh_catalog())
     counts["problemi-soluzioni"] = update_problem_solution_images()
+    counts["altre-immagini"] = assets.update_assets()
+    assets.update_references()
+    sync_pages(refresh_catalog())
+    assets.save()
     summary = ", ".join(f"{name}: {count}" for name, count in counts.items())
     print(f"Immagini elaborate - {summary}")
 

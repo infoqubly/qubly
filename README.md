@@ -1,6 +1,10 @@
 # Qubly
 Qubly - architectural visualization studio.
 
+Per sostituire manualmente carosello, copertine, sfondi, loghi o foto su GitHub,
+segui [Aggiornare le immagini](AGGIORNARE-IMMAGINI.md). Le copie responsive e gli
+URL di cache vengono aggiornati automaticamente dopo il caricamento su `main`.
+
 ## Aggiornare le gallerie fotografiche
 
 Apri il [catalogo visivo](https://qubly.studio/gestione-gallerie.html) da un browser. Serve un account GitHub con permesso di scrittura nel repository `infoqubly/qubly`; non serve avere una copia del sito sul computer.

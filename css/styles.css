@@ -1358,7 +1358,7 @@ textarea,
   content: "";
   position: absolute;
   inset: 0;
-  background: url("../assets/optimized/Sfondo-1280.webp") center center / cover no-repeat fixed;
+  background: url("../assets/optimized/Sfondo-1280.webp?v=aaee81f4db") center center / cover no-repeat fixed;
   filter: brightness(0.38);
   pointer-events: none;
   z-index: 1;

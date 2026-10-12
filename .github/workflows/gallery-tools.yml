@@ -11,7 +11,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: gallery-tools-main
+  group: qubly-site-publication-main
   cancel-in-progress: false
 
 jobs:
@@ -30,12 +30,14 @@ jobs:
         run: python -m pip install Pillow==12.3.0
 
       - name: Pubblica foto e ordine
-        run: python scripts/gallery_publish.py
+        run: |
+          python scripts/gallery_publish.py
+          python -B scripts/optimize_images.py
 
       - name: Salva il sito aggiornato
         shell: bash
         run: |
-          git add -A -- esterni.html interni.html paesaggi.html gallery assets/optimized/PS
+          git add -A -- PS assets/optimized scripts/image-state.json gallery '*.html' css js
           if git diff --cached --quiet; then
             echo "Nessuna pagina da aggiornare."
             exit 0

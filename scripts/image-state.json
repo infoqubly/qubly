@@ -1,0 +1,1916 @@
+{
+  "generated": {
+    "assets/optimized/PS/P1": {
+      "digest": "8ff0290cce",
+      "height": 1024,
+      "source": "PS/P1.png",
+      "targets": [
+        640,
+        1280,
+        1920
+      ],
+      "variants": [
+        [
+          640,
+          "assets/optimized/PS/P1-640.webp",
+          "6b528a6ba5"
+        ],
+        [
+          1280,
+          "assets/optimized/PS/P1-1280.webp",
+          "87508f646b"
+        ],
+        [
+          1536,
+          "assets/optimized/PS/P1-1536.webp",
+          "f980fc922b"
+        ]
+      ],
+      "width": 1536
+    },
+    "assets/optimized/PS/P2": {
+      "digest": "445080182b",
+      "height": 1086,
+      "source": "PS/P2.png",
+      "targets": [
+        640,
+        1280,
+        1920
+      ],
+      "variants": [
+        [
+          640,
+          "assets/optimized/PS/P2-640.webp",
+          "958e0dda9a"
+        ],
+        [
+          1280,
+          "assets/optimized/PS/P2-1280.webp",
+          "d19978e39c"
+        ],
+        [
+          1448,
+          "assets/optimized/PS/P2-1448.webp",
+          "5ea33a0528"
+        ]
+      ],
+      "width": 1448
+    },
+    "assets/optimized/PS/P3": {
+      "digest": "293e8f8a3b",
+      "height": 1024,
+      "source": "PS/P3.png",
+      "targets": [
+        640,
+        1280,
+        1920
+      ],
+      "variants": [
+        [
+          640,
+          "assets/optimized/PS/P3-640.webp",
+          "b70ae68b2f"
+        ],
+        [
+          1280,
+          "assets/optimized/PS/P3-1280.webp",
+          "5cc03be3f3"
+        ],
+        [
+          1536,
+          "assets/optimized/PS/P3-1536.webp",
+          "cdc2744c54"
+        ]
+      ],
+      "width": 1536
+    },
+    "assets/optimized/PS/P4": {
+      "digest": "b27f9d3d5b",
+      "height": 941,
+      "source": "PS/P4.png",
+      "targets": [
+        640,
+        1280,
+        1920
+      ],
+      "variants": [
+        [
+          640,
+          "assets/optimized/PS/P4-640.webp",
+          "402539975e"
+        ],
+        [
+          1280,
+          "assets/optimized/PS/P4-1280.webp",
+          "7e68e870cd"
+        ],
+        [
+          1672,
+          "assets/optimized/PS/P4-1672.webp",
+          "0b3bed7e06"
+        ]
+      ],
+      "width": 1672
+    },
+    "assets/optimized/PS/P5": {
+      "digest": "69f46daed5",
+      "height": 997,
+      "source": "PS/P5.png",
+      "targets": [
+        640,
+        1280,
+        1920
+      ],
+      "variants": [
+        [
+          640,
+          "assets/optimized/PS/P5-640.webp",
+          "57c16a1eed"
+        ],
+        [
+          1280,
+          "assets/optimized/PS/P5-1280.webp",
+          "e85be8be98"
+        ],
+        [
+          1578,
+          "assets/optimized/PS/P5-1578.webp",
+          "344ecc361c"
+        ]
+      ],
+      "width": 1578
+    },
+    "assets/optimized/PS/P6": {
+      "digest": "55544e64ad",
+      "height": 1024,
+      "source": "PS/P6.png",
+      "targets": [
+        640,
+        1280,
+        1920
+      ],
+      "variants": [
+        [
+          640,
+          "assets/optimized/PS/P6-640.webp",
+          "d3ec7590cf"
+        ],
+        [
+          1280,
+          "assets/optimized/PS/P6-1280.webp",
+          "86120a709c"
+        ],
+        [
+          1536,
+          "assets/optimized/PS/P6-1536.webp",
+          "c34cd0bea1"
+        ]
+      ],
+      "width": 1536
+    },
+    "assets/optimized/PS/S1": {
+      "digest": "108406443e",
+      "height": 2192,
+      "source": "PS/S1.png",
+      "targets": [
+        640,
+        1280,
+        1920
+      ],
+      "variants": [
+        [
+          640,
+          "assets/optimized/PS/S1-640.webp",
+          "cbfa61eb94"
+        ],
+        [
+          1280,
+          "assets/optimized/PS/S1-1280.webp",
+          "faa126b926"
+        ],
+        [
+          1920,
+          "assets/optimized/PS/S1-1920.webp",
+          "587649bdbd"
+        ]
+      ],
+      "width": 3840
+    },
+    "assets/optimized/PS/S2": {
+      "digest": "089ef8eadf",
+      "height": 1024,
+      "source": "PS/S2.png",
+      "targets": [
+        640,
+        1280,
+        1920
+      ],
+      "variants": [
+        [
+          640,
+          "assets/optimized/PS/S2-640.webp",
+          "75db1f4e76"
+        ],
+        [
+          1280,
+          "assets/optimized/PS/S2-1280.webp",
+          "630d444244"
+        ],
+        [
+          1536,
+          "assets/optimized/PS/S2-1536.webp",
+          "19243e4225"
+        ]
+      ],
+      "width": 1536
+    },
+    "assets/optimized/PS/S3": {
+      "digest": "933faa1136",
+      "height": 1024,
+      "source": "PS/S3.png",
+      "targets": [
+        640,
+        1280,
+        1920
+      ],
+      "variants": [
+        [
+          640,
+          "assets/optimized/PS/S3-640.webp",
+          "496e25aaa8"
+        ],
+        [
+          1280,
+          "assets/optimized/PS/S3-1280.webp",
+          "5e07928671"
+        ],
+        [
+          1536,
+          "assets/optimized/PS/S3-1536.webp",
+          "b7b4642fd4"
+        ]
+      ],
+      "width": 1536
+    },
+    "assets/optimized/PS/S4": {
+      "digest": "38dd1ca342",
+      "height": 864,
+      "source": "PS/S4.png",
+      "targets": [
+        640,
+        1280,
+        1920
+      ],
+      "variants": [
+        [
+          640,
+          "assets/optimized/PS/S4-640.webp",
+          "0f5351f190"
+        ],
+        [
+          1280,
+          "assets/optimized/PS/S4-1280.webp",
+          "fc89e14dd2"
+        ],
+        [
+          1536,
+          "assets/optimized/PS/S4-1536.webp",
+          "0a0ed40c17"
+        ]
+      ],
+      "width": 1536
+    },
+    "assets/optimized/PS/S5": {
+      "digest": "6c4bc07d03",
+      "height": 1024,
+      "source": "PS/S5.png",
+      "targets": [
+        640,
+        1280,
+        1920
+      ],
+      "variants": [
+        [
+          640,
+          "assets/optimized/PS/S5-640.webp",
+          "56ed8aa66b"
+        ],
+        [
+          1280,
+          "assets/optimized/PS/S5-1280.webp",
+          "da2bb46541"
+        ],
+        [
+          1536,
+          "assets/optimized/PS/S5-1536.webp",
+          "10aa2efb40"
+        ]
+      ],
+      "width": 1536
+    },
+    "assets/optimized/PS/S6": {
+      "digest": "40c0a483c1",
+      "height": 1086,
+      "source": "PS/S6.png",
+      "targets": [
+        640,
+        1280,
+        1920
+      ],
+      "variants": [
+        [
+          640,
+          "assets/optimized/PS/S6-640.webp",
+          "f05fa12979"
+        ],
+        [
+          1280,
+          "assets/optimized/PS/S6-1280.webp",
+          "d847c5f9e5"
+        ],
+        [
+          1448,
+          "assets/optimized/PS/S6-1448.webp",
+          "c7b4d59930"
+        ]
+      ],
+      "width": 1448
+    },
+    "assets/optimized/PS/Selezione/01": {
+      "digest": "ce513e4806",
+      "height": 1024,
+      "source": "PS/Selezione/01.jpg",
+      "targets": [
+        640,
+        1280,
+        1920
+      ],
+      "variants": [
+        [
+          640,
+          "assets/optimized/PS/Selezione/01-640.webp",
+          "76443ef942"
+        ],
+        [
+          1280,
+          "assets/optimized/PS/Selezione/01-1280.webp",
+          "d9475e696b"
+        ],
+        [
+          1536,
+          "assets/optimized/PS/Selezione/01-1536.webp",
+          "5924458c93"
+        ]
+      ],
+      "width": 1536
+    },
+    "assets/optimized/PS/Selezione/02": {
+      "digest": "25e4984121",
+      "height": 940,
+      "source": "PS/Selezione/02.jpg",
+      "targets": [
+        640,
+        1280,
+        1920
+      ],
+      "variants": [
+        [
+          640,
+          "assets/optimized/PS/Selezione/02-640.webp",
+          "ab54da10bd"
+        ],
+        [
+          1280,
+          "assets/optimized/PS/Selezione/02-1280.webp",
+          "b00de8b64a"
+        ],
+        [
+          1671,
+          "assets/optimized/PS/Selezione/02-1671.webp",
+          "ee0013f8d8"
+        ]
+      ],
+      "width": 1671
+    },
+    "assets/optimized/PS/Selezione/03": {
+      "digest": "ae44b559af",
+      "height": 941,
+      "source": "PS/Selezione/03.jpg",
+      "targets": [
+        640,
+        1280,
+        1920
+      ],
+      "variants": [
+        [
+          640,
+          "assets/optimized/PS/Selezione/03-640.webp",
+          "15d3e94d59"
+        ],
+        [
+          1280,
+          "assets/optimized/PS/Selezione/03-1280.webp",
+          "ddb89d2b07"
+        ],
+        [
+          1672,
+          "assets/optimized/PS/Selezione/03-1672.webp",
+          "b5aa41ab9a"
+        ]
+      ],
+      "width": 1672
+    },
+    "assets/optimized/PS/Selezione/04": {
+      "digest": "449be02669",
+      "height": 941,
+      "source": "PS/Selezione/04.png",
+      "targets": [
+        640,
+        1280,
+        1920
+      ],
+      "variants": [
+        [
+          640,
+          "assets/optimized/PS/Selezione/04-640.webp",
+          "8b762c5053"
+        ],
+        [
+          1280,
+          "assets/optimized/PS/Selezione/04-1280.webp",
+          "eb5a5fb4cd"
+        ],
+        [
+          1672,
+          "assets/optimized/PS/Selezione/04-1672.webp",
+          "bc62f58672"
+        ]
+      ],
+      "width": 1672
+    },
+    "assets/optimized/PS/esterni/01": {
+      "digest": "336d4ac99c",
+      "height": 941,
+      "source": "PS/esterni/01.jpg",
+      "targets": [
+        640,
+        1280,
+        1920
+      ],
+      "variants": [
+        [
+          640,
+          "assets/optimized/PS/esterni/01-640.webp",
+          "4d8cebf529"
+        ],
+        [
+          1280,
+          "assets/optimized/PS/esterni/01-1280.webp",
+          "f1c11ede11"
+        ],
+        [
+          1672,
+          "assets/optimized/PS/esterni/01-1672.webp",
+          "1155d1d4d6"
+        ]
+      ],
+      "width": 1672
+    },
+    "assets/optimized/PS/esterni/02": {
+      "digest": "108406443e",
+      "height": 2192,
+      "source": "PS/esterni/02.jpg",
+      "targets": [
+        640,
+        1280,
+        1920
+      ],
+      "variants": [
+        [
+          640,
+          "assets/optimized/PS/esterni/02-640.webp",
+          "cbfa61eb94"
+        ],
+        [
+          1280,
+          "assets/optimized/PS/esterni/02-1280.webp",
+          "faa126b926"
+        ],
+        [
+          1920,
+          "assets/optimized/PS/esterni/02-1920.webp",
+          "587649bdbd"
+        ]
+      ],
+      "width": 3840
+    },
+    "assets/optimized/PS/esterni/04": {
+      "digest": "40c0a483c1",
+      "height": 1086,
+      "source": "PS/esterni/04.jpg",
+      "targets": [
+        640,
+        1280,
+        1920
+      ],
+      "variants": [
+        [
+          640,
+          "assets/optimized/PS/esterni/04-640.webp",
+          "f05fa12979"
+        ],
+        [
+          1280,
+          "assets/optimized/PS/esterni/04-1280.webp",
+          "d847c5f9e5"
+        ],
+        [
+          1448,
+          "assets/optimized/PS/esterni/04-1448.webp",
+          "c7b4d59930"
+        ]
+      ],
+      "width": 1448
+    },
+    "assets/optimized/PS/esterni/05": {
+      "digest": "63fb6bb426",
+      "height": 998,
+      "source": "PS/esterni/05.jpg",
+      "targets": [
+        640,
+        1280,
+        1920
+      ],
+      "variants": [
+        [
+          640,
+          "assets/optimized/PS/esterni/05-640.webp",
+          "8fbb0ab818"
+        ],
+        [
+          1280,
+          "assets/optimized/PS/esterni/05-1280.webp",
+          "ba22b3e335"
+        ],
+        [
+          1576,
+          "assets/optimized/PS/esterni/05-1576.webp",
+          "4c265691b3"
+        ]
+      ],
+      "width": 1576
+    },
+    "assets/optimized/PS/exterior": {
+      "digest": "324bf4ca28",
+      "height": 1086,
+      "source": "PS/exterior.png",
+      "targets": [
+        640,
+        1280,
+        1920
+      ],
+      "variants": [
+        [
+          640,
+          "assets/optimized/PS/exterior-640.webp",
+          "ecb5b066e2"
+        ],
+        [
+          1280,
+          "assets/optimized/PS/exterior-1280.webp",
+          "00c0d39af2"
+        ],
+        [
+          1448,
+          "assets/optimized/PS/exterior-1448.webp",
+          "044e1ebea3"
+        ]
+      ],
+      "width": 1448
+    },
+    "assets/optimized/PS/interior": {
+      "digest": "721b1aa217",
+      "height": 1086,
+      "source": "PS/interior.png",
+      "targets": [
+        640,
+        1280,
+        1920
+      ],
+      "variants": [
+        [
+          640,
+          "assets/optimized/PS/interior-640.webp",
+          "4606ae4ac4"
+        ],
+        [
+          1280,
+          "assets/optimized/PS/interior-1280.webp",
+          "03157bab75"
+        ],
+        [
+          1448,
+          "assets/optimized/PS/interior-1448.webp",
+          "3f94537321"
+        ]
+      ],
+      "width": 1448
+    },
+    "assets/optimized/PS/interni/01": {
+      "digest": "dacbdb2aba",
+      "height": 948,
+      "source": "PS/interni/01.jpg",
+      "targets": [
+        640,
+        1280,
+        1920
+      ],
+      "variants": [
+        [
+          640,
+          "assets/optimized/PS/interni/01-640.webp",
+          "f8973f6947"
+        ],
+        [
+          1280,
+          "assets/optimized/PS/interni/01-1280.webp",
+          "f9cbe91539"
+        ],
+        [
+          1659,
+          "assets/optimized/PS/interni/01-1659.webp",
+          "ceffb6e3ae"
+        ]
+      ],
+      "width": 1659
+    },
+    "assets/optimized/PS/interni/02": {
+      "digest": "603e3be9ae",
+      "height": 1024,
+      "source": "PS/interni/02.jpg",
+      "targets": [
+        640,
+        1280,
+        1920
+      ],
+      "variants": [
+        [
+          640,
+          "assets/optimized/PS/interni/02-640.webp",
+          "3f7d6438f0"
+        ],
+        [
+          1280,
+          "assets/optimized/PS/interni/02-1280.webp",
+          "46cbb6a805"
+        ],
+        [
+          1536,
+          "assets/optimized/PS/interni/02-1536.webp",
+          "bf3553d801"
+        ]
+      ],
+      "width": 1536
+    },
+    "assets/optimized/PS/interni/03": {
+      "digest": "7f67a92f07",
+      "height": 1024,
+      "source": "PS/interni/03.jpg",
+      "targets": [
+        640,
+        1280,
+        1920
+      ],
+      "variants": [
+        [
+          640,
+          "assets/optimized/PS/interni/03-640.webp",
+          "3532e267b3"
+        ],
+        [
+          1280,
+          "assets/optimized/PS/interni/03-1280.webp",
+          "d038d9267a"
+        ],
+        [
+          1536,
+          "assets/optimized/PS/interni/03-1536.webp",
+          "e9088a17a0"
+        ]
+      ],
+      "width": 1536
+    },
+    "assets/optimized/PS/interni/04": {
+      "digest": "25e4984121",
+      "height": 940,
+      "source": "PS/interni/04.jpg",
+      "targets": [
+        640,
+        1280,
+        1920
+      ],
+      "variants": [
+        [
+          640,
+          "assets/optimized/PS/interni/04-640.webp",
+          "ab54da10bd"
+        ],
+        [
+          1280,
+          "assets/optimized/PS/interni/04-1280.webp",
+          "b00de8b64a"
+        ],
+        [
+          1671,
+          "assets/optimized/PS/interni/04-1671.webp",
+          "ee0013f8d8"
+        ]
+      ],
+      "width": 1671
+    },
+    "assets/optimized/PS/interni/05": {
+      "digest": "d3a69949d0",
+      "height": 1025,
+      "source": "PS/interni/05.jpg",
+      "targets": [
+        640,
+        1280,
+        1920
+      ],
+      "variants": [
+        [
+          640,
+          "assets/optimized/PS/interni/05-640.webp",
+          "c80c15890d"
+        ],
+        [
+          1280,
+          "assets/optimized/PS/interni/05-1280.webp",
+          "05af601f67"
+        ],
+        [
+          1535,
+          "assets/optimized/PS/interni/05-1535.webp",
+          "c8ac891175"
+        ]
+      ],
+      "width": 1535
+    },
+    "assets/optimized/PS/interni/06": {
+      "digest": "a616d6fa15",
+      "height": 941,
+      "source": "PS/interni/06.jpg",
+      "targets": [
+        640,
+        1280,
+        1920
+      ],
+      "variants": [
+        [
+          640,
+          "assets/optimized/PS/interni/06-640.webp",
+          "d6391c0e70"
+        ],
+        [
+          1280,
+          "assets/optimized/PS/interni/06-1280.webp",
+          "fb6f816328"
+        ],
+        [
+          1672,
+          "assets/optimized/PS/interni/06-1672.webp",
+          "237b0d19f1"
+        ]
+      ],
+      "width": 1672
+    },
+    "assets/optimized/PS/interni/07": {
+      "digest": "17770819e8",
+      "height": 941,
+      "source": "PS/interni/07.jpg",
+      "targets": [
+        640,
+        1280,
+        1920
+      ],
+      "variants": [
+        [
+          640,
+          "assets/optimized/PS/interni/07-640.webp",
+          "6366f8eb08"
+        ],
+        [
+          1280,
+          "assets/optimized/PS/interni/07-1280.webp",
+          "35fd290fb8"
+        ],
+        [
+          1672,
+          "assets/optimized/PS/interni/07-1672.webp",
+          "b374514d9f"
+        ]
+      ],
+      "width": 1672
+    },
+    "assets/optimized/PS/interni/08": {
+      "digest": "e9a361c51d",
+      "height": 2208,
+      "source": "PS/interni/08.jpg",
+      "targets": [
+        640,
+        1280,
+        1920
+      ],
+      "variants": [
+        [
+          640,
+          "assets/optimized/PS/interni/08-640.webp",
+          "c7e350f310"
+        ],
+        [
+          1280,
+          "assets/optimized/PS/interni/08-1280.webp",
+          "d1ad7dc239"
+        ],
+        [
+          1920,
+          "assets/optimized/PS/interni/08-1920.webp",
+          "a3d407a8e0"
+        ]
+      ],
+      "width": 3840
+    },
+    "assets/optimized/PS/interni/09": {
+      "digest": "67673e352d",
+      "height": 999,
+      "source": "PS/interni/09.jpg",
+      "targets": [
+        640,
+        1280,
+        1920
+      ],
+      "variants": [
+        [
+          640,
+          "assets/optimized/PS/interni/09-640.webp",
+          "5f3e402ccd"
+        ],
+        [
+          1280,
+          "assets/optimized/PS/interni/09-1280.webp",
+          "adf451f95e"
+        ],
+        [
+          1574,
+          "assets/optimized/PS/interni/09-1574.webp",
+          "36e17df48c"
+        ]
+      ],
+      "width": 1574
+    },
+    "assets/optimized/PS/managed/reviewed-04": {
+      "digest": "283b8b0eff",
+      "height": 1536,
+      "source": "PS/managed/reviewed-04.webp",
+      "targets": [
+        640,
+        1280,
+        1920
+      ],
+      "variants": [
+        [
+          640,
+          "assets/optimized/PS/managed/reviewed-04-640.webp",
+          "f0fbcf74fe"
+        ],
+        [
+          1024,
+          "assets/optimized/PS/managed/reviewed-04-1024.webp",
+          "283b8b0eff"
+        ]
+      ],
+      "width": 1024
+    },
+    "assets/optimized/PS/paesaggi": {
+      "digest": "4cbef24a6f",
+      "height": 1086,
+      "source": "PS/paesaggi.png",
+      "targets": [
+        640,
+        1280,
+        1920
+      ],
+      "variants": [
+        [
+          640,
+          "assets/optimized/PS/paesaggi-640.webp",
+          "aed9c5b8b6"
+        ],
+        [
+          1280,
+          "assets/optimized/PS/paesaggi-1280.webp",
+          "38490acd1d"
+        ],
+        [
+          1448,
+          "assets/optimized/PS/paesaggi-1448.webp",
+          "2c8cdfc945"
+        ]
+      ],
+      "width": 1448
+    },
+    "assets/optimized/PS/paesaggi/01": {
+      "digest": "4d6f0f69bd",
+      "height": 1024,
+      "source": "PS/paesaggi/01.jpg",
+      "targets": [
+        640,
+        1280,
+        1920
+      ],
+      "variants": [
+        [
+          640,
+          "assets/optimized/PS/paesaggi/01-640.webp",
+          "e046b88451"
+        ],
+        [
+          1280,
+          "assets/optimized/PS/paesaggi/01-1280.webp",
+          "52f6433378"
+        ],
+        [
+          1536,
+          "assets/optimized/PS/paesaggi/01-1536.webp",
+          "d9306e28b2"
+        ]
+      ],
+      "width": 1536
+    },
+    "assets/optimized/PS/paesaggi/02": {
+      "digest": "02993152a0",
+      "height": 1024,
+      "source": "PS/paesaggi/02.jpg",
+      "targets": [
+        640,
+        1280,
+        1920
+      ],
+      "variants": [
+        [
+          640,
+          "assets/optimized/PS/paesaggi/02-640.webp",
+          "035f5602ac"
+        ],
+        [
+          1280,
+          "assets/optimized/PS/paesaggi/02-1280.webp",
+          "cef639adff"
+        ],
+        [
+          1536,
+          "assets/optimized/PS/paesaggi/02-1536.webp",
+          "fcb30dd22e"
+        ]
+      ],
+      "width": 1536
+    },
+    "assets/optimized/PS/reviewed/00": {
+      "digest": "1203acdd73",
+      "height": 1024,
+      "source": "PS/reviewed/00.webp",
+      "targets": [
+        640,
+        1280,
+        1920
+      ],
+      "variants": [
+        [
+          640,
+          "assets/optimized/PS/reviewed/00-640.webp",
+          "0866e2f948"
+        ],
+        [
+          1280,
+          "assets/optimized/PS/reviewed/00-1280.webp",
+          "6a8318f690"
+        ],
+        [
+          1536,
+          "assets/optimized/PS/reviewed/00-1536.webp",
+          "1203acdd73"
+        ]
+      ],
+      "width": 1536
+    },
+    "assets/optimized/PS/reviewed/01": {
+      "digest": "d9b6e59439",
+      "height": 1024,
+      "source": "PS/reviewed/01.webp",
+      "targets": [
+        640,
+        1280,
+        1920
+      ],
+      "variants": [
+        [
+          640,
+          "assets/optimized/PS/reviewed/01-640.webp",
+          "4bed74c5e6"
+        ],
+        [
+          1280,
+          "assets/optimized/PS/reviewed/01-1280.webp",
+          "9d3aeb7cb4"
+        ],
+        [
+          1536,
+          "assets/optimized/PS/reviewed/01-1536.webp",
+          "d9b6e59439"
+        ]
+      ],
+      "width": 1536
+    },
+    "assets/optimized/PS/reviewed/03": {
+      "digest": "e965eab9a1",
+      "height": 1148,
+      "source": "PS/reviewed/03.webp",
+      "targets": [
+        640,
+        1280,
+        1920
+      ],
+      "variants": [
+        [
+          640,
+          "assets/optimized/PS/reviewed/03-640.webp",
+          "6818f213a4"
+        ],
+        [
+          1280,
+          "assets/optimized/PS/reviewed/03-1280.webp",
+          "8e5363d63a"
+        ],
+        [
+          1370,
+          "assets/optimized/PS/reviewed/03-1370.webp",
+          "e965eab9a1"
+        ]
+      ],
+      "width": 1370
+    },
+    "assets/optimized/PS/reviewed/04": {
+      "digest": "60dc8e3647",
+      "height": 1148,
+      "source": "PS/reviewed/04.webp",
+      "targets": [
+        640,
+        1280,
+        1920
+      ],
+      "variants": [
+        [
+          640,
+          "assets/optimized/PS/reviewed/04-640.webp",
+          "dd29514edc"
+        ],
+        [
+          1280,
+          "assets/optimized/PS/reviewed/04-1280.webp",
+          "4482872eb8"
+        ],
+        [
+          1370,
+          "assets/optimized/PS/reviewed/04-1370.webp",
+          "60dc8e3647"
+        ]
+      ],
+      "width": 1370
+    },
+    "assets/optimized/PS/reviewed/06": {
+      "digest": "53bdae6dc0",
+      "height": 1148,
+      "source": "PS/reviewed/06.webp",
+      "targets": [
+        640,
+        1280,
+        1920
+      ],
+      "variants": [
+        [
+          640,
+          "assets/optimized/PS/reviewed/06-640.webp",
+          "585e78d51a"
+        ],
+        [
+          1280,
+          "assets/optimized/PS/reviewed/06-1280.webp",
+          "71ac00c4f3"
+        ],
+        [
+          1370,
+          "assets/optimized/PS/reviewed/06-1370.webp",
+          "53bdae6dc0"
+        ]
+      ],
+      "width": 1370
+    },
+    "assets/optimized/PS/reviewed/08": {
+      "digest": "e9e8f580d2",
+      "height": 1024,
+      "source": "PS/reviewed/08.webp",
+      "targets": [
+        640,
+        1280,
+        1920
+      ],
+      "variants": [
+        [
+          640,
+          "assets/optimized/PS/reviewed/08-640.webp",
+          "61619fcd1d"
+        ],
+        [
+          1280,
+          "assets/optimized/PS/reviewed/08-1280.webp",
+          "f147fd5ccd"
+        ],
+        [
+          1536,
+          "assets/optimized/PS/reviewed/08-1536.webp",
+          "e9e8f580d2"
+        ]
+      ],
+      "width": 1536
+    },
+    "assets/optimized/PS/reviewed/09": {
+      "digest": "f2eecd6106",
+      "height": 1148,
+      "source": "PS/reviewed/09.webp",
+      "targets": [
+        640,
+        1280,
+        1920
+      ],
+      "variants": [
+        [
+          640,
+          "assets/optimized/PS/reviewed/09-640.webp",
+          "22e7e3561f"
+        ],
+        [
+          1280,
+          "assets/optimized/PS/reviewed/09-1280.webp",
+          "c5e11fa552"
+        ],
+        [
+          1370,
+          "assets/optimized/PS/reviewed/09-1370.webp",
+          "f2eecd6106"
+        ]
+      ],
+      "width": 1370
+    },
+    "assets/optimized/PS/reviewed/11": {
+      "digest": "9cbe598cdd",
+      "height": 1199,
+      "source": "PS/reviewed/11.webp",
+      "targets": [
+        640,
+        1280,
+        1920
+      ],
+      "variants": [
+        [
+          640,
+          "assets/optimized/PS/reviewed/11-640.webp",
+          "0ace89e774"
+        ],
+        [
+          1280,
+          "assets/optimized/PS/reviewed/11-1280.webp",
+          "705b991f79"
+        ],
+        [
+          1312,
+          "assets/optimized/PS/reviewed/11-1312.webp",
+          "9cbe598cdd"
+        ]
+      ],
+      "width": 1312
+    },
+    "assets/optimized/PS/reviewed/12": {
+      "digest": "bd606833cc",
+      "height": 1024,
+      "source": "PS/reviewed/12.webp",
+      "targets": [
+        640,
+        1280,
+        1920
+      ],
+      "variants": [
+        [
+          640,
+          "assets/optimized/PS/reviewed/12-640.webp",
+          "8901694a99"
+        ],
+        [
+          1280,
+          "assets/optimized/PS/reviewed/12-1280.webp",
+          "8163bbfa41"
+        ],
+        [
+          1536,
+          "assets/optimized/PS/reviewed/12-1536.webp",
+          "bd606833cc"
+        ]
+      ],
+      "width": 1536
+    },
+    "assets/optimized/PS/reviewed/14": {
+      "digest": "6a95e7aefa",
+      "height": 1148,
+      "source": "PS/reviewed/14.webp",
+      "targets": [
+        640,
+        1280,
+        1920
+      ],
+      "variants": [
+        [
+          640,
+          "assets/optimized/PS/reviewed/14-640.webp",
+          "3a066d4858"
+        ],
+        [
+          1280,
+          "assets/optimized/PS/reviewed/14-1280.webp",
+          "dcea96d06b"
+        ],
+        [
+          1370,
+          "assets/optimized/PS/reviewed/14-1370.webp",
+          "6a95e7aefa"
+        ]
+      ],
+      "width": 1370
+    },
+    "assets/optimized/PS/reviewed/15": {
+      "digest": "a66a20c091",
+      "height": 1024,
+      "source": "PS/reviewed/15.webp",
+      "targets": [
+        640,
+        1280,
+        1920
+      ],
+      "variants": [
+        [
+          640,
+          "assets/optimized/PS/reviewed/15-640.webp",
+          "cc4f54d17b"
+        ],
+        [
+          1280,
+          "assets/optimized/PS/reviewed/15-1280.webp",
+          "dd85302049"
+        ],
+        [
+          1536,
+          "assets/optimized/PS/reviewed/15-1536.webp",
+          "a66a20c091"
+        ]
+      ],
+      "width": 1536
+    },
+    "assets/optimized/PS/reviewed/17": {
+      "digest": "de3ae9ecfa",
+      "height": 1024,
+      "source": "PS/reviewed/17.webp",
+      "targets": [
+        640,
+        1280,
+        1920
+      ],
+      "variants": [
+        [
+          640,
+          "assets/optimized/PS/reviewed/17-640.webp",
+          "4ce9745c3e"
+        ],
+        [
+          1280,
+          "assets/optimized/PS/reviewed/17-1280.webp",
+          "b37f9fb706"
+        ],
+        [
+          1536,
+          "assets/optimized/PS/reviewed/17-1536.webp",
+          "de3ae9ecfa"
+        ]
+      ],
+      "width": 1536
+    },
+    "assets/optimized/PS/reviewed/18": {
+      "digest": "5c46f5d891",
+      "height": 1148,
+      "source": "PS/reviewed/18.webp",
+      "targets": [
+        640,
+        1280,
+        1920
+      ],
+      "variants": [
+        [
+          640,
+          "assets/optimized/PS/reviewed/18-640.webp",
+          "c00c8b905f"
+        ],
+        [
+          1280,
+          "assets/optimized/PS/reviewed/18-1280.webp",
+          "478a89f42d"
+        ],
+        [
+          1370,
+          "assets/optimized/PS/reviewed/18-1370.webp",
+          "5c46f5d891"
+        ]
+      ],
+      "width": 1370
+    },
+    "assets/optimized/PS/reviewed/20": {
+      "digest": "d31d315bf0",
+      "height": 1024,
+      "source": "PS/reviewed/20.webp",
+      "targets": [
+        640,
+        1280,
+        1920
+      ],
+      "variants": [
+        [
+          640,
+          "assets/optimized/PS/reviewed/20-640.webp",
+          "30a5d5bce3"
+        ],
+        [
+          1280,
+          "assets/optimized/PS/reviewed/20-1280.webp",
+          "9527173748"
+        ],
+        [
+          1536,
+          "assets/optimized/PS/reviewed/20-1536.webp",
+          "d31d315bf0"
+        ]
+      ],
+      "width": 1536
+    },
+    "assets/optimized/PS/reviewed/24": {
+      "digest": "a526e4af35",
+      "height": 1024,
+      "source": "PS/reviewed/24.webp",
+      "targets": [
+        640,
+        1280,
+        1920
+      ],
+      "variants": [
+        [
+          640,
+          "assets/optimized/PS/reviewed/24-640.webp",
+          "c68e87d397"
+        ],
+        [
+          1280,
+          "assets/optimized/PS/reviewed/24-1280.webp",
+          "daf6b45356"
+        ],
+        [
+          1536,
+          "assets/optimized/PS/reviewed/24-1536.webp",
+          "a526e4af35"
+        ]
+      ],
+      "width": 1536
+    },
+    "assets/optimized/PS/reviewed/27": {
+      "digest": "e710ab58b7",
+      "height": 1148,
+      "source": "PS/reviewed/27.webp",
+      "targets": [
+        640,
+        1280,
+        1920
+      ],
+      "variants": [
+        [
+          640,
+          "assets/optimized/PS/reviewed/27-640.webp",
+          "5b50b191e3"
+        ],
+        [
+          1280,
+          "assets/optimized/PS/reviewed/27-1280.webp",
+          "dfb4d5756e"
+        ],
+        [
+          1370,
+          "assets/optimized/PS/reviewed/27-1370.webp",
+          "e710ab58b7"
+        ]
+      ],
+      "width": 1370
+    },
+    "assets/optimized/PS/reviewed/28": {
+      "digest": "1361894ed7",
+      "height": 1148,
+      "source": "PS/reviewed/28.webp",
+      "targets": [
+        640,
+        1280,
+        1920
+      ],
+      "variants": [
+        [
+          640,
+          "assets/optimized/PS/reviewed/28-640.webp",
+          "e97f5941c7"
+        ],
+        [
+          1280,
+          "assets/optimized/PS/reviewed/28-1280.webp",
+          "263238b922"
+        ],
+        [
+          1370,
+          "assets/optimized/PS/reviewed/28-1370.webp",
+          "1361894ed7"
+        ]
+      ],
+      "width": 1370
+    },
+    "assets/optimized/PS/reviewed/29": {
+      "digest": "527011092c",
+      "height": 1199,
+      "source": "PS/reviewed/29.webp",
+      "targets": [
+        640,
+        1280,
+        1920
+      ],
+      "variants": [
+        [
+          640,
+          "assets/optimized/PS/reviewed/29-640.webp",
+          "a2c9953291"
+        ],
+        [
+          1280,
+          "assets/optimized/PS/reviewed/29-1280.webp",
+          "786aeac1f7"
+        ],
+        [
+          1312,
+          "assets/optimized/PS/reviewed/29-1312.webp",
+          "527011092c"
+        ]
+      ],
+      "width": 1312
+    },
+    "assets/optimized/PS/reviewed/32": {
+      "digest": "93c786d175",
+      "height": 1024,
+      "source": "PS/reviewed/32.webp",
+      "targets": [
+        640,
+        1280,
+        1920
+      ],
+      "variants": [
+        [
+          640,
+          "assets/optimized/PS/reviewed/32-640.webp",
+          "f063386bc8"
+        ],
+        [
+          1280,
+          "assets/optimized/PS/reviewed/32-1280.webp",
+          "2e7db9b350"
+        ],
+        [
+          1536,
+          "assets/optimized/PS/reviewed/32-1536.webp",
+          "93c786d175"
+        ]
+      ],
+      "width": 1536
+    },
+    "assets/optimized/PS/reviewed/33": {
+      "digest": "c33519e6b5",
+      "height": 1199,
+      "source": "PS/reviewed/33.webp",
+      "targets": [
+        640,
+        1280,
+        1920
+      ],
+      "variants": [
+        [
+          640,
+          "assets/optimized/PS/reviewed/33-640.webp",
+          "85d6d51adc"
+        ],
+        [
+          1280,
+          "assets/optimized/PS/reviewed/33-1280.webp",
+          "d7e7b05ef3"
+        ],
+        [
+          1312,
+          "assets/optimized/PS/reviewed/33-1312.webp",
+          "c33519e6b5"
+        ]
+      ],
+      "width": 1312
+    },
+    "assets/optimized/PS/reviewed/36": {
+      "digest": "c92e6c98d0",
+      "height": 1024,
+      "source": "PS/reviewed/36.webp",
+      "targets": [
+        640,
+        1280,
+        1920
+      ],
+      "variants": [
+        [
+          640,
+          "assets/optimized/PS/reviewed/36-640.webp",
+          "c78a4ce346"
+        ],
+        [
+          1280,
+          "assets/optimized/PS/reviewed/36-1280.webp",
+          "0c33e8d4ff"
+        ],
+        [
+          1536,
+          "assets/optimized/PS/reviewed/36-1536.webp",
+          "c92e6c98d0"
+        ]
+      ],
+      "width": 1536
+    },
+    "assets/optimized/PS/reviewed/38": {
+      "digest": "42d275924f",
+      "height": 1024,
+      "source": "PS/reviewed/38.webp",
+      "targets": [
+        640,
+        1280,
+        1920
+      ],
+      "variants": [
+        [
+          640,
+          "assets/optimized/PS/reviewed/38-640.webp",
+          "9122e72e0c"
+        ],
+        [
+          1280,
+          "assets/optimized/PS/reviewed/38-1280.webp",
+          "8e2cdfae17"
+        ],
+        [
+          1536,
+          "assets/optimized/PS/reviewed/38-1536.webp",
+          "42d275924f"
+        ]
+      ],
+      "width": 1536
+    },
+    "assets/optimized/PS/reviewed/41": {
+      "digest": "67df163acc",
+      "height": 1024,
+      "source": "PS/reviewed/41.webp",
+      "targets": [
+        640,
+        1280,
+        1920
+      ],
+      "variants": [
+        [
+          640,
+          "assets/optimized/PS/reviewed/41-640.webp",
+          "bffd3daa33"
+        ],
+        [
+          1280,
+          "assets/optimized/PS/reviewed/41-1280.webp",
+          "069f8698b6"
+        ],
+        [
+          1536,
+          "assets/optimized/PS/reviewed/41-1536.webp",
+          "67df163acc"
+        ]
+      ],
+      "width": 1536
+    },
+    "assets/optimized/PS/reviewed/43": {
+      "digest": "4c78f49203",
+      "height": 1199,
+      "source": "PS/reviewed/43.webp",
+      "targets": [
+        640,
+        1280,
+        1920
+      ],
+      "variants": [
+        [
+          640,
+          "assets/optimized/PS/reviewed/43-640.webp",
+          "2c98e5ecfb"
+        ],
+        [
+          1280,
+          "assets/optimized/PS/reviewed/43-1280.webp",
+          "fbc371fe51"
+        ],
+        [
+          1312,
+          "assets/optimized/PS/reviewed/43-1312.webp",
+          "4c78f49203"
+        ]
+      ],
+      "width": 1312
+    },
+    "assets/optimized/PS/reviewed/46": {
+      "digest": "8a6524f1e0",
+      "height": 1024,
+      "source": "PS/reviewed/46.webp",
+      "targets": [
+        640,
+        1280,
+        1920
+      ],
+      "variants": [
+        [
+          640,
+          "assets/optimized/PS/reviewed/46-640.webp",
+          "c591d8f2ff"
+        ],
+        [
+          1280,
+          "assets/optimized/PS/reviewed/46-1280.webp",
+          "e4e545b417"
+        ],
+        [
+          1536,
+          "assets/optimized/PS/reviewed/46-1536.webp",
+          "8a6524f1e0"
+        ]
+      ],
+      "width": 1536
+    },
+    "assets/optimized/PS/reviewed/50": {
+      "digest": "cd0317b6a5",
+      "height": 1199,
+      "source": "PS/reviewed/50.webp",
+      "targets": [
+        640,
+        1280,
+        1920
+      ],
+      "variants": [
+        [
+          640,
+          "assets/optimized/PS/reviewed/50-640.webp",
+          "54139f6ae0"
+        ],
+        [
+          1280,
+          "assets/optimized/PS/reviewed/50-1280.webp",
+          "47413497f0"
+        ],
+        [
+          1312,
+          "assets/optimized/PS/reviewed/50-1312.webp",
+          "cd0317b6a5"
+        ]
+      ],
+      "width": 1312
+    },
+    "assets/optimized/Sfondo": {
+      "digest": "101cbeb2a3",
+      "height": 16383,
+      "source": "Sfondo.webp",
+      "targets": [
+        640,
+        1280
+      ],
+      "variants": [
+        [
+          640,
+          "assets/optimized/Sfondo-640.webp",
+          "197ae92de0"
+        ],
+        [
+          1280,
+          "assets/optimized/Sfondo-1280.webp",
+          "aaee81f4db"
+        ]
+      ],
+      "width": 2048
+    }
+  },
+  "selected": {
+    "PS/04": "PS/04.jpg",
+    "PS/P1": "PS/P1.png",
+    "PS/P2": "PS/P2.png",
+    "PS/P3": "PS/P3.png",
+    "PS/P4": "PS/P4.png",
+    "PS/P5": "PS/P5.png",
+    "PS/P6": "PS/P6.png",
+    "PS/S1": "PS/S1.png",
+    "PS/S2": "PS/S2.png",
+    "PS/S3": "PS/S3.png",
+    "PS/S4": "PS/S4.png",
+    "PS/S5": "PS/S5.png",
+    "PS/S6": "PS/S6.png",
+    "PS/Selezione/01": "PS/Selezione/01.jpg",
+    "PS/Selezione/02": "PS/Selezione/02.jpg",
+    "PS/Selezione/03": "PS/Selezione/03.jpg",
+    "PS/Selezione/04": "PS/Selezione/04.png",
+    "PS/esterni/01": "PS/esterni/01.jpg",
+    "PS/esterni/02": "PS/esterni/02.jpg",
+    "PS/esterni/04": "PS/esterni/04.jpg",
+    "PS/esterni/05": "PS/esterni/05.jpg",
+    "PS/esterni/exterior": "PS/esterni/exterior.png",
+    "PS/exterior": "PS/exterior.png",
+    "PS/google form": "PS/google form.png",
+    "PS/interior": "PS/interior.png",
+    "PS/interni/01": "PS/interni/01.jpg",
+    "PS/interni/02": "PS/interni/02.jpg",
+    "PS/interni/03": "PS/interni/03.jpg",
+    "PS/interni/04": "PS/interni/04.jpg",
+    "PS/interni/05": "PS/interni/05.jpg",
+    "PS/interni/06": "PS/interni/06.jpg",
+    "PS/interni/07": "PS/interni/07.jpg",
+    "PS/interni/08": "PS/interni/08.jpg",
+    "PS/interni/09": "PS/interni/09.jpg",
+    "PS/interni/interior": "PS/interni/interior.png",
+    "PS/managed/reviewed-04": "PS/managed/reviewed-04.webp",
+    "PS/paesaggi": "PS/paesaggi.png",
+    "PS/paesaggi/01": "PS/paesaggi/01.jpg",
+    "PS/paesaggi/02": "PS/paesaggi/02.jpg",
+    "PS/paesaggi/paesaggi": "PS/paesaggi/paesaggi.png",
+    "PS/reviewed/00": "PS/reviewed/00.webp",
+    "PS/reviewed/01": "PS/reviewed/01.webp",
+    "PS/reviewed/03": "PS/reviewed/03.webp",
+    "PS/reviewed/04": "PS/reviewed/04.webp",
+    "PS/reviewed/06": "PS/reviewed/06.webp",
+    "PS/reviewed/08": "PS/reviewed/08.webp",
+    "PS/reviewed/09": "PS/reviewed/09.webp",
+    "PS/reviewed/11": "PS/reviewed/11.webp",
+    "PS/reviewed/12": "PS/reviewed/12.webp",
+    "PS/reviewed/14": "PS/reviewed/14.webp",
+    "PS/reviewed/15": "PS/reviewed/15.webp",
+    "PS/reviewed/17": "PS/reviewed/17.webp",
+    "PS/reviewed/18": "PS/reviewed/18.webp",
+    "PS/reviewed/20": "PS/reviewed/20.webp",
+    "PS/reviewed/24": "PS/reviewed/24.webp",
+    "PS/reviewed/27": "PS/reviewed/27.webp",
+    "PS/reviewed/28": "PS/reviewed/28.webp",
+    "PS/reviewed/29": "PS/reviewed/29.webp",
+    "PS/reviewed/32": "PS/reviewed/32.webp",
+    "PS/reviewed/33": "PS/reviewed/33.webp",
+    "PS/reviewed/36": "PS/reviewed/36.webp",
+    "PS/reviewed/38": "PS/reviewed/38.webp",
+    "PS/reviewed/41": "PS/reviewed/41.webp",
+    "PS/reviewed/43": "PS/reviewed/43.webp",
+    "PS/reviewed/46": "PS/reviewed/46.webp",
+    "PS/reviewed/50": "PS/reviewed/50.webp",
+    "Sfondo": "Sfondo.webp",
+    "favicon": "favicon.png",
+    "hero-telefono-r17-poster": "hero-telefono-r17-poster.webp",
+    "hero-telefono-r19-poster": "hero-telefono-r19-poster.webp",
+    "hero-telefono-r20-poster": "hero-telefono-r20-poster.webp",
+    "logo": "logo.png",
+    "logo-loader": "logo-loader.webp",
+    "paesaggi": "paesaggi.png"
+  },
+  "sources": {
+    "PS/04.jpg": "dacbdb2aba",
+    "PS/P1.png": "8ff0290cce",
+    "PS/P1.webp": "deaa8ef99b",
+    "PS/P2.png": "445080182b",
+    "PS/P2.webp": "6ecaa6fc8b",
+    "PS/P3.png": "293e8f8a3b",
+    "PS/P3.webp": "b7ff28d2ab",
+    "PS/P4.png": "b27f9d3d5b",
+    "PS/P4.webp": "c569135a3e",
+    "PS/P5.png": "69f46daed5",
+    "PS/P5.webp": "4abafe8064",
+    "PS/P6.png": "55544e64ad",
+    "PS/P6.webp": "a9b5de8776",
+    "PS/S1.png": "108406443e",
+    "PS/S1.webp": "2b5007afc2",
+    "PS/S2.png": "089ef8eadf",
+    "PS/S2.webp": "4c06de8a8d",
+    "PS/S3.png": "933faa1136",
+    "PS/S3.webp": "9bf5065fe7",
+    "PS/S4.png": "38dd1ca342",
+    "PS/S4.webp": "a862f54e1f",
+    "PS/S5.png": "6c4bc07d03",
+    "PS/S5.webp": "c029a3f3c3",
+    "PS/S6.png": "40c0a483c1",
+    "PS/S6.webp": "fc09c5a1f9",
+    "PS/Selezione/01.jpg": "ce513e4806",
+    "PS/Selezione/01.webp": "ef99515f92",
+    "PS/Selezione/02.jpg": "25e4984121",
+    "PS/Selezione/02.webp": "d7b9eaff94",
+    "PS/Selezione/03.jpg": "ae44b559af",
+    "PS/Selezione/03.webp": "f567a005e9",
+    "PS/Selezione/04.png": "449be02669",
+    "PS/Selezione/04.webp": "70269b4917",
+    "PS/esterni/01.jpg": "336d4ac99c",
+    "PS/esterni/01.webp": "27270ea594",
+    "PS/esterni/02.jpg": "108406443e",
+    "PS/esterni/02.webp": "2b5007afc2",
+    "PS/esterni/04.jpg": "40c0a483c1",
+    "PS/esterni/04.webp": "fc09c5a1f9",
+    "PS/esterni/05.jpg": "63fb6bb426",
+    "PS/esterni/05.webp": "53ef281a26",
+    "PS/esterni/exterior.png": "6b791e3427",
+    "PS/exterior.png": "324bf4ca28",
+    "PS/exterior.webp": "048ea19647",
+    "PS/google form.png": "2d365474ec",
+    "PS/interior.png": "721b1aa217",
+    "PS/interior.webp": "ba89939dd0",
+    "PS/interni/01.jpg": "dacbdb2aba",
+    "PS/interni/01.webp": "7e118e093b",
+    "PS/interni/02.jpg": "603e3be9ae",
+    "PS/interni/02.webp": "a57d3c3db1",
+    "PS/interni/03.jpg": "7f67a92f07",
+    "PS/interni/03.webp": "d425fc2184",
+    "PS/interni/04.jpg": "25e4984121",
+    "PS/interni/04.webp": "d7b9eaff94",
+    "PS/interni/05.jpg": "d3a69949d0",
+    "PS/interni/05.webp": "714b3cfbd5",
+    "PS/interni/06.jpg": "a616d6fa15",
+    "PS/interni/06.webp": "69dcce1e6c",
+    "PS/interni/07.jpg": "17770819e8",
+    "PS/interni/07.webp": "3cf6c4df7a",
+    "PS/interni/08.jpg": "e9a361c51d",
+    "PS/interni/08.webp": "7fa31f364e",
+    "PS/interni/09.jpg": "67673e352d",
+    "PS/interni/09.webp": "cac6b748bb",
+    "PS/interni/interior.png": "2573a5a6b3",
+    "PS/managed/reviewed-04.webp": "283b8b0eff",
+    "PS/paesaggi.png": "4cbef24a6f",
+    "PS/paesaggi.webp": "903d305993",
+    "PS/paesaggi/01.jpg": "4d6f0f69bd",
+    "PS/paesaggi/01.webp": "e2421b17e0",
+    "PS/paesaggi/02.jpg": "02993152a0",
+    "PS/paesaggi/02.webp": "3dc261db2a",
+    "PS/paesaggi/paesaggi.png": "ba8059df97",
+    "PS/reviewed/00.webp": "1203acdd73",
+    "PS/reviewed/01.webp": "d9b6e59439",
+    "PS/reviewed/03.webp": "e965eab9a1",
+    "PS/reviewed/04.webp": "60dc8e3647",
+    "PS/reviewed/06.webp": "53bdae6dc0",
+    "PS/reviewed/08.webp": "e9e8f580d2",
+    "PS/reviewed/09.webp": "f2eecd6106",
+    "PS/reviewed/11.webp": "9cbe598cdd",
+    "PS/reviewed/12.webp": "bd606833cc",
+    "PS/reviewed/14.webp": "6a95e7aefa",
+    "PS/reviewed/15.webp": "a66a20c091",
+    "PS/reviewed/17.webp": "de3ae9ecfa",
+    "PS/reviewed/18.webp": "5c46f5d891",
+    "PS/reviewed/20.webp": "d31d315bf0",
+    "PS/reviewed/24.webp": "a526e4af35",
+    "PS/reviewed/27.webp": "e710ab58b7",
+    "PS/reviewed/28.webp": "1361894ed7",
+    "PS/reviewed/29.webp": "527011092c",
+    "PS/reviewed/32.webp": "93c786d175",
+    "PS/reviewed/33.webp": "c33519e6b5",
+    "PS/reviewed/36.webp": "c92e6c98d0",
+    "PS/reviewed/38.webp": "42d275924f",
+    "PS/reviewed/41.webp": "67df163acc",
+    "PS/reviewed/43.webp": "4c78f49203",
+    "PS/reviewed/46.webp": "8a6524f1e0",
+    "PS/reviewed/50.webp": "cd0317b6a5",
+    "Sfondo.webp": "101cbeb2a3",
+    "favicon.png": "d7247cbe00",
+    "hero-telefono-r17-poster.webp": "37d61429ca",
+    "hero-telefono-r19-poster.webp": "a26f4b1be7",
+    "hero-telefono-r20-poster.webp": "9ad6c58edb",
+    "logo-loader.webp": "0c8a7d7830",
+    "logo.png": "2ef68f3542",
+    "paesaggi.png": "4cbef24a6f"
+  },
+  "version": 1
+}
