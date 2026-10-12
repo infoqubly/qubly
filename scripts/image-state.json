@@ -421,8 +421,8 @@
       "width": 1672
     },
     "assets/optimized/PS/Selezione/04": {
-      "digest": "449be02669",
-      "height": 941,
+      "digest": "ff54b93c2e",
+      "height": 1024,
       "source": "PS/Selezione/04.png",
       "targets": [
         640,
@@ -433,20 +433,20 @@
         [
           640,
           "assets/optimized/PS/Selezione/04-640.webp",
-          "8b762c5053"
+          "e92cc018b3"
         ],
         [
           1280,
           "assets/optimized/PS/Selezione/04-1280.webp",
-          "eb5a5fb4cd"
+          "92ddf471cc"
         ],
         [
-          1672,
-          "assets/optimized/PS/Selezione/04-1672.webp",
-          "bc62f58672"
+          1536,
+          "assets/optimized/PS/Selezione/04-1536.webp",
+          "e4c4595085"
         ]
       ],
-      "width": 1672
+      "width": 1536
     },
     "assets/optimized/PS/esterni/01": {
       "digest": "336d4ac99c",
@@ -1834,8 +1834,8 @@
     "PS/Selezione/02.webp": "d7b9eaff94",
     "PS/Selezione/03.jpg": "ae44b559af",
     "PS/Selezione/03.webp": "f567a005e9",
-    "PS/Selezione/04.png": "449be02669",
-    "PS/Selezione/04.webp": "70269b4917",
+    "PS/Selezione/04.png": "ff54b93c2e",
+    "PS/Selezione/04.webp": "f7f3b9c7a9",
     "PS/esterni/01.jpg": "336d4ac99c",
     "PS/esterni/01.webp": "27270ea594",
     "PS/esterni/02.jpg": "108406443e",
