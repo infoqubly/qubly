@@ -338,7 +338,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             overlay.innerHTML = `
                 <button class="showcase-zoom-close" type="button" aria-label="${ui("close_preview")}">&#215;</button>
-                <div class="showcase-zoom-track">${slideMarkup}</div>
+                <div class="showcase-zoom-track" tabindex="-1">${slideMarkup}</div>
                 <div class="showcase-zoom-controls">
                     <button class="showcase-zoom-previous" type="button" aria-label="${ui("showcase_previous")}">&#8592;</button>
                     <span class="showcase-zoom-count" aria-live="polite" aria-atomic="true"></span>
