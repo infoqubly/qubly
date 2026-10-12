@@ -393,7 +393,7 @@
       "width": 1671
     },
     "assets/optimized/PS/Selezione/03": {
-      "digest": "791f178fbe",
+      "digest": "2e481913d3",
       "height": 1024,
       "source": "PS/Selezione/03.jpg",
       "targets": [
@@ -405,17 +405,17 @@
         [
           640,
           "assets/optimized/PS/Selezione/03-640.webp",
-          "f4dd33a212"
+          "2e61c3d0b7"
         ],
         [
           1280,
           "assets/optimized/PS/Selezione/03-1280.webp",
-          "d7c74b9831"
+          "b5e5ef28e5"
         ],
         [
           1536,
           "assets/optimized/PS/Selezione/03-1536.webp",
-          "eb34c41b5a"
+          "3365a072a1"
         ]
       ],
       "width": 1536
@@ -1832,8 +1832,8 @@
     "PS/Selezione/01.webp": "ef99515f92",
     "PS/Selezione/02.jpg": "25e4984121",
     "PS/Selezione/02.webp": "d7b9eaff94",
-    "PS/Selezione/03.jpg": "791f178fbe",
-    "PS/Selezione/03.webp": "43e66716fe",
+    "PS/Selezione/03.jpg": "2e481913d3",
+    "PS/Selezione/03.webp": "c1505f508a",
     "PS/Selezione/04.png": "ff54b93c2e",
     "PS/Selezione/04.webp": "f7f3b9c7a9",
     "PS/esterni/01.jpg": "336d4ac99c",
