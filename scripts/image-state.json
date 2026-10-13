@@ -57,7 +57,7 @@
       "width": 1448
     },
     "assets/optimized/PS/P3": {
-      "digest": "293e8f8a3b",
+      "digest": "3003478bdc",
       "height": 1024,
       "source": "PS/P3.png",
       "targets": [
@@ -69,17 +69,17 @@
         [
           640,
           "assets/optimized/PS/P3-640.webp",
-          "b70ae68b2f"
+          "9349ff3940"
         ],
         [
           1280,
           "assets/optimized/PS/P3-1280.webp",
-          "5cc03be3f3"
+          "7e9222f699"
         ],
         [
           1536,
           "assets/optimized/PS/P3-1536.webp",
-          "cdc2744c54"
+          "72d1a41246"
         ]
       ],
       "width": 1536
@@ -1808,8 +1808,8 @@
     "PS/P1.webp": "deaa8ef99b",
     "PS/P2.png": "445080182b",
     "PS/P2.webp": "6ecaa6fc8b",
-    "PS/P3.png": "293e8f8a3b",
-    "PS/P3.webp": "b7ff28d2ab",
+    "PS/P3.png": "3003478bdc",
+    "PS/P3.webp": "56bb9fad87",
     "PS/P4.png": "b27f9d3d5b",
     "PS/P4.webp": "c569135a3e",
     "PS/P5.png": "69f46daed5",
