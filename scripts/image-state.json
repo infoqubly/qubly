@@ -309,8 +309,8 @@
       "width": 1536
     },
     "assets/optimized/PS/S6": {
-      "digest": "40c0a483c1",
-      "height": 1086,
+      "digest": "7e9d3431c5",
+      "height": 941,
       "source": "PS/S6.png",
       "targets": [
         640,
@@ -321,20 +321,20 @@
         [
           640,
           "assets/optimized/PS/S6-640.webp",
-          "f05fa12979"
+          "b74dc22040"
         ],
         [
           1280,
           "assets/optimized/PS/S6-1280.webp",
-          "d847c5f9e5"
+          "11241769e1"
         ],
         [
-          1448,
-          "assets/optimized/PS/S6-1448.webp",
-          "c7b4d59930"
+          1672,
+          "assets/optimized/PS/S6-1672.webp",
+          "1aec6f079d"
         ]
       ],
-      "width": 1448
+      "width": 1672
     },
     "assets/optimized/PS/Selezione/01": {
       "digest": "ce513e4806",
@@ -1826,8 +1826,8 @@
     "PS/S4.webp": "a862f54e1f",
     "PS/S5.png": "c075857002",
     "PS/S5.webp": "7e2946d654",
-    "PS/S6.png": "40c0a483c1",
-    "PS/S6.webp": "fc09c5a1f9",
+    "PS/S6.png": "7e9d3431c5",
+    "PS/S6.webp": "c5c5e6853d",
     "PS/Selezione/01.jpg": "ce513e4806",
     "PS/Selezione/01.webp": "ef99515f92",
     "PS/Selezione/02.jpg": "25e4984121",
