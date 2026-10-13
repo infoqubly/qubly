@@ -365,8 +365,8 @@
       "width": 1536
     },
     "assets/optimized/PS/Selezione/02": {
-      "digest": "25e4984121",
-      "height": 940,
+      "digest": "37b7f27d03",
+      "height": 941,
       "source": "PS/Selezione/02.jpg",
       "targets": [
         640,
@@ -377,20 +377,20 @@
         [
           640,
           "assets/optimized/PS/Selezione/02-640.webp",
-          "ab54da10bd"
+          "7553a85825"
         ],
         [
           1280,
           "assets/optimized/PS/Selezione/02-1280.webp",
-          "b00de8b64a"
+          "219ff1ffcb"
         ],
         [
-          1671,
-          "assets/optimized/PS/Selezione/02-1671.webp",
-          "ee0013f8d8"
+          1672,
+          "assets/optimized/PS/Selezione/02-1672.webp",
+          "d532a402e4"
         ]
       ],
-      "width": 1671
+      "width": 1672
     },
     "assets/optimized/PS/Selezione/03": {
       "digest": "2e481913d3",
@@ -1830,8 +1830,8 @@
     "PS/S6.webp": "c5c5e6853d",
     "PS/Selezione/01.jpg": "ce513e4806",
     "PS/Selezione/01.webp": "ef99515f92",
-    "PS/Selezione/02.jpg": "25e4984121",
-    "PS/Selezione/02.webp": "d7b9eaff94",
+    "PS/Selezione/02.jpg": "37b7f27d03",
+    "PS/Selezione/02.webp": "a15e3491d4",
     "PS/Selezione/03.jpg": "2e481913d3",
     "PS/Selezione/03.webp": "c1505f508a",
     "PS/Selezione/04.png": "ff54b93c2e",
