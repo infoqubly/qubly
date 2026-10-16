@@ -120,15 +120,6 @@
         "preview": "assets/optimized/PS/esterni/04-1448.webp?v=c7b4d59930"
       },
       {
-        "id": "esterni-02",
-        "titles": {
-          "it": "Residenze nel verde",
-          "en": "Garden residences",
-          "sl": "Glamping med zelenjem"
-        },
-        "preview": "assets/optimized/PS/managed/esterni-02-1920.webp?v=c81aafafc4"
-      },
-      {
         "id": "esterni-05",
         "titles": {
           "it": "Villa mediterranea",
@@ -136,6 +127,15 @@
           "sl": "Sredozemska vila"
         },
         "preview": "assets/optimized/PS/esterni/05-1576.webp?v=4c265691b3"
+      },
+      {
+        "id": "esterni-02",
+        "titles": {
+          "it": "Residenze nel verde",
+          "en": "Garden residences",
+          "sl": "Glamping med zelenjem"
+        },
+        "preview": "assets/optimized/PS/managed/esterni-02-1920.webp?v=c81aafafc4"
       }
     ],
     "interni": [
