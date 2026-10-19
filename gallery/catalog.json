@@ -66,15 +66,6 @@
         "preview": "assets/optimized/PS/reviewed/41-1536.webp?v=67df163acc"
       },
       {
-        "id": "reviewed-33",
-        "titles": {
-          "it": "Scuola di architettura",
-          "en": "School of architecture",
-          "sl": "Šola za arhitekturo"
-        },
-        "preview": "assets/optimized/PS/reviewed/33-1312.webp?v=c33519e6b5"
-      },
-      {
         "id": "esterni-02",
         "titles": {
           "it": "Residenze nel verde",
@@ -82,6 +73,15 @@
           "sl": "Glamping med zelenjem"
         },
         "preview": "assets/optimized/PS/managed/esterni-02-1920.webp?v=c81aafafc4"
+      },
+      {
+        "id": "reviewed-33",
+        "titles": {
+          "it": "Scuola di architettura",
+          "en": "School of architecture",
+          "sl": "Šola za arhitekturo"
+        },
+        "preview": "assets/optimized/PS/reviewed/33-1312.webp?v=c33519e6b5"
       },
       {
         "id": "reviewed-27",
