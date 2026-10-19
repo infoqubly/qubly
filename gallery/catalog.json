@@ -203,6 +203,15 @@
         "preview": "assets/optimized/PS/managed/interni-01-1536.webp?v=ee838dc698"
       },
       {
+        "id": "reviewed-29",
+        "titles": {
+          "it": "Poltrona di design",
+          "en": "Designer armchair",
+          "sl": "Dizajnerski naslanjač"
+        },
+        "preview": "assets/optimized/PS/reviewed/29-1312.webp?v=527011092c"
+      },
+      {
         "id": "reviewed-09",
         "titles": {
           "it": "Cucina in pietra e legno",
@@ -228,15 +237,6 @@
           "sl": "Kompaktno stanovanje"
         },
         "preview": "assets/optimized/PS/reviewed/14-1370.webp?v=6a95e7aefa"
-      },
-      {
-        "id": "reviewed-29",
-        "titles": {
-          "it": "Poltrona di design",
-          "en": "Designer armchair",
-          "sl": "Dizajnerski naslanjač"
-        },
-        "preview": "assets/optimized/PS/reviewed/29-1312.webp?v=527011092c"
       },
       {
         "id": "reviewed-12",
