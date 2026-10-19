@@ -1188,8 +1188,8 @@
       "width": 1024
     },
     "assets/optimized/PS/managed/reviewed-09": {
-      "digest": "28985f25af",
-      "height": 1536,
+      "digest": "7b5cc42ee7",
+      "height": 1086,
       "source": "PS/managed/reviewed-09.webp",
       "targets": [
         640,
@@ -1200,15 +1200,20 @@
         [
           640,
           "assets/optimized/PS/managed/reviewed-09-640.webp",
-          "c91efa877e"
+          "881199316d"
         ],
         [
-          1024,
-          "assets/optimized/PS/managed/reviewed-09-1024.webp",
-          "28985f25af"
+          1280,
+          "assets/optimized/PS/managed/reviewed-09-1280.webp",
+          "1020da5956"
+        ],
+        [
+          1448,
+          "assets/optimized/PS/managed/reviewed-09-1448.webp",
+          "0fdd6cca4f"
         ]
       ],
-      "width": 1024
+      "width": 1448
     },
     "assets/optimized/PS/managed/reviewed-11": {
       "digest": "45bc1c4551",
@@ -2585,7 +2590,7 @@
     "PS/managed/photo-2ad1a02f7d1a4f35bde5310993b6f26e.webp": "28985f25af",
     "PS/managed/photo-f400c8e0a8a34abfb9c3ddfa9fd11a61.webp": "28985f25af",
     "PS/managed/reviewed-04.webp": "28985f25af",
-    "PS/managed/reviewed-09.webp": "28985f25af",
+    "PS/managed/reviewed-09.webp": "7b5cc42ee7",
     "PS/managed/reviewed-11.webp": "45bc1c4551",
     "PS/managed/reviewed-12.webp": "28985f25af",
     "PS/managed/reviewed-14.webp": "28985f25af",
