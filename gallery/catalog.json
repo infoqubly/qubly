@@ -93,15 +93,6 @@
         "preview": "assets/optimized/PS/managed/reviewed-04-1024.webp?v=283b8b0eff"
       },
       {
-        "id": "reviewed-36",
-        "titles": {
-          "it": "Sala da concerto",
-          "en": "Concert hall",
-          "sl": "Koncertna dvorana"
-        },
-        "preview": "assets/optimized/PS/reviewed/36-1536.webp?v=c92e6c98d0"
-      },
-      {
         "id": "esterni-02",
         "titles": {
           "it": "Residenze nel verde",
@@ -109,6 +100,15 @@
           "sl": "Glamping med zelenjem"
         },
         "preview": "assets/optimized/PS/managed/esterni-02-1920.webp?v=c81aafafc4"
+      },
+      {
+        "id": "reviewed-36",
+        "titles": {
+          "it": "Sala da concerto",
+          "en": "Concert hall",
+          "sl": "Koncertna dvorana"
+        },
+        "preview": "assets/optimized/PS/reviewed/36-1536.webp?v=c92e6c98d0"
       },
       {
         "id": "esterni-01",
