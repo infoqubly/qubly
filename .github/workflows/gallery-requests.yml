@@ -11,6 +11,7 @@ permissions:
 concurrency:
   group: qubly-site-publication-main
   cancel-in-progress: false
+  queue: max
 
 jobs:
   update-gallery:
@@ -21,6 +22,7 @@ jobs:
       contains(github.event.issue.body, '### ID foto')) &&
       contains(fromJSON('["OWNER","MEMBER","COLLABORATOR"]'), github.event.issue.author_association)
     runs-on: ubuntu-24.04
+    timeout-minutes: 30
     steps:
       - name: Scarica il sito
         uses: actions/checkout@v7
@@ -36,24 +38,5 @@ jobs:
       - name: Installa il generatore WebP
         run: python -m pip install Pillow==12.3.0
 
-      - name: Verifica la richiesta e aggiorna la foto
-        run: |
-          python scripts/gallery_request.py --event "$GITHUB_EVENT_PATH"
-          python -B scripts/optimize_images.py
-
-      - name: Pubblica l'aggiornamento
-        shell: bash
-        run: |
-          git add -A -- PS assets/optimized scripts/image-state.json gallery/catalog.json '*.html' css js
-          if git diff --cached --quiet; then
-            echo "Nessuna modifica prodotta dalla richiesta."
-            exit 1
-          fi
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git commit -m "Aggiorna galleria dalla richiesta #${{ github.event.issue.number }}" -m "Fixes #${{ github.event.issue.number }}"
-          # Generated HTML must never be rebased onto another gallery order.
-          if ! git push origin HEAD:main; then
-            echo "::error::main è cambiato durante la pubblicazione. Rilancia questo workflow per rigenerare le gallerie aggiornate."
-            exit 1
-          fi
+      - name: Pubblica la richiesta con tentativi automatici
+        run: python -B scripts/publish_site.py --mode issue --event "$GITHUB_EVENT_PATH"

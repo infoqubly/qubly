@@ -7,6 +7,7 @@ on:
       - gallery/catalog.json
       - gallery/inbox/**
       - scripts/gallery*.py
+      - scripts/publish_site.py
       - .github/workflows/gallery-tools.yml
   workflow_dispatch:
 
@@ -16,10 +17,12 @@ permissions:
 concurrency:
   group: qubly-site-publication-main
   cancel-in-progress: false
+  queue: max
 
 jobs:
   publish:
     runs-on: ubuntu-24.04
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v7
         with:
@@ -33,24 +36,5 @@ jobs:
       - name: Prepara il generatore immagini
         run: python -m pip install Pillow==12.3.0
 
-      - name: Pubblica foto e ordine
-        run: |
-          python scripts/gallery_publish.py
-          python -B scripts/optimize_images.py
-
-      - name: Salva il sito aggiornato
-        shell: bash
-        run: |
-          git add -A -- PS assets/optimized scripts/image-state.json gallery '*.html' css js
-          if git diff --cached --quiet; then
-            echo "Nessuna pagina da aggiornare."
-            exit 0
-          fi
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git commit -m "Pubblica gallerie da QUBLY Tools"
-          # Generated HTML must never be rebased onto another gallery order.
-          if ! git push origin HEAD:main; then
-            echo "::error::main è cambiato durante la pubblicazione. Rilancia questo workflow per rigenerare le gallerie aggiornate."
-            exit 1
-          fi
+      - name: Pubblica foto e ordine con tentativi automatici
+        run: python -B scripts/publish_site.py --mode tools

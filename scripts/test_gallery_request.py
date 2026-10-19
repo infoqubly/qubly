@@ -6,11 +6,13 @@ import io
 import json
 import shutil
 import struct
+import subprocess
 import tempfile
 import unittest
 import warnings
 import zlib
 from pathlib import Path
+from unittest import mock
 
 from PIL import Image
 
@@ -54,6 +56,29 @@ class GalleryRequestTests(unittest.TestCase):
 
     def tearDown(self) -> None:
         self.temporary.cleanup()
+
+    def git(self, *arguments: str) -> None:
+        subprocess.run(
+            ["git", "-c", "user.name=Gallery test", "-c", "user.email=gallery@example.test", *arguments],
+            cwd=self.root, capture_output=True, check=True,
+        )
+
+    def queued_request(self, request_id: str, mode: str, title: str, gallery_id: str = "interni-09") -> Path:
+        gallery_publish.INBOX.mkdir(exist_ok=True)
+        request = {
+            "mode": mode, "category": "interni", "extension": "jpg",
+            "titles": {"it": title, "en": title, "sl": title},
+        }
+        if mode == "replace":
+            request["id"] = gallery_id
+        path = gallery_publish.INBOX / f"{request_id}.json"
+        path.write_text(json.dumps(request), encoding="utf-8")
+        path.with_suffix(".jpg").write_bytes(fixture_image())
+        return path
+
+    def commit_fixture(self) -> None:
+        self.git("add", "--all")
+        self.git("commit", "-m", "Add upload request")
 
     def test_source_galleries_have_unique_ids_matching_catalog(self) -> None:
         catalog = gallery_catalog.read_catalog()
@@ -191,6 +216,84 @@ class GalleryRequestTests(unittest.TestCase):
         self.assertEqual(published_section[0]["titles"], final_titles)
         self.assertEqual(published_section[-1]["titles"], added_titles)
         self.assertEqual(list(gallery_publish.INBOX.iterdir()), [])
+
+    def test_queued_replacements_follow_commit_order_instead_of_uuid(self) -> None:
+        self.git("init", "--initial-branch=main")
+        self.queued_request("f" * 32, "replace", "Prima cucina")
+        self.commit_fixture()
+        self.queued_request("a" * 32, "replace", "Ultima cucina")
+        self.commit_fixture()
+
+        gallery_publish.main()
+
+        page = (self.root / "interni.html").read_text(encoding="utf-8")
+        published = gallery_catalog.item_data("interni-09", gallery_catalog.item_blocks(page)["interni-09"])
+        self.assertEqual(published["titles"]["it"], "Ultima cucina")
+        self.assertEqual(list(gallery_publish.INBOX.iterdir()), [])
+
+    def test_queued_additions_follow_commit_order_instead_of_uuid(self) -> None:
+        self.git("init", "--initial-branch=main")
+        original_order = [item["id"] for item in gallery_catalog.read_catalog()["sections"]["interni"]]
+        self.queued_request("f" * 32, "add", "Prima foto")
+        self.commit_fixture()
+        self.queued_request("a" * 32, "add", "Seconda foto")
+        self.commit_fixture()
+
+        gallery_publish.main()
+
+        section = gallery_catalog.read_catalog()["sections"]["interni"]
+        self.assertEqual([item["id"] for item in section], original_order + ["photo-" + "f" * 32, "photo-" + "a" * 32])
+
+    def test_missing_git_history_has_stable_fallback_and_reports_limit(self) -> None:
+        self.git("init", "--initial-branch=main")
+        known = self.queued_request("f" * 32, "add", "Foto tracciata")
+        self.commit_fixture()
+        missing_last = self.queued_request("c" * 32, "add", "Foto non tracciata C")
+        missing_first = self.queued_request("a" * 32, "add", "Foto non tracciata A")
+
+        with mock.patch("sys.stderr", new_callable=io.StringIO) as output:
+            requests = gallery_publish.ordered_requests()
+
+        self.assertEqual(requests, [known, missing_first, missing_last])
+        self.assertIn("L'ordine di caricamento non è verificabile", output.getvalue())
+
+    def test_removed_photo_consumes_queued_replacements_without_restoring_it(self) -> None:
+        catalog = gallery_catalog.read_catalog()
+        gallery_id = "interni-09"
+        catalog["sections"]["interni"] = [
+            item for item in catalog["sections"]["interni"] if item["id"] != gallery_id
+        ]
+        catalog["removed"] = [gallery_id]
+        gallery_catalog.CATALOG_PATH.write_text(json.dumps(catalog), encoding="utf-8")
+
+        with mock.patch.object(gallery_request, "image_variants", wraps=gallery_request.image_variants) as variants:
+            self.queued_request("a" * 32, "replace", "Foto rimossa", gallery_id)
+            gallery_publish.main()
+            variants.assert_not_called()
+            # A subsequent replacement also succeeds after HTML no longer has the ID.
+            self.queued_request("b" * 32, "replace", "Altra sostituzione rimossa", gallery_id)
+            self.queued_request("c" * 32, "add", "Foto successiva")
+            gallery_publish.main()
+            self.assertEqual(variants.call_count, 1)
+            self.assertEqual(variants.call_args.args[0], "photo-" + "c" * 32)
+
+        page = (self.root / "interni.html").read_text(encoding="utf-8")
+        self.assertNotIn(gallery_id, gallery_catalog.item_blocks(page))
+        self.assertNotIn(gallery_id, [item["id"] for item in gallery_catalog.read_catalog()["sections"]["interni"]])
+        self.assertEqual(list(gallery_publish.INBOX.iterdir()), [])
+        self.assertEqual(list(gallery_request.ASSET_DIR.glob(f"{gallery_id}-*.webp")), [])
+
+    def test_removed_photo_request_is_validated_before_being_consumed(self) -> None:
+        catalog = gallery_catalog.read_catalog()
+        catalog["removed"] = ["interni-09"]
+        gallery_catalog.CATALOG_PATH.write_text(json.dumps(catalog), encoding="utf-8")
+        request_path = self.queued_request("a" * 32, "replace", "")
+
+        with self.assertRaisesRegex(ValueError, "tre titoli"):
+            gallery_publish.main()
+
+        self.assertTrue(request_path.exists())
+        self.assertTrue(request_path.with_suffix(".jpg").exists())
 
     def test_removed_photo_stays_hidden_after_gallery_regeneration(self) -> None:
         catalog = gallery_catalog.read_catalog()
