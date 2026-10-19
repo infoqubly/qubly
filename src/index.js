@@ -2,6 +2,8 @@ import { handleGalleryApi } from "./gallery-api.js";
 
 const CANONICAL_PATHS = new Map([
     ["/index.html", "/"],
+    ["/come-definiamo-il-prezzo.html", "/come-definiamo-il-prezzo"],
+    ["/come-definiamo-il-prezzo/", "/come-definiamo-il-prezzo"],
     ["/about.html", "/about"],
     ["/about/", "/about"],
     ["/esterni.html", "/esterni"],
@@ -19,6 +21,7 @@ const CANONICAL_PATHS = new Map([
 
 const DOCUMENT_PATHS = new Set([
     "/",
+    "/come-definiamo-il-prezzo",
     "/about",
     "/esterni",
     "/interni",

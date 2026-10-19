@@ -499,6 +499,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const currentPath = window.location.pathname.replace(/\/+$/, "") || "/";
         const pageTitleKeys = [
+            [currentPath.endsWith("/come-definiamo-il-prezzo") || currentPath.endsWith("/come-definiamo-il-prezzo.html"), "page_title_pricing"],
             [document.body.classList.contains("home-page"), "page_title_index"],
             [document.body.classList.contains("about-page-body"), "page_title_about"],
             [currentPath.endsWith("/esterni") || currentPath.endsWith("/esterni.html"), "page_title_esterni"],
