@@ -111,15 +111,6 @@
         "preview": "assets/optimized/PS/esterni/01-1672.webp?v=1155d1d4d6"
       },
       {
-        "id": "esterni-04",
-        "titles": {
-          "it": "Edificio residenziale",
-          "en": "Residential building",
-          "sl": "Stanovanjska stavba"
-        },
-        "preview": "assets/optimized/PS/esterni/04-1448.webp?v=c7b4d59930"
-      },
-      {
         "id": "esterni-02",
         "titles": {
           "it": "Residenze nel verde",
@@ -127,6 +118,15 @@
           "sl": "Glamping med zelenjem"
         },
         "preview": "assets/optimized/PS/managed/esterni-02-1920.webp?v=c81aafafc4"
+      },
+      {
+        "id": "esterni-04",
+        "titles": {
+          "it": "Edificio residenziale",
+          "en": "Residential building",
+          "sl": "Stanovanjska stavba"
+        },
+        "preview": "assets/optimized/PS/esterni/04-1448.webp?v=c7b4d59930"
       },
       {
         "id": "esterni-05",
