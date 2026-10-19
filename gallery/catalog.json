@@ -21,15 +21,6 @@
         "preview": "assets/optimized/PS/reviewed/38-1536.webp?v=42d275924f"
       },
       {
-        "id": "reviewed-28",
-        "titles": {
-          "it": "Dettaglio di facciata",
-          "en": "Façade detail",
-          "sl": "Detajl fasade"
-        },
-        "preview": "assets/optimized/PS/reviewed/28-1370.webp?v=1361894ed7"
-      },
-      {
         "id": "reviewed-03",
         "titles": {
           "it": "Casa mediterranea in pietra",
@@ -55,6 +46,15 @@
           "sl": "Vhod v podzemno železnico"
         },
         "preview": "assets/optimized/PS/reviewed/50-1312.webp?v=cd0317b6a5"
+      },
+      {
+        "id": "reviewed-28",
+        "titles": {
+          "it": "Dettaglio di facciata",
+          "en": "Façade detail",
+          "sl": "Detajl fasade"
+        },
+        "preview": "assets/optimized/PS/reviewed/28-1370.webp?v=1361894ed7"
       },
       {
         "id": "reviewed-32",
