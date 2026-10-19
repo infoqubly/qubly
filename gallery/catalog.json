@@ -149,15 +149,6 @@
     ],
     "interni": [
       {
-        "id": "reviewed-06",
-        "titles": {
-          "it": "Casa attorno al patio",
-          "en": "Courtyard house",
-          "sl": "Hiša z notranjim dvoriščem"
-        },
-        "preview": "assets/optimized/PS/reviewed/06-1370.webp?v=53bdae6dc0"
-      },
-      {
         "id": "reviewed-08",
         "titles": {
           "it": "Soggiorno nella luce",
@@ -165,6 +156,15 @@
           "sl": "Svetla dnevna soba"
         },
         "preview": "assets/optimized/PS/reviewed/08-1536.webp?v=e9e8f580d2"
+      },
+      {
+        "id": "reviewed-06",
+        "titles": {
+          "it": "Casa attorno al patio",
+          "en": "Courtyard house",
+          "sl": "Hiša z notranjim dvoriščem"
+        },
+        "preview": "assets/optimized/PS/reviewed/06-1370.webp?v=53bdae6dc0"
       },
       {
         "id": "reviewed-15",
