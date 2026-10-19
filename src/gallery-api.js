@@ -8,6 +8,21 @@ const GITHUB_HEADERS = {
 };
 const CATEGORIES = new Set(["esterni", "interni", "paesaggi"]);
 const MAX_BODY_BYTES = 14 * 1024 * 1024;
+const MAX_WRITE_ATTEMPTS = 5;
+
+class GitHubError extends Error {
+  constructor(message, status, detail = "") {
+    super(message);
+    this.status = status;
+    this.detail = detail;
+  }
+}
+
+function concurrentWrite(error) {
+  // 422 also covers validation/abuse errors: retry only an explicit stale ref/SHA.
+  return error instanceof GitHubError && (error.status === 409 || (error.status === 422
+    && /not a fast[- ]forward|sha[^\n]*(?:does not match|mismatch)|is at [a-f0-9]+ but expected/i.test(error.detail)));
+}
 
 function b64url(bytes) {
   let binary = "";
@@ -76,16 +91,23 @@ async function unseal(value, env) {
 }
 
 async function github(path, token, options = {}) {
-  const response = await fetch(path.startsWith("https://") ? path : `${REPO_API}${path}`, {
-    ...options,
-    headers: { ...GITHUB_HEADERS, "Content-Type": "application/json", Authorization: `Bearer ${token}`, ...options.headers }
-  });
+  let response;
+  try {
+    response = await fetch(path.startsWith("https://") ? path : `${REPO_API}${path}`, {
+      cache: "no-store",
+      ...options,
+      headers: { ...GITHUB_HEADERS, "Content-Type": "application/json", Authorization: `Bearer ${token}`, ...options.headers }
+    });
+  } catch {
+    throw new GitHubError("GitHub non ha confermato la pubblicazione. Riprova tra poco.", 0);
+  }
   const data = await response.json().catch(() => ({}));
   if (!response.ok) {
     console.error(JSON.stringify({ event: "github_gallery_error", status: response.status, path }));
-    if (response.status === 401 || response.status === 403) throw new Error("Accesso GitHub scaduto o senza permesso di modifica.");
-    if (response.status === 409 || response.status === 422) throw new Error("La galleria è cambiata nel frattempo. Aggiorna la pagina e riprova.");
-    throw new Error("GitHub non ha accettato la pubblicazione. Riprova tra poco.");
+    const message = response.status === 401 || response.status === 403 ? "Accesso GitHub scaduto o senza permesso di modifica."
+      : response.status === 409 || response.status === 422 ? "La galleria è cambiata nel frattempo. Aggiorna la pagina e riprova."
+      : "GitHub non ha accettato la pubblicazione. Riprova tra poco.";
+    throw new GitHubError(message, response.status, JSON.stringify(data));
   }
   return data;
 }
@@ -168,10 +190,26 @@ async function authCallback(env, request) {
   return new Response(null, { status: 302, headers });
 }
 
-async function readCatalog(token) {
-  const file = await github("/contents/gallery/catalog.json?ref=main", token);
+async function readCatalog(token, ref = "main") {
+  const file = await github(`/contents/gallery/catalog.json?ref=${encodeURIComponent(ref)}`, token);
   const catalog = JSON.parse(decodeUtf8Base64(file.content));
   return { catalog, sha: file.sha };
+}
+
+async function updateCatalog(token, message, change) {
+  for (let attempt = 0; attempt < MAX_WRITE_ATTEMPTS; attempt++) {
+    const { catalog, sha } = await readCatalog(token);
+    if (!change(catalog)) return;
+    try {
+      await github("/contents/gallery/catalog.json", token, {
+        method: "PUT",
+        body: JSON.stringify({ message, content: utf8base64(JSON.stringify(catalog, null, 2) + "\n"), sha, branch: "main" })
+      });
+      return;
+    } catch (error) {
+      if (!concurrentWrite(error) || attempt === MAX_WRITE_ATTEMPTS - 1) throw error;
+    }
+  }
 }
 
 function verifyOrder(catalog, category, order) {
@@ -183,13 +221,12 @@ function verifyOrder(catalog, category, order) {
 async function publishOrder(token, body) {
   const { category, order } = body;
   if (!CATEGORIES.has(category)) throw new Error("Sezione non valida.");
-  const { catalog, sha } = await readCatalog(token);
-  if (!verifyOrder(catalog, category, order)) throw new Error("La galleria è cambiata. Aggiorna la pagina e riprova.");
-  const byId = new Map(catalog.sections[category].map(item => [item.id, item]));
-  catalog.sections[category] = order.map(id => byId.get(id));
-  await github("/contents/gallery/catalog.json", token, {
-    method: "PUT",
-    body: JSON.stringify({ message: `Riordina galleria ${category}`, content: utf8base64(JSON.stringify(catalog, null, 2) + "\n"), sha, branch: "main" })
+  await updateCatalog(token, `Riordina galleria ${category}`, catalog => {
+    if (!verifyOrder(catalog, category, order)) throw new Error("Le foto della galleria sono cambiate. Aggiorna la pagina per scegliere il nuovo ordine.");
+    if (catalog.sections[category].every((item, index) => item.id === order[index])) return false;
+    const byId = new Map(catalog.sections[category].map(item => [item.id, item]));
+    catalog.sections[category] = order.map(id => byId.get(id));
+    return true;
   });
   return { status: "publishing" };
 }
@@ -197,19 +234,15 @@ async function publishOrder(token, body) {
 async function publishRemoval(token, body) {
   const { category, id } = body;
   if (!CATEGORIES.has(category) || typeof id !== "string") throw new Error("Foto non valida.");
-  const { catalog, sha } = await readCatalog(token);
-  const photos = catalog.sections?.[category];
-  if (!Array.isArray(photos) || photos.filter(photo => photo.id === id).length !== 1) {
-    throw new Error("La foto non è più presente. Aggiorna la pagina e riprova.");
-  }
-  if (!Array.isArray(catalog.removed || [])) {
-    throw new Error("Catalogo non valido. Riprova più tardi.");
-  }
-  catalog.sections[category] = photos.filter(photo => photo.id !== id);
-  catalog.removed = [...new Set([...(catalog.removed || []), id])];
-  await github("/contents/gallery/catalog.json", token, {
-    method: "PUT",
-    body: JSON.stringify({ message: `Rimuovi foto dalla galleria ${category}`, content: utf8base64(JSON.stringify(catalog, null, 2) + "\n"), sha, branch: "main" })
+  await updateCatalog(token, `Rimuovi foto dalla galleria ${category}`, catalog => {
+    const photos = catalog.sections?.[category];
+    if (!Array.isArray(catalog.removed || [])) throw new Error("Catalogo non valido. Riprova più tardi.");
+    const matches = Array.isArray(photos) ? photos.filter(photo => photo.id === id).length : -1;
+    if (matches === 0 && catalog.removed?.includes(id)) return false;
+    if (matches !== 1) throw new Error("La foto non è più presente. Aggiorna la pagina e riprova.");
+    catalog.sections[category] = photos.filter(photo => photo.id !== id);
+    catalog.removed = [...new Set([...(catalog.removed || []), id])];
+    return true;
   });
   return { status: "publishing", id };
 }
@@ -225,28 +258,46 @@ async function publishImage(token, body) {
   }
   const imageBytes = Math.floor(image.length * 3 / 4) - (image.endsWith("==") ? 2 : image.endsWith("=") ? 1 : 0);
   if (imageBytes > 10 * 1024 * 1024) throw new Error("L'immagine supera il limite di 10 MB.");
-  const { catalog } = await readCatalog(token);
-  if (mode === "replace" && !catalog.sections[category].some(item => item.id === id)) throw new Error("La foto selezionata non è più presente. Aggiorna la pagina.");
   const uploadId = crypto.randomUUID().replace(/-/g, "");
   const request = JSON.stringify({ mode, category, id: mode === "replace" ? id : undefined, titles, extension });
-  const branch = await github("/git/ref/heads/main", token);
-  const head = branch.object.sha;
-  const commit = await github(`/git/commits/${head}`, token);
-  const imageBlob = await github("/git/blobs", token, { method: "POST", body: JSON.stringify({ content: image, encoding: "base64" }) });
-  const requestBlob = await github("/git/blobs", token, { method: "POST", body: JSON.stringify({ content: request, encoding: "utf-8" }) });
-  const tree = await github("/git/trees", token, {
-    method: "POST",
-    body: JSON.stringify({ base_tree: commit.tree.sha, tree: [
-      { path: `gallery/inbox/${uploadId}.${extension}`, mode: "100644", type: "blob", sha: imageBlob.sha },
-      { path: `gallery/inbox/${uploadId}.json`, mode: "100644", type: "blob", sha: requestBlob.sha }
-    ] })
-  });
-  const next = await github("/git/commits", token, {
-    method: "POST",
-    body: JSON.stringify({ message: `Carica foto per galleria ${category}`, tree: tree.sha, parents: [head] })
-  });
-  await github("/git/refs/heads/main", token, { method: "PATCH", body: JSON.stringify({ sha: next.sha, force: false }) });
-  return { status: "publishing", id: mode === "add" ? `photo-${uploadId}` : id };
+  const result = { status: "publishing", id: mode === "add" ? `photo-${uploadId}` : id };
+  let entries;
+  for (let attempt = 0; attempt < MAX_WRITE_ATTEMPTS; attempt++) {
+    const branch = await github("/git/ref/heads/main", token);
+    const head = branch.object.sha;
+    const { catalog } = await readCatalog(token, head);
+    if (mode === "replace" && !catalog.sections?.[category]?.some(item => item.id === id)) throw new Error("La foto selezionata non è più presente. Aggiorna la pagina.");
+    const commit = await github(`/git/commits/${head}`, token);
+    if (!entries) {
+      const imageBlob = await github("/git/blobs", token, { method: "POST", body: JSON.stringify({ content: image, encoding: "base64" }) });
+      const requestBlob = await github("/git/blobs", token, { method: "POST", body: JSON.stringify({ content: request, encoding: "utf-8" }) });
+      entries = [
+        { path: `gallery/inbox/${uploadId}.${extension}`, mode: "100644", type: "blob", sha: imageBlob.sha },
+        { path: `gallery/inbox/${uploadId}.json`, mode: "100644", type: "blob", sha: requestBlob.sha }
+      ];
+    }
+    const tree = await github("/git/trees", token, {
+      method: "POST", body: JSON.stringify({ base_tree: commit.tree.sha, tree: entries })
+    });
+    const next = await github("/git/commits", token, {
+      method: "POST",
+      body: JSON.stringify({ message: `Carica foto per galleria ${category}`, tree: tree.sha, parents: [head] })
+    });
+    try {
+      await github("/git/refs/heads/main", token, { method: "PATCH", body: JSON.stringify({ sha: next.sha, force: false }) });
+      return result;
+    } catch (error) {
+      // A lost response may hide an accepted PATCH. Check history, even if the
+      // publisher has already consumed/deleted the inbox files in a newer commit.
+      if (error instanceof GitHubError && (error.status === 0 || error.status >= 500)) {
+        const latest = await github("/git/ref/heads/main", token);
+        if (latest.object.sha === next.sha) return result;
+        const comparison = await github(`/compare/${next.sha}...${latest.object.sha}`, token);
+        if (["ahead", "identical"].includes(comparison.status)) return result;
+      }
+      if (!concurrentWrite(error) || attempt === MAX_WRITE_ATTEMPTS - 1) throw error;
+    }
+  }
 }
 
 export async function handleGalleryApi(request, env) {

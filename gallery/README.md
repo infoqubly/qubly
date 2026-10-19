@@ -17,3 +17,9 @@ L'app agisce con il permesso comune all'app installata e al collaboratore GitHub
 - Il riordino aggiorna solo `gallery/catalog.json`; la stessa azione riordina gli elementi nell'HTML, inclusa la priorità di caricamento delle prime due foto.
 - `scripts/optimize_images.py` mantiene l'ordine scelto anche quando rigenera le immagini sorgente.
 - Il vecchio percorso `/gestione-gallerie` rimanda al tool. Le issue form già aperte continuano a funzionare e sincronizzano il catalogo.
+
+Puoi inviare più modifiche consecutive senza attendere la pubblicazione della precedente. I tre workflow condividono una coda che conserva le esecuzioni in attesa (`queue: max`). Ogni pubblicazione elabora anche i caricamenti accettati in `gallery/inbox/`.
+
+Se `main` cambia durante l'elaborazione, `scripts/publish_site.py` recupera la nuova versione e rigenera le pagine in una nuova copia temporanea, fino a dieci tentativi con breve attesa crescente. Non fonde gli HTML generati e non forza il push. Le richieste issue già pubblicate vengono riconosciute dal trailer `Gallery-Request` e non sono riapplicate.
+
+I caricamenti seguono l'ordine dei commit di invio, anche quando sostituiscono la stessa foto; una sostituzione in coda per una foto rimossa viene scartata senza ripristinarla. Anche il salvataggio iniziale dal tool ritenta automaticamente i conflitti GitHub, fino a cinque tentativi, mantenendo lo stesso ID del caricamento. Errori di autorizzazione, file non validi o contesa persistente oltre questi limiti restano segnalati: non vengono nascosti come pubblicazioni riuscite.
