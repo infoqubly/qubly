@@ -194,6 +194,15 @@
         "preview": "assets/optimized/PS/managed/reviewed-43-1536.webp?v=c7697c68b6"
       },
       {
+        "id": "interni-01",
+        "titles": {
+          "it": "Soggiorno contemporaneo",
+          "en": "Contemporary living room",
+          "sl": "Sodobna dnevna soba"
+        },
+        "preview": "assets/optimized/PS/managed/interni-01-1536.webp?v=771899b7fe"
+      },
+      {
         "id": "reviewed-09",
         "titles": {
           "it": "Cucina in pietra e legno",
@@ -246,15 +255,6 @@
           "sl": "Ustvarjalni studio"
         },
         "preview": "assets/optimized/PS/reviewed/17-1536.webp?v=de3ae9ecfa"
-      },
-      {
-        "id": "interni-01",
-        "titles": {
-          "it": "Soggiorno contemporaneo",
-          "en": "Contemporary living room",
-          "sl": "Sodobna dnevna soba"
-        },
-        "preview": "assets/optimized/PS/managed/interni-01-1536.webp?v=771899b7fe"
       },
       {
         "id": "interni-02",
