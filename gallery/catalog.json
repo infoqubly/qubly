@@ -176,15 +176,6 @@
         "preview": "assets/optimized/PS/reviewed/29-1312.webp?v=527011092c"
       },
       {
-        "id": "reviewed-06",
-        "titles": {
-          "it": "Casa attorno al patio",
-          "en": "Courtyard house",
-          "sl": "Hiša z notranjim dvoriščem"
-        },
-        "preview": "assets/optimized/PS/reviewed/06-1370.webp?v=53bdae6dc0"
-      },
-      {
         "id": "reviewed-15",
         "titles": {
           "it": "Galleria d’arte",
@@ -192,6 +183,15 @@
           "sl": "Umetniška galerija"
         },
         "preview": "assets/optimized/PS/reviewed/15-1536.webp?v=a66a20c091"
+      },
+      {
+        "id": "reviewed-06",
+        "titles": {
+          "it": "Casa attorno al patio",
+          "en": "Courtyard house",
+          "sl": "Hiša z notranjim dvoriščem"
+        },
+        "preview": "assets/optimized/PS/reviewed/06-1370.webp?v=53bdae6dc0"
       },
       {
         "id": "reviewed-43",
