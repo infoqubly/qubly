@@ -1210,6 +1210,29 @@
       ],
       "width": 1536
     },
+    "assets/optimized/PS/managed/reviewed-50": {
+      "digest": "28985f25af",
+      "height": 1536,
+      "source": "PS/managed/reviewed-50.webp",
+      "targets": [
+        640,
+        1280,
+        1920
+      ],
+      "variants": [
+        [
+          640,
+          "assets/optimized/PS/managed/reviewed-50-640.webp",
+          "c91efa877e"
+        ],
+        [
+          1024,
+          "assets/optimized/PS/managed/reviewed-50-1024.webp",
+          "28985f25af"
+        ]
+      ],
+      "width": 1024
+    },
     "assets/optimized/PS/paesaggi": {
       "digest": "4cbef24a6f",
       "height": 1086,
@@ -2095,6 +2118,7 @@
     "PS/managed/reviewed-38": "PS/managed/reviewed-38.webp",
     "PS/managed/reviewed-41": "PS/managed/reviewed-41.webp",
     "PS/managed/reviewed-46": "PS/managed/reviewed-46.webp",
+    "PS/managed/reviewed-50": "PS/managed/reviewed-50.webp",
     "PS/paesaggi": "PS/paesaggi.png",
     "PS/paesaggi/01": "PS/paesaggi/01.jpg",
     "PS/paesaggi/02": "PS/paesaggi/02.jpg",
@@ -2215,6 +2239,7 @@
     "PS/managed/reviewed-38.webp": "0c8e2d4a4e",
     "PS/managed/reviewed-41.webp": "28985f25af",
     "PS/managed/reviewed-46.webp": "4b6ce0bcf3",
+    "PS/managed/reviewed-50.webp": "28985f25af",
     "PS/paesaggi.png": "4cbef24a6f",
     "PS/paesaggi.webp": "903d305993",
     "PS/paesaggi/01.jpg": "4d6f0f69bd",
