@@ -221,6 +221,15 @@
         "preview": "assets/optimized/PS/interni/02-1536.webp?v=bf3553d801"
       },
       {
+        "id": "interni-04",
+        "titles": {
+          "it": "Cabina panoramica",
+          "en": "Panoramic cabin",
+          "sl": "Panoramska kabina"
+        },
+        "preview": "assets/optimized/PS/managed/interni-04-1536.webp?v=e13ea2f8f0"
+      },
+      {
         "id": "reviewed-09",
         "titles": {
           "it": "Cucina in pietra e legno",
@@ -264,15 +273,6 @@
           "sl": "Salon jahte"
         },
         "preview": "assets/optimized/PS/managed/interni-03-1536.webp?v=cfc3bd84e7"
-      },
-      {
-        "id": "interni-04",
-        "titles": {
-          "it": "Cabina panoramica",
-          "en": "Panoramic cabin",
-          "sl": "Panoramska kabina"
-        },
-        "preview": "assets/optimized/PS/managed/interni-04-1536.webp?v=e13ea2f8f0"
       },
       {
         "id": "interni-05",
