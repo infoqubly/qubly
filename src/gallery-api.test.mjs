@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
+import { setImmediate as nextTurn } from 'node:timers/promises';
 import { handleGalleryApi } from './gallery-api.js';
 
 const origin = 'https://infoqubly.github.io';
@@ -107,7 +108,7 @@ test('GitHub login creates an encrypted session and reorder writes the catalog',
   } finally { globalThis.fetch = originalFetch; }
 });
 
-async function publish(body) {
+async function publish(body, requestOptions = {}) {
   const key = await crypto.subtle.importKey('raw', Buffer.alloc(32, 7), 'AES-GCM', false, ['encrypt']);
   const nonce = crypto.getRandomValues(new Uint8Array(12));
   const plaintext = new TextEncoder().encode(JSON.stringify({ token: 'github-test-token', login: 'infoqubly', expires: Date.now() + 60_000 }));
@@ -116,7 +117,8 @@ async function publish(body) {
   return handleGalleryApi(new Request(`${base}/publish`, {
     method: 'POST',
     headers: { Origin: origin, Authorization: `Bearer ${session}`, 'Content-Type': 'application/json' },
-    body: JSON.stringify(body)
+    body: JSON.stringify(body),
+    ...requestOptions
   }), env);
 }
 
@@ -126,7 +128,7 @@ async function withGitHub(handler, run) {
     assert.equal(options.headers.Authorization, 'Bearer github-test-token');
     assert.equal(options.cache, 'no-store');
     const path = new URL(url).pathname.replace('/repos/infoqubly/qubly', '') + new URL(url).search;
-    return handler(path, options.method || 'GET', options.body ? JSON.parse(options.body) : undefined);
+    return handler(path, options.method || 'GET', options.body ? JSON.parse(options.body) : undefined, options);
   };
   try { await run(); } finally { globalThis.fetch = originalFetch; }
 }
@@ -321,12 +323,237 @@ for (const uncertain of ['accepted', 'processed', 'rejected']) {
     const state = uploadGitHub({ uncertain });
     await withGitHub(state.handler, async () => {
       const response = await publish(imageRequest);
-      assert.equal(response.status, uncertain === 'rejected' ? 400 : 202, JSON.stringify(await response.json()));
+      const result = await response.json();
+      assert.equal(response.status, uncertain === 'rejected' ? 503 : 202, JSON.stringify(result));
+      if (uncertain === 'rejected') assert.equal(result.code, 'publication_unknown');
     });
     assert.equal(state.patches.length, 1);
     assert.equal(state.trees.length, 1);
     assert.equal(state.blobs.length, 2);
     if (uncertain === 'processed') assert.ok([...state.files.keys()].every(path => !path.startsWith('gallery/inbox/')));
+  });
+}
+
+async function waitFor(check) {
+  for (let turn = 0; turn < 100 && !check(); turn++) await nextTurn();
+  assert.ok(check(), 'expected asynchronous operation to start');
+}
+
+function fakeClock(t) {
+  t.mock.timers.enable({ apis: ['setTimeout', 'Date'], now: new Date('2026-10-19T12:00:00Z') });
+}
+
+for (const hang of ['fetch', 'json']) {
+  test(`GitHub ${hang} hang is bounded, aborted and returns an error`, async t => {
+    fakeClock(t);
+    let signal;
+    let calls = 0;
+    await withGitHub((path, method, body, options) => {
+      calls++;
+      signal = options.signal;
+      if (hang === 'fetch') return new Promise(() => {});
+      return new Response(new ReadableStream({ start(controller) { controller.enqueue(new TextEncoder().encode('{')); } }));
+    }, async () => {
+      const result = publish({ mode: 'reorder', category: 'esterni', order: ['two', 'one'] });
+      await waitFor(() => signal);
+      t.mock.timers.tick(15_000);
+      const response = await result;
+      assert.equal(response.status, 504);
+      assert.equal((await response.json()).code, 'request_timeout');
+      assert.ok(signal.aborted);
+    });
+    assert.equal(calls, 1);
+  });
+}
+
+test('an unfinished incoming upload is cancelled without waiting for a stalled cancel promise', async t => {
+  fakeClock(t);
+  let reads = 0;
+  let cancelled = false;
+  let calls = 0;
+  const body = new ReadableStream({
+    pull(controller) { if (++reads === 1) controller.enqueue(new TextEncoder().encode('{')); },
+    cancel() { cancelled = true; return new Promise(() => {}); }
+  });
+  await withGitHub(() => { calls++; throw new Error('No GitHub request expected'); }, async () => {
+    const result = publish({}, { body, duplex: 'half' });
+    await waitFor(() => reads >= 2);
+    t.mock.timers.tick(30_000);
+    const response = await result;
+    assert.equal(response.status, 504);
+    assert.equal((await response.json()).code, 'request_timeout');
+    assert.ok(cancelled);
+  });
+  assert.equal(calls, 0);
+});
+
+test('a timed out PATCH accepted by GitHub is confirmed without another upload', async t => {
+  fakeClock(t);
+  const state = uploadGitHub();
+  let signal;
+  let finishPatch;
+  await withGitHub((path, method, body, options) => {
+    const result = state.handler(path, method, body);
+    if (method === 'PATCH') {
+      signal = options.signal;
+      return new Promise(resolve => { finishPatch = () => resolve(result); });
+    }
+    return result;
+  }, async () => {
+    const result = publish(imageRequest);
+    await waitFor(() => signal);
+    t.mock.timers.tick(15_000);
+    const response = await result;
+    assert.equal(response.status, 202, JSON.stringify(await response.json()));
+    assert.ok(signal.aborted);
+    finishPatch();
+    await nextTurn();
+  });
+  assert.equal(state.patches.length, 1);
+  assert.equal(state.blobs.length, 2);
+  assert.equal(state.trees.length, 1);
+});
+
+for (const verification of ['ref', 'compare']) {
+  test(`uncertain PATCH with stalled ${verification} verification returns unknown and never writes again`, async t => {
+    fakeClock(t);
+    const state = uploadGitHub({ uncertain: 'processed' });
+    let verificationSignal;
+    await withGitHub((path, method, body, options) => {
+      if (state.patches.length && ((verification === 'ref' && path === '/git/ref/heads/main') || path.startsWith('/compare/'))) {
+        verificationSignal = options.signal;
+        return new Promise(() => {});
+      }
+      return state.handler(path, method, body);
+    }, async () => {
+      const result = publish(imageRequest);
+      await waitFor(() => verificationSignal);
+      t.mock.timers.tick(15_000);
+      const response = await result;
+      assert.equal(response.status, 503);
+      const data = await response.json();
+      assert.equal(data.code, 'publication_unknown');
+      assert.match(data.error, /potrebbe essere già in pubblicazione/);
+      assert.ok(verificationSignal.aborted);
+      t.mock.timers.tick(60_000);
+      await nextTurn();
+    });
+    assert.equal(state.patches.length, 1);
+    assert.equal(state.blobs.length, 2);
+    assert.equal(state.trees.length, 1);
+  });
+}
+
+for (const mode of ['reorder', 'remove']) {
+  for (const accepted of [true, false]) {
+    test(`${mode} PUT timeout checks saved state (${accepted ? 'confirmed' : 'unknown'}) without another write`, async t => {
+      fakeClock(t);
+      let state = structuredClone(catalog);
+      let writes = 0;
+      let reads = 0;
+      let signal;
+      await withGitHub((path, method, body, options) => {
+        if (method === 'GET') { reads++; return catalogFile(state); }
+        assert.equal(method, 'PUT');
+        writes++;
+        signal = options.signal;
+        if (accepted) state = JSON.parse(Buffer.from(body.content, 'base64').toString());
+        // Headers alone do not complete a successful write: the body can stall.
+        return new Response(new ReadableStream({ start(controller) { controller.enqueue(new TextEncoder().encode('{')); } }));
+      }, async () => {
+        const result = publish({ mode, category: 'esterni', id: 'one', order: ['two', 'one'] });
+        await waitFor(() => signal);
+        t.mock.timers.tick(15_000);
+        const response = await result;
+        assert.equal(response.status, accepted ? 202 : 503);
+        const data = await response.json();
+        if (!accepted) assert.equal(data.code, 'publication_unknown');
+        assert.ok(signal.aborted);
+      });
+      assert.equal(writes, 1);
+      assert.equal(reads, 2);
+    });
+  }
+}
+
+test('a stalled catalog verification after PUT remains unknown without repeating the write', async t => {
+  fakeClock(t);
+  let writes = 0;
+  let signal;
+  await withGitHub((path, method, body, options) => {
+    if (method === 'PUT') { writes++; throw new TypeError('Response lost'); }
+    if (writes) { signal = options.signal; return new Promise(() => {}); }
+    return catalogFile(catalog);
+  }, async () => {
+    const result = publish({ mode: 'remove', category: 'esterni', id: 'one' });
+    await waitFor(() => signal);
+    t.mock.timers.tick(15_000);
+    const response = await result;
+    assert.equal(response.status, 503);
+    assert.equal((await response.json()).code, 'publication_unknown');
+  });
+  assert.equal(writes, 1);
+});
+
+test('one publication budget bounds repeated conflicts and ignores late responses', async t => {
+  fakeClock(t);
+  let calls = 0;
+  let writes = 0;
+  const signals = [];
+  await withGitHub((path, method, body, options) => {
+    calls++;
+    signals.push(options.signal);
+    return new Promise(resolve => setTimeout(() => {
+      if (method === 'PUT') { writes++; resolve(Response.json({ message: 'Conflict' }, { status: 409 })); }
+      else resolve(catalogFile(catalog));
+    }, 10_000));
+  }, async () => {
+    const result = publish({ mode: 'reorder', category: 'esterni', order: ['two', 'one'] });
+    for (let call = 1; call <= 4; call++) {
+      await waitFor(() => calls === call);
+      t.mock.timers.tick(10_000);
+    }
+    await waitFor(() => calls === 5);
+    t.mock.timers.tick(5_000);
+    const response = await result;
+    assert.equal(response.status, 504);
+    assert.equal((await response.json()).code, 'request_timeout');
+    assert.ok(signals[4].aborted);
+    assert.ok(signals.slice(0, 4).every(signal => !signal.aborted), 'completed calls clear their timeout timers');
+    t.mock.timers.tick(60_000);
+    await nextTurn();
+  });
+  assert.equal(calls, 5);
+  assert.equal(writes, 2);
+});
+
+for (const hang of ['fetch', 'json']) {
+  test(`GitHub OAuth ${hang} is bounded without disclosing credentials or retrying the token exchange`, async t => {
+    fakeClock(t);
+    let signal;
+    let calls = 0;
+    const originalFetch = globalThis.fetch;
+    globalThis.fetch = async (url, options) => {
+      calls++;
+      assert.equal(url, 'https://github.com/login/oauth/access_token');
+      signal = options.signal;
+      if (hang === 'fetch') return new Promise(() => {});
+      return new Response(new ReadableStream({ start(controller) { controller.enqueue(new TextEncoder().encode('{')); } }));
+    };
+    try {
+      const start = await handleGalleryApi(new Request(`${base}/auth/start`), env);
+      const state = new URL(start.headers.get('Location')).searchParams.get('state');
+      const result = handleGalleryApi(new Request(`${base}/auth/callback?code=test-code&state=${state}`, { headers: { Cookie: start.headers.get('Set-Cookie').split(';')[0] } }), env);
+      await waitFor(() => signal);
+      t.mock.timers.tick(15_000);
+      const response = await result;
+      assert.equal(response.status, 503);
+      const error = (await response.json()).error;
+      assert.match(error, /accedi di nuovo/);
+      assert.ok(!error.includes(env.GALLERY_CLIENT_SECRET));
+      assert.ok(signal.aborted);
+    } finally { globalThis.fetch = originalFetch; }
+    assert.equal(calls, 1);
   });
 }
 

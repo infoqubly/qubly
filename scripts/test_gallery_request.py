@@ -4,7 +4,6 @@ from __future__ import annotations
 
 import io
 import json
-import shutil
 import struct
 import subprocess
 import tempfile
@@ -40,10 +39,46 @@ class GalleryRequestTests(unittest.TestCase):
     def setUp(self) -> None:
         self.temporary = tempfile.TemporaryDirectory()
         self.root = Path(self.temporary.name)
-        for category in gallery_request.CATEGORIES:
-            shutil.copy2(SOURCE_ROOT / f"{category}.html", self.root / f"{category}.html")
+        # Operational fixtures must survive legitimate edits to the live catalog,
+        # including caption changes, reordering and removal of existing IDs.
+        photos = {
+            "esterni": [
+                ("esterni-01", ("Complesso civico", "Civic complex", "Javni kompleks")),
+                ("reviewed-03", ("Casa in pietra", "Stone house", "Kamnita hiša")),
+                ("reviewed-28", ("Facciata", "Façade detail", "Detajl fasade")),
+                ("esterni-02", ("Residenze nel verde", "Garden residences", "Hiše med zelenjem")),
+            ],
+            "interni": [
+                ("interni-01", ("Soggiorno contemporaneo", "Modern living room", "Sodobna dnevna soba")),
+                ("interni-09", ("Cucina residenziale", "Residential kitchen", "Stanovanjska kuhinja")),
+            ],
+            "paesaggi": [("paesaggi-01", ("Costa", "Coast", "Obala"))],
+        }
+        catalog = {"version": 1, "sections": {}}
+        for category, items in photos.items():
+            blocks = []
+            section = []
+            for gallery_id, captions in items:
+                source = f"PS/{category}/{gallery_id.removeprefix(category + '-')}.jpg"
+                italian, english, slovenian = captions
+                blocks.append(
+                    f'    <a href="{source}" class="masonry-item" data-gallery-id="{gallery_id}" '
+                    'data-pswp-width="800" data-pswp-height="600">\n'
+                    f'        <img src="{source}" width="800" height="600" alt="{italian}" loading="lazy" />\n'
+                    '        <span class="masonry-caption"><span class="masonry-caption__title" '
+                    f'data-caption-it="{italian}" data-caption-en="{english}" data-caption-sl="{slovenian}">{italian}</span></span>\n'
+                    '    </a>'
+                )
+                section.append({"id": gallery_id, "titles": dict(zip(("it", "en", "sl"), captions)), "preview": source})
+            page = (
+                '<div class="masonry-gallery layout-1">\n'
+                '    <!-- GALLERY-ITEMS:START -->\n' + "\n".join(blocks)
+                + '\n    <!-- GALLERY-ITEMS:END -->\n</div>\n'
+            )
+            (self.root / f"{category}.html").write_text(page, encoding="utf-8")
+            catalog["sections"][category] = section
         (self.root / "gallery").mkdir()
-        shutil.copy2(SOURCE_ROOT / "gallery/catalog.json", self.root / "gallery/catalog.json")
+        (self.root / "gallery/catalog.json").write_text(json.dumps(catalog), encoding="utf-8")
         gallery_catalog.ROOT = self.root
         gallery_catalog.CATALOG_PATH = self.root / "gallery/catalog.json"
         gallery_request.ROOT = self.root
@@ -81,11 +116,11 @@ class GalleryRequestTests(unittest.TestCase):
         self.git("commit", "-m", "Add upload request")
 
     def test_source_galleries_have_unique_ids_matching_catalog(self) -> None:
-        catalog = gallery_catalog.read_catalog()
+        catalog = json.loads((SOURCE_ROOT / "gallery/catalog.json").read_text(encoding="utf-8"))
         removed = set(catalog.get("removed", []))
         for category in gallery_catalog.CATEGORIES:
             with self.subTest(category=category):
-                page = (self.root / f"{category}.html").read_text(encoding="utf-8")
+                page = (SOURCE_ROOT / f"{category}.html").read_text(encoding="utf-8")
                 blocks = gallery_catalog.item_blocks(page)
                 expected_ids = [
                     item["id"] for item in catalog["sections"][category]
@@ -110,6 +145,8 @@ class GalleryRequestTests(unittest.TestCase):
 
     def test_replace_reviewed_image_keeps_its_place(self) -> None:
         before = (self.root / "esterni.html").read_text(encoding="utf-8")
+        before_blocks = gallery_catalog.item_blocks(before)
+        previous_titles = gallery_catalog.item_data("reviewed-28", before_blocks["reviewed-28"])["titles"]
         event = issue(9002, "Sostituzione di facciata", {
             "Foto selezionata": "reviewed-28", "Titolo italiano": "Nuova facciata",
         })
@@ -117,12 +154,17 @@ class GalleryRequestTests(unittest.TestCase):
         after = (self.root / "esterni.html").read_text(encoding="utf-8")
         self.assertEqual(before.count('data-gallery-id="'), after.count('data-gallery-id="'))
         self.assertEqual(after.count('data-gallery-id="reviewed-28"'), 1)
-        self.assertIn('data-caption-it="Nuova facciata"', after)
-        self.assertIn('data-caption-en="Façade detail"', after)
+        after_blocks = gallery_catalog.item_blocks(after)
+        self.assertEqual(list(after_blocks), list(before_blocks))
+        self.assertEqual(
+            gallery_catalog.item_data("reviewed-28", after_blocks["reviewed-28"])["titles"],
+            {**previous_titles, "it": "Nuova facciata"},
+        )
         self.assertIn('data-gallery-managed="true"', after)
-        self.assertLess(after.index('data-gallery-id="reviewed-28"'), after.index('data-gallery-id="reviewed-03"'))
 
     def test_original_image_replacement_survives_optimizer(self) -> None:
+        before = gallery_catalog.item_blocks((self.root / "esterni.html").read_text(encoding="utf-8"))
+        previous_titles = gallery_catalog.item_data("esterni-01", before["esterni-01"])["titles"]
         event = issue(9003, "[Sostituisci foto] complesso civico", {"ID foto": "esterni-01"})
         gallery_request.apply_request(event, fixture_image("#274a48"))
         source_dir = self.root / "PS/esterni"
@@ -132,7 +174,9 @@ class GalleryRequestTests(unittest.TestCase):
         page = (self.root / "esterni.html").read_text(encoding="utf-8")
         self.assertEqual(page.count('data-gallery-id="esterni-01"'), 1)
         self.assertIn('assets/optimized/PS/managed/esterni-01-800.webp', page)
-        self.assertIn('data-caption-it="Complesso civico"', page)
+        after = gallery_catalog.item_blocks(page)
+        self.assertEqual(list(after), list(before))
+        self.assertEqual(gallery_catalog.item_data("esterni-01", after["esterni-01"])["titles"], previous_titles)
 
     def test_unmodified_original_keeps_caption_after_optimizer(self) -> None:
         source_dir = self.root / "PS/interni"
