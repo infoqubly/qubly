@@ -55,6 +55,20 @@ class GalleryRequestTests(unittest.TestCase):
     def tearDown(self) -> None:
         self.temporary.cleanup()
 
+    def test_source_galleries_have_unique_ids_matching_catalog(self) -> None:
+        catalog = gallery_catalog.read_catalog()
+        removed = set(catalog.get("removed", []))
+        for category in gallery_catalog.CATEGORIES:
+            with self.subTest(category=category):
+                page = (self.root / f"{category}.html").read_text(encoding="utf-8")
+                blocks = gallery_catalog.item_blocks(page)
+                expected_ids = [
+                    item["id"] for item in catalog["sections"][category]
+                    if item["id"] not in removed
+                ]
+                self.assertEqual(len(expected_ids), len(set(expected_ids)))
+                self.assertEqual(set(blocks), set(expected_ids))
+
     def test_add_image_with_title_and_webp_variants(self) -> None:
         event = issue(9001, "Nuova foto: Costa al tramonto", {
             "Sezione": "Paesaggi", "Titolo italiano": "Costa al tramonto",
@@ -134,6 +148,49 @@ class GalleryRequestTests(unittest.TestCase):
         self.assertTrue((gallery_request.ASSET_DIR / "interni-09-640.webp").exists())
         updated = next(item for item in gallery_catalog.read_catalog()["sections"]["interni"] if item["id"] == "interni-09")
         self.assertEqual(updated["titles"]["it"], "Cucina luminosa")
+
+    def test_queued_replacements_and_addition_keep_unique_ids_and_catalog_order(self) -> None:
+        gallery_id = "interni-09"
+        catalog = gallery_catalog.read_catalog()
+        section = catalog["sections"]["interni"]
+        selected = next(item for item in section if item["id"] == gallery_id)
+        section.remove(selected)
+        section.insert(0, selected)
+        chosen_order = [item["id"] for item in section]
+        gallery_catalog.CATALOG_PATH.write_text(json.dumps(catalog), encoding="utf-8")
+
+        final_titles = {"it": "Cucina aggiornata", "en": "Updated kitchen", "sl": "Posodobljena kuhinja"}
+        added_titles = {"it": "Nuovo soggiorno", "en": "New living room", "sl": "Nova dnevna soba"}
+        gallery_publish.INBOX.mkdir()
+        requests = [
+            ("a" * 32, "replace", {"it": "Prima cucina", "en": "First kitchen", "sl": "Prva kuhinja"}, "#875d45"),
+            ("b" * 32, "replace", final_titles, "#274a48"),
+            ("c" * 32, "add", added_titles, "#4a6677"),
+        ]
+        for request_id, mode, titles, color in requests:
+            request = {
+                "mode": mode, "category": "interni", "extension": "jpg", "titles": titles,
+            }
+            if mode == "replace":
+                request["id"] = gallery_id
+            (gallery_publish.INBOX / f"{request_id}.json").write_text(json.dumps(request), encoding="utf-8")
+            (gallery_publish.INBOX / f"{request_id}.jpg").write_bytes(fixture_image(color))
+
+        gallery_publish.main()
+
+        page = (self.root / "interni.html").read_text(encoding="utf-8")
+        blocks = gallery_catalog.item_blocks(page)
+        added_id = "photo-" + "c" * 32
+        self.assertEqual(list(blocks), chosen_order + [added_id])
+        for target_id, titles in ((gallery_id, final_titles), (added_id, added_titles)):
+            with self.subTest(gallery_id=target_id):
+                self.assertEqual(page.count(f'data-gallery-id="{target_id}"'), 1)
+                self.assertEqual(gallery_catalog.item_data(target_id, blocks[target_id])["titles"], titles)
+        published_section = gallery_catalog.read_catalog()["sections"]["interni"]
+        self.assertEqual([item["id"] for item in published_section], chosen_order + [added_id])
+        self.assertEqual(published_section[0]["titles"], final_titles)
+        self.assertEqual(published_section[-1]["titles"], added_titles)
+        self.assertEqual(list(gallery_publish.INBOX.iterdir()), [])
 
     def test_removed_photo_stays_hidden_after_gallery_regeneration(self) -> None:
         catalog = gallery_catalog.read_catalog()

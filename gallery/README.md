@@ -17,3 +17,5 @@ L'app agisce con il permesso comune all'app installata e al collaboratore GitHub
 - Il riordino aggiorna solo `gallery/catalog.json`; la stessa azione riordina gli elementi nell'HTML, inclusa la priorità di caricamento delle prime due foto.
 - `scripts/optimize_images.py` mantiene l'ordine scelto anche quando rigenera le immagini sorgente.
 - Il vecchio percorso `/gestione-gallerie` rimanda al tool. Le issue form già aperte continuano a funzionare e sincronizzano il catalogo.
+
+I workflow leggono la versione corrente di `main` prima di generare le pagine. Se `main` cambia durante l'elaborazione, il salvataggio si interrompe per evitare di fondere ordini HTML diversi: rilancia il workflow fallito da **Actions → Re-run jobs**. Per recuperare i caricamenti rimasti in coda puoi anche avviare **Pubblica gallerie da QUBLY Tools → Run workflow**; non serve caricare di nuovo le immagini.

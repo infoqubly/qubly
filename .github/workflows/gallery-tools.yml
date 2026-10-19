@@ -6,6 +6,9 @@ on:
     paths:
       - gallery/catalog.json
       - gallery/inbox/**
+      - scripts/gallery*.py
+      - .github/workflows/gallery-tools.yml
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -16,13 +19,14 @@ concurrency:
 
 jobs:
   publish:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
+          ref: main
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v7
         with:
           python-version: '3.12'
 
@@ -45,5 +49,8 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git commit -m "Pubblica gallerie da QUBLY Tools"
-          git pull --rebase origin main
-          git push origin HEAD:main
+          # Generated HTML must never be rebased onto another gallery order.
+          if ! git push origin HEAD:main; then
+            echo "::error::main è cambiato durante la pubblicazione. Rilancia questo workflow per rigenerare le gallerie aggiornate."
+            exit 1
+          fi

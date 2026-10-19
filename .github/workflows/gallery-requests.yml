@@ -20,15 +20,16 @@ jobs:
       contains(github.event.issue.body, '### Foto selezionata') ||
       contains(github.event.issue.body, '### ID foto')) &&
       contains(fromJSON('["OWNER","MEMBER","COLLABORATOR"]'), github.event.issue.author_association)
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - name: Scarica il sito
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
+          ref: main
 
       - name: Prepara Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v7
         with:
           python-version: "3.12"
 
@@ -51,5 +52,8 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git commit -m "Aggiorna galleria dalla richiesta #${{ github.event.issue.number }}" -m "Fixes #${{ github.event.issue.number }}"
-          git pull --rebase origin main
-          git push origin HEAD:main
+          # Generated HTML must never be rebased onto another gallery order.
+          if ! git push origin HEAD:main; then
+            echo "::error::main è cambiato durante la pubblicazione. Rilancia questo workflow per rigenerare le gallerie aggiornate."
+            exit 1
+          fi
