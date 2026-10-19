@@ -349,6 +349,15 @@
         "preview": "assets/optimized/PS/paesaggi/01-1536.webp?v=d9306e28b2"
       },
       {
+        "id": "paesaggi-02",
+        "titles": {
+          "it": "Giardino notturno",
+          "en": "Night garden",
+          "sl": "Nočni vrt"
+        },
+        "preview": "assets/optimized/PS/paesaggi/02-1536.webp?v=fcb30dd22e"
+      },
+      {
         "id": "reviewed-00",
         "titles": {
           "it": "Garage 02",
@@ -374,15 +383,6 @@
           "sl": "Hiša na pečini"
         },
         "preview": "assets/optimized/PS/reviewed/24-1536.webp?v=a526e4af35"
-      },
-      {
-        "id": "paesaggi-02",
-        "titles": {
-          "it": "Giardino notturno",
-          "en": "Night garden",
-          "sl": "Nočni vrt"
-        },
-        "preview": "assets/optimized/PS/paesaggi/02-1536.webp?v=fcb30dd22e"
       }
     ]
   },
