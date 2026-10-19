@@ -84,15 +84,6 @@
         "preview": "assets/optimized/PS/reviewed/27-1370.webp?v=e710ab58b7"
       },
       {
-        "id": "reviewed-04",
-        "titles": {
-          "it": "Museo brutalista",
-          "en": "Brutalist museum",
-          "sl": "Brutalistični muzej"
-        },
-        "preview": "assets/optimized/PS/managed/reviewed-04-1024.webp?v=283b8b0eff"
-      },
-      {
         "id": "esterni-02",
         "titles": {
           "it": "Residenze nel verde",
@@ -100,6 +91,15 @@
           "sl": "Glamping med zelenjem"
         },
         "preview": "assets/optimized/PS/managed/esterni-02-1920.webp?v=c81aafafc4"
+      },
+      {
+        "id": "reviewed-04",
+        "titles": {
+          "it": "Museo brutalista",
+          "en": "Brutalist museum",
+          "sl": "Brutalistični muzej"
+        },
+        "preview": "assets/optimized/PS/managed/reviewed-04-1024.webp?v=283b8b0eff"
       },
       {
         "id": "reviewed-36",
