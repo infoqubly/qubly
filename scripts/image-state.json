@@ -1072,6 +1072,29 @@
       ],
       "width": 1024
     },
+    "assets/optimized/PS/managed/interni-06": {
+      "digest": "28985f25af",
+      "height": 1536,
+      "source": "PS/managed/interni-06.webp",
+      "targets": [
+        640,
+        1280,
+        1920
+      ],
+      "variants": [
+        [
+          640,
+          "assets/optimized/PS/managed/interni-06-640.webp",
+          "c91efa877e"
+        ],
+        [
+          1024,
+          "assets/optimized/PS/managed/interni-06-1024.webp",
+          "28985f25af"
+        ]
+      ],
+      "width": 1024
+    },
     "assets/optimized/PS/managed/photo-f400c8e0a8a34abfb9c3ddfa9fd11a61": {
       "digest": "28985f25af",
       "height": 1536,
@@ -2377,6 +2400,7 @@
     "PS/managed/interni-03": "PS/managed/interni-03.webp",
     "PS/managed/interni-04": "PS/managed/interni-04.webp",
     "PS/managed/interni-05": "PS/managed/interni-05.webp",
+    "PS/managed/interni-06": "PS/managed/interni-06.webp",
     "PS/managed/photo-f400c8e0a8a34abfb9c3ddfa9fd11a61": "PS/managed/photo-f400c8e0a8a34abfb9c3ddfa9fd11a61.webp",
     "PS/managed/reviewed-04": "PS/managed/reviewed-04.webp",
     "PS/managed/reviewed-09": "PS/managed/reviewed-09.webp",
@@ -2508,6 +2532,7 @@
     "PS/managed/interni-03.webp": "cfc3bd84e7",
     "PS/managed/interni-04.webp": "e13ea2f8f0",
     "PS/managed/interni-05.webp": "28985f25af",
+    "PS/managed/interni-06.webp": "28985f25af",
     "PS/managed/photo-f400c8e0a8a34abfb9c3ddfa9fd11a61.webp": "28985f25af",
     "PS/managed/reviewed-04.webp": "28985f25af",
     "PS/managed/reviewed-09.webp": "28985f25af",
