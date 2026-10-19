@@ -212,6 +212,15 @@
         "preview": "assets/optimized/PS/managed/reviewed-43-1536.webp?v=c7697c68b6"
       },
       {
+        "id": "interni-02",
+        "titles": {
+          "it": "Suite sul paesaggio",
+          "en": "Suite with a view",
+          "sl": "Apartma z razgledom"
+        },
+        "preview": "assets/optimized/PS/interni/02-1536.webp?v=bf3553d801"
+      },
+      {
         "id": "reviewed-09",
         "titles": {
           "it": "Cucina in pietra e legno",
@@ -246,15 +255,6 @@
           "sl": "Ustvarjalni studio"
         },
         "preview": "assets/optimized/PS/reviewed/17-1536.webp?v=de3ae9ecfa"
-      },
-      {
-        "id": "interni-02",
-        "titles": {
-          "it": "Suite sul paesaggio",
-          "en": "Suite with a view",
-          "sl": "Apartma z razgledom"
-        },
-        "preview": "assets/optimized/PS/interni/02-1536.webp?v=bf3553d801"
       },
       {
         "id": "interni-03",
