@@ -230,6 +230,15 @@
         "preview": "assets/optimized/PS/managed/interni-04-1536.webp?v=e13ea2f8f0"
       },
       {
+        "id": "interni-03",
+        "titles": {
+          "it": "Salone dello yacht",
+          "en": "Yacht salon",
+          "sl": "Salon jahte"
+        },
+        "preview": "assets/optimized/PS/managed/interni-03-1536.webp?v=cfc3bd84e7"
+      },
+      {
         "id": "reviewed-09",
         "titles": {
           "it": "Cucina in pietra e legno",
@@ -264,15 +273,6 @@
           "sl": "Ustvarjalni studio"
         },
         "preview": "assets/optimized/PS/reviewed/17-1536.webp?v=de3ae9ecfa"
-      },
-      {
-        "id": "interni-03",
-        "titles": {
-          "it": "Salone dello yacht",
-          "en": "Yacht salon",
-          "sl": "Salon jahte"
-        },
-        "preview": "assets/optimized/PS/managed/interni-03-1536.webp?v=cfc3bd84e7"
       },
       {
         "id": "interni-05",
