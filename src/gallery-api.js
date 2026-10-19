@@ -9,6 +9,44 @@ const GITHUB_HEADERS = {
 const CATEGORIES = new Set(["esterni", "interni", "paesaggi"]);
 const MAX_BODY_BYTES = 14 * 1024 * 1024;
 const MAX_WRITE_ATTEMPTS = 5;
+const GITHUB_TIMEOUT_MS = 15_000;
+const BODY_TIMEOUT_MS = 30_000;
+const PUBLICATION_TIMEOUT_MS = 45_000;
+
+class RequestTimeoutError extends Error {
+  constructor() {
+    super("La richiesta ha impiegato troppo tempo. Riprova tra poco.");
+    this.code = "request_timeout";
+    this.httpStatus = 504;
+  }
+}
+
+class PublicationUnknownError extends Error {
+  constructor() {
+    super("Non è stato possibile confermare il salvataggio. La modifica potrebbe essere già in pubblicazione: controlla la galleria prima di inviarla di nuovo.");
+    this.code = "publication_unknown";
+    this.httpStatus = 503;
+  }
+}
+
+async function withTimeout(operation, duration, onTimeout) {
+  if (duration <= 0) throw new RequestTimeoutError();
+  const controller = new AbortController();
+  let timer;
+  const timeout = new Promise((resolve, reject) => {
+    timer = setTimeout(() => {
+      reject(new RequestTimeoutError());
+      controller.abort();
+      onTimeout?.();
+    }, duration);
+  });
+  try {
+    // The race also bounds a stalled stream/provider that ignores cancellation.
+    return await Promise.race([operation(controller.signal), timeout]);
+  } finally {
+    clearTimeout(timer);
+  }
+}
 
 class GitHubError extends Error {
   constructor(message, status, detail = "") {
@@ -22,6 +60,10 @@ function concurrentWrite(error) {
   // 422 also covers validation/abuse errors: retry only an explicit stale ref/SHA.
   return error instanceof GitHubError && (error.status === 409 || (error.status === 422
     && /not a fast[- ]forward|sha[^\n]*(?:does not match|mismatch)|is at [a-f0-9]+ but expected/i.test(error.detail)));
+}
+
+function uncertainWrite(error) {
+  return error instanceof GitHubError && (error.status === 0 || error.status >= 500);
 }
 
 function b64url(bytes) {
@@ -90,26 +132,47 @@ async function unseal(value, env) {
   return session;
 }
 
-async function github(path, token, options = {}) {
+async function github(path, access, options = {}) {
+  const token = typeof access === "string" ? access : access.token;
+  const remaining = typeof access === "string" ? GITHUB_TIMEOUT_MS : access.deadline - Date.now();
+  // Exhausting the operation budget before sending a request is a known timeout,
+  // unlike losing the response to a write already sent to GitHub.
+  if (remaining <= 0) throw new RequestTimeoutError();
   let response;
   try {
-    response = await fetch(path.startsWith("https://") ? path : `${REPO_API}${path}`, {
-      cache: "no-store",
-      ...options,
-      headers: { ...GITHUB_HEADERS, "Content-Type": "application/json", Authorization: `Bearer ${token}`, ...options.headers }
-    });
-  } catch {
-    throw new GitHubError("GitHub non ha confermato la pubblicazione. Riprova tra poco.", 0);
+    return await withTimeout(async signal => {
+      response = await fetch(path.startsWith("https://") ? path : `${REPO_API}${path}`, {
+        cache: "no-store",
+        ...options,
+        signal,
+        headers: { ...GITHUB_HEADERS, "Content-Type": "application/json", Authorization: `Bearer ${token}`, ...options.headers }
+      });
+      let data;
+      try { data = await response.json(); }
+      catch (error) {
+        // A rejected HTTP status still proves a write was rejected. A truncated
+        // successful response must be checked as an uncertain write instead.
+        if (response.ok || signal.aborted) throw error;
+        data = {};
+      }
+      if (!response.ok) {
+        console.error(JSON.stringify({ event: "github_gallery_error", status: response.status, path }));
+        const message = response.status === 401 || response.status === 403 ? "Accesso GitHub scaduto o senza permesso di modifica."
+          : response.status === 409 || response.status === 422 ? "La galleria è cambiata nel frattempo. Aggiorna la pagina e riprova."
+          : "GitHub non ha accettato la pubblicazione. Riprova tra poco.";
+        throw new GitHubError(message, response.status, JSON.stringify(data));
+      }
+      return data;
+    }, Math.min(GITHUB_TIMEOUT_MS, remaining));
+  } catch (error) {
+    if (error instanceof GitHubError) throw error;
+    const failure = new GitHubError("GitHub non ha confermato la richiesta. Riprova tra poco.", response && !response.ok ? response.status : 0);
+    if (error instanceof RequestTimeoutError) {
+      failure.code = "request_timeout";
+      failure.httpStatus = 504;
+    }
+    throw failure;
   }
-  const data = await response.json().catch(() => ({}));
-  if (!response.ok) {
-    console.error(JSON.stringify({ event: "github_gallery_error", status: response.status, path }));
-    const message = response.status === 401 || response.status === 403 ? "Accesso GitHub scaduto o senza permesso di modifica."
-      : response.status === 409 || response.status === 422 ? "La galleria è cambiata nel frattempo. Aggiorna la pagina e riprova."
-      : "GitHub non ha accettato la pubblicazione. Riprova tra poco.";
-    throw new GitHubError(message, response.status, JSON.stringify(data));
-  }
-  return data;
 }
 
 async function readBody(request) {
@@ -117,22 +180,29 @@ async function readBody(request) {
   if (declared > MAX_BODY_BYTES) throw new Error("L'immagine supera il limite di 10 MB.");
   const reader = request.body?.getReader();
   if (!reader) throw new Error("Richiesta vuota.");
-  let size = 0;
-  const chunks = [];
-  while (true) {
-    const { done, value } = await reader.read();
-    if (done) break;
-    size += value.byteLength;
-    if (size > MAX_BODY_BYTES) {
-      await reader.cancel();
-      throw new Error("L'immagine supera il limite di 10 MB.");
-    }
-    chunks.push(value);
+  const cancel = () => { void reader.cancel().catch(() => {}); };
+  try {
+    return await withTimeout(async () => {
+      let size = 0;
+      const chunks = [];
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        size += value.byteLength;
+        if (size > MAX_BODY_BYTES) {
+          cancel();
+          throw new Error("L'immagine supera il limite di 10 MB.");
+        }
+        chunks.push(value);
+      }
+      const bytes = new Uint8Array(size);
+      let offset = 0;
+      for (const chunk of chunks) { bytes.set(chunk, offset); offset += chunk.byteLength; }
+      return JSON.parse(new TextDecoder().decode(bytes));
+    }, BODY_TIMEOUT_MS, cancel);
+  } finally {
+    reader.releaseLock();
   }
-  const bytes = new Uint8Array(size);
-  let offset = 0;
-  for (const chunk of chunks) { bytes.set(chunk, offset); offset += chunk.byteLength; }
-  return JSON.parse(new TextDecoder().decode(bytes));
 }
 
 async function authStart(env, request) {
@@ -164,18 +234,27 @@ async function authCallback(env, request) {
   try { saved = JSON.parse(new TextDecoder().decode(fromB64url(cookie))); }
   catch { return json({ error: "Accesso GitHub scaduto. Riprova." }, 400); }
   if (!saved.state || saved.state !== url.searchParams.get("state")) return json({ error: "Verifica dell'accesso non riuscita. Riprova." }, 400);
-  const tokenResponse = await fetch("https://github.com/login/oauth/access_token", {
-    method: "POST",
-    headers: { Accept: "application/json", "Content-Type": "application/x-www-form-urlencoded" },
-    body: new URLSearchParams({
-      client_id: env.GALLERY_CLIENT_ID,
-      client_secret: env.GALLERY_CLIENT_SECRET,
-      code: url.searchParams.get("code"),
-      code_verifier: saved.verifier,
-      redirect_uri: `${url.origin}/api/gallery/auth/callback`
-    })
-  });
-  const tokenData = await tokenResponse.json();
+  let tokenResponse;
+  let tokenData;
+  try {
+    await withTimeout(async signal => {
+      tokenResponse = await fetch("https://github.com/login/oauth/access_token", {
+        method: "POST",
+        signal,
+        headers: { Accept: "application/json", "Content-Type": "application/x-www-form-urlencoded" },
+        body: new URLSearchParams({
+          client_id: env.GALLERY_CLIENT_ID,
+          client_secret: env.GALLERY_CLIENT_SECRET,
+          code: url.searchParams.get("code"),
+          code_verifier: saved.verifier,
+          redirect_uri: `${url.origin}/api/gallery/auth/callback`
+        })
+      });
+      tokenData = await tokenResponse.json();
+    }, GITHUB_TIMEOUT_MS);
+  } catch {
+    return json({ error: "GitHub non ha confermato l'accesso. Torna ai Tools e accedi di nuovo." }, 503);
+  }
   if (!tokenResponse.ok || !tokenData.access_token) return json({ error: "GitHub non ha autorizzato l'accesso. Riprova." }, 403);
   const user = await github("https://api.github.com/user", tokenData.access_token);
   await github("", tokenData.access_token);
@@ -207,6 +286,13 @@ async function updateCatalog(token, message, change) {
       });
       return;
     } catch (error) {
+      if (uncertainWrite(error)) {
+        try {
+          const latest = await readCatalog(token);
+          if (!change(latest.catalog)) return;
+        } catch { /* The saved state could not be confirmed within the budget. */ }
+        throw new PublicationUnknownError();
+      }
       if (!concurrentWrite(error) || attempt === MAX_WRITE_ATTEMPTS - 1) throw error;
     }
   }
@@ -289,11 +375,14 @@ async function publishImage(token, body) {
     } catch (error) {
       // A lost response may hide an accepted PATCH. Check history, even if the
       // publisher has already consumed/deleted the inbox files in a newer commit.
-      if (error instanceof GitHubError && (error.status === 0 || error.status >= 500)) {
-        const latest = await github("/git/ref/heads/main", token);
-        if (latest.object.sha === next.sha) return result;
-        const comparison = await github(`/compare/${next.sha}...${latest.object.sha}`, token);
-        if (["ahead", "identical"].includes(comparison.status)) return result;
+      if (uncertainWrite(error)) {
+        try {
+          const latest = await github("/git/ref/heads/main", token);
+          if (latest.object.sha === next.sha) return result;
+          const comparison = await github(`/compare/${next.sha}...${latest.object.sha}`, token);
+          if (["ahead", "identical"].includes(comparison.status)) return result;
+        } catch { /* Do not replay a write whose outcome could not be checked. */ }
+        throw new PublicationUnknownError();
       }
       if (!concurrentWrite(error) || attempt === MAX_WRITE_ATTEMPTS - 1) throw error;
     }
@@ -322,14 +411,15 @@ export async function handleGalleryApi(request, env) {
     if (path === "/api/gallery/session" && request.method === "GET") return cors(json({ login: session.login, expires: session.expires }));
     if (path !== "/api/gallery/publish" || request.method !== "POST") return cors(json({ error: "Operazione non disponibile." }, 405));
     const body = await readBody(request);
-    const result = body.mode === "reorder" ? await publishOrder(session.token, body)
-      : body.mode === "remove" ? await publishRemoval(session.token, body)
-      : await publishImage(session.token, body);
+    const access = { token: session.token, deadline: Date.now() + PUBLICATION_TIMEOUT_MS };
+    const result = body.mode === "reorder" ? await publishOrder(access, body)
+      : body.mode === "remove" ? await publishRemoval(access, body)
+      : await publishImage(access, body);
     return cors(json(result, 202));
   } catch (error) {
     if (error instanceof SyntaxError) return cors(json({ error: "Dati non validi. Riprova." }, 400));
     if (error?.message === "Expired session" || error?.message === "Invalid session") return cors(json({ error: "Accesso scaduto. Accedi di nuovo a GitHub." }, 401));
     if (error?.name === "OperationError") return cors(json({ error: "Accesso scaduto. Accedi di nuovo a GitHub." }, 401));
-    return cors(json({ error: error?.message || "Pubblicazione non riuscita." }, 400));
+    return cors(json({ error: error?.message || "Pubblicazione non riuscita.", ...(error?.code ? { code: error.code } : {}) }, error?.httpStatus || 400));
   }
 }
