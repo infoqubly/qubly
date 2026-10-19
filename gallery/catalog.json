@@ -39,15 +39,6 @@
         "preview": "assets/optimized/PS/reviewed/03-1370.webp?v=e965eab9a1"
       },
       {
-        "id": "reviewed-50",
-        "titles": {
-          "it": "Ingresso metropolitano",
-          "en": "Metro entrance",
-          "sl": "Vhod v podzemno železnico"
-        },
-        "preview": "assets/optimized/PS/reviewed/50-1312.webp?v=cd0317b6a5"
-      },
-      {
         "id": "reviewed-28",
         "titles": {
           "it": "Dettaglio di facciata",
@@ -55,6 +46,15 @@
           "sl": "Detajl fasade"
         },
         "preview": "assets/optimized/PS/managed/reviewed-28-1370.webp?v=15b4bf06c9"
+      },
+      {
+        "id": "reviewed-50",
+        "titles": {
+          "it": "Ingresso metropolitano",
+          "en": "Metro entrance",
+          "sl": "Vhod v podzemno železnico"
+        },
+        "preview": "assets/optimized/PS/reviewed/50-1312.webp?v=cd0317b6a5"
       },
       {
         "id": "reviewed-32",
