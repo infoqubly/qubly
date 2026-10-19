@@ -194,15 +194,6 @@
         "preview": "assets/optimized/PS/reviewed/06-1370.webp?v=53bdae6dc0"
       },
       {
-        "id": "reviewed-43",
-        "titles": {
-          "it": "Salotto 01",
-          "en": "Salotto 01",
-          "sl": "Salotto 01"
-        },
-        "preview": "assets/optimized/PS/managed/reviewed-43-1536.webp?v=c7697c68b6"
-      },
-      {
         "id": "interni-01",
         "titles": {
           "it": "Soggiorno contemporaneo",
@@ -210,6 +201,15 @@
           "sl": "Sodobna dnevna soba"
         },
         "preview": "assets/optimized/PS/managed/interni-01-1536.webp?v=ee838dc698"
+      },
+      {
+        "id": "reviewed-43",
+        "titles": {
+          "it": "Salotto 01",
+          "en": "Salotto 01",
+          "sl": "Salotto 01"
+        },
+        "preview": "assets/optimized/PS/managed/reviewed-43-1536.webp?v=c7697c68b6"
       },
       {
         "id": "reviewed-09",
