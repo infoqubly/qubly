@@ -966,7 +966,7 @@
       "width": 1024
     },
     "assets/optimized/PS/managed/interni-01": {
-      "digest": "771899b7fe",
+      "digest": "1bb77b1054",
       "height": 1024,
       "source": "PS/managed/interni-01.webp",
       "targets": [
@@ -978,17 +978,17 @@
         [
           640,
           "assets/optimized/PS/managed/interni-01-640.webp",
-          "43cc8e4eb2"
+          "621b87ecea"
         ],
         [
           1280,
           "assets/optimized/PS/managed/interni-01-1280.webp",
-          "669db5f958"
+          "158de72f6b"
         ],
         [
           1536,
           "assets/optimized/PS/managed/interni-01-1536.webp",
-          "771899b7fe"
+          "ee838dc698"
         ]
       ],
       "width": 1536
@@ -2384,7 +2384,7 @@
     "PS/managed/esterni-02.webp": "c81aafafc4",
     "PS/managed/esterni-04.webp": "28985f25af",
     "PS/managed/esterni-05.webp": "28985f25af",
-    "PS/managed/interni-01.webp": "771899b7fe",
+    "PS/managed/interni-01.webp": "1bb77b1054",
     "PS/managed/interni-03.webp": "cfc3bd84e7",
     "PS/managed/interni-04.webp": "e13ea2f8f0",
     "PS/managed/photo-f400c8e0a8a34abfb9c3ddfa9fd11a61.webp": "28985f25af",
