@@ -21,15 +21,6 @@
         "preview": "assets/optimized/PS/reviewed/38-1536.webp?v=42d275924f"
       },
       {
-        "id": "reviewed-03",
-        "titles": {
-          "it": "Casa mediterranea in pietra",
-          "en": "Mediterranean stone house",
-          "sl": "Sredozemska kamnita hiša"
-        },
-        "preview": "assets/optimized/PS/reviewed/03-1370.webp?v=e965eab9a1"
-      },
-      {
         "id": "reviewed-46",
         "titles": {
           "it": "Padiglione in acciaio blu",
@@ -37,6 +28,15 @@
           "sl": "Paviljon iz modrega jekla"
         },
         "preview": "assets/optimized/PS/reviewed/46-1536.webp?v=8a6524f1e0"
+      },
+      {
+        "id": "reviewed-03",
+        "titles": {
+          "it": "Casa mediterranea in pietra",
+          "en": "Mediterranean stone house",
+          "sl": "Sredozemska kamnita hiša"
+        },
+        "preview": "assets/optimized/PS/reviewed/03-1370.webp?v=e965eab9a1"
       },
       {
         "id": "reviewed-50",
