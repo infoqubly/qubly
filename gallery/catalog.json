@@ -75,15 +75,6 @@
         "preview": "assets/optimized/PS/reviewed/33-1312.webp?v=c33519e6b5"
       },
       {
-        "id": "reviewed-27",
-        "titles": {
-          "it": "Fabbrica riconvertita",
-          "en": "Converted factory",
-          "sl": "Prenovljena tovarna"
-        },
-        "preview": "assets/optimized/PS/reviewed/27-1370.webp?v=e710ab58b7"
-      },
-      {
         "id": "esterni-02",
         "titles": {
           "it": "Residenze nel verde",
@@ -91,6 +82,15 @@
           "sl": "Glamping med zelenjem"
         },
         "preview": "assets/optimized/PS/managed/esterni-02-1920.webp?v=c81aafafc4"
+      },
+      {
+        "id": "reviewed-27",
+        "titles": {
+          "it": "Fabbrica riconvertita",
+          "en": "Converted factory",
+          "sl": "Prenovljena tovarna"
+        },
+        "preview": "assets/optimized/PS/reviewed/27-1370.webp?v=e710ab58b7"
       },
       {
         "id": "reviewed-04",
