@@ -1299,6 +1299,34 @@
       ],
       "width": 1024
     },
+    "assets/optimized/PS/managed/reviewed-43": {
+      "digest": "c7697c68b6",
+      "height": 1024,
+      "source": "PS/managed/reviewed-43.webp",
+      "targets": [
+        640,
+        1280,
+        1920
+      ],
+      "variants": [
+        [
+          640,
+          "assets/optimized/PS/managed/reviewed-43-640.webp",
+          "02f6dbdfe4"
+        ],
+        [
+          1280,
+          "assets/optimized/PS/managed/reviewed-43-1280.webp",
+          "d80b02bd3b"
+        ],
+        [
+          1536,
+          "assets/optimized/PS/managed/reviewed-43-1536.webp",
+          "c7697c68b6"
+        ]
+      ],
+      "width": 1536
+    },
     "assets/optimized/PS/managed/reviewed-46": {
       "digest": "4b6ce0bcf3",
       "height": 1024,
@@ -2243,6 +2271,7 @@
     "PS/managed/reviewed-36": "PS/managed/reviewed-36.webp",
     "PS/managed/reviewed-38": "PS/managed/reviewed-38.webp",
     "PS/managed/reviewed-41": "PS/managed/reviewed-41.webp",
+    "PS/managed/reviewed-43": "PS/managed/reviewed-43.webp",
     "PS/managed/reviewed-46": "PS/managed/reviewed-46.webp",
     "PS/managed/reviewed-50": "PS/managed/reviewed-50.webp",
     "PS/paesaggi": "PS/paesaggi.png",
@@ -2368,6 +2397,7 @@
     "PS/managed/reviewed-36.webp": "28985f25af",
     "PS/managed/reviewed-38.webp": "0c8e2d4a4e",
     "PS/managed/reviewed-41.webp": "28985f25af",
+    "PS/managed/reviewed-43.webp": "c7697c68b6",
     "PS/managed/reviewed-46.webp": "4b6ce0bcf3",
     "PS/managed/reviewed-50.webp": "c6694eca99",
     "PS/paesaggi.png": "4cbef24a6f",
