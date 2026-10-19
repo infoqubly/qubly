@@ -868,6 +868,29 @@
       ],
       "width": 1574
     },
+    "assets/optimized/PS/managed/esterni-01": {
+      "digest": "28985f25af",
+      "height": 1536,
+      "source": "PS/managed/esterni-01.webp",
+      "targets": [
+        640,
+        1280,
+        1920
+      ],
+      "variants": [
+        [
+          640,
+          "assets/optimized/PS/managed/esterni-01-640.webp",
+          "c91efa877e"
+        ],
+        [
+          1024,
+          "assets/optimized/PS/managed/esterni-01-1024.webp",
+          "28985f25af"
+        ]
+      ],
+      "width": 1024
+    },
     "assets/optimized/PS/managed/esterni-02": {
       "digest": "c81aafafc4",
       "height": 1096,
@@ -895,6 +918,29 @@
         ]
       ],
       "width": 1920
+    },
+    "assets/optimized/PS/managed/esterni-04": {
+      "digest": "28985f25af",
+      "height": 1536,
+      "source": "PS/managed/esterni-04.webp",
+      "targets": [
+        640,
+        1280,
+        1920
+      ],
+      "variants": [
+        [
+          640,
+          "assets/optimized/PS/managed/esterni-04-640.webp",
+          "c91efa877e"
+        ],
+        [
+          1024,
+          "assets/optimized/PS/managed/esterni-04-1024.webp",
+          "28985f25af"
+        ]
+      ],
+      "width": 1024
     },
     "assets/optimized/PS/managed/esterni-05": {
       "digest": "28985f25af",
@@ -941,6 +987,90 @@
         ]
       ],
       "width": 1024
+    },
+    "assets/optimized/PS/managed/reviewed-28": {
+      "digest": "15b4bf06c9",
+      "height": 1148,
+      "source": "PS/managed/reviewed-28.webp",
+      "targets": [
+        640,
+        1280,
+        1920
+      ],
+      "variants": [
+        [
+          640,
+          "assets/optimized/PS/managed/reviewed-28-640.webp",
+          "f456f00ae2"
+        ],
+        [
+          1280,
+          "assets/optimized/PS/managed/reviewed-28-1280.webp",
+          "ebd368a7ae"
+        ],
+        [
+          1370,
+          "assets/optimized/PS/managed/reviewed-28-1370.webp",
+          "15b4bf06c9"
+        ]
+      ],
+      "width": 1370
+    },
+    "assets/optimized/PS/managed/reviewed-38": {
+      "digest": "0c8e2d4a4e",
+      "height": 1080,
+      "source": "PS/managed/reviewed-38.webp",
+      "targets": [
+        640,
+        1280,
+        1920
+      ],
+      "variants": [
+        [
+          640,
+          "assets/optimized/PS/managed/reviewed-38-640.webp",
+          "1671f9d415"
+        ],
+        [
+          1280,
+          "assets/optimized/PS/managed/reviewed-38-1280.webp",
+          "50abfe8117"
+        ],
+        [
+          1920,
+          "assets/optimized/PS/managed/reviewed-38-1920.webp",
+          "0c8e2d4a4e"
+        ]
+      ],
+      "width": 1920
+    },
+    "assets/optimized/PS/managed/reviewed-46": {
+      "digest": "4b6ce0bcf3",
+      "height": 1024,
+      "source": "PS/managed/reviewed-46.webp",
+      "targets": [
+        640,
+        1280,
+        1920
+      ],
+      "variants": [
+        [
+          640,
+          "assets/optimized/PS/managed/reviewed-46-640.webp",
+          "e64ec53034"
+        ],
+        [
+          1280,
+          "assets/optimized/PS/managed/reviewed-46-1280.webp",
+          "7ba82ca624"
+        ],
+        [
+          1536,
+          "assets/optimized/PS/managed/reviewed-46-1536.webp",
+          "4b6ce0bcf3"
+        ]
+      ],
+      "width": 1536
     },
     "assets/optimized/PS/paesaggi": {
       "digest": "4cbef24a6f",
@@ -1813,9 +1943,14 @@
     "PS/interni/08": "PS/interni/08.jpg",
     "PS/interni/09": "PS/interni/09.jpg",
     "PS/interni/interior": "PS/interni/interior.png",
+    "PS/managed/esterni-01": "PS/managed/esterni-01.webp",
     "PS/managed/esterni-02": "PS/managed/esterni-02.webp",
+    "PS/managed/esterni-04": "PS/managed/esterni-04.webp",
     "PS/managed/esterni-05": "PS/managed/esterni-05.webp",
     "PS/managed/reviewed-04": "PS/managed/reviewed-04.webp",
+    "PS/managed/reviewed-28": "PS/managed/reviewed-28.webp",
+    "PS/managed/reviewed-38": "PS/managed/reviewed-38.webp",
+    "PS/managed/reviewed-46": "PS/managed/reviewed-46.webp",
     "PS/paesaggi": "PS/paesaggi.png",
     "PS/paesaggi/01": "PS/paesaggi/01.jpg",
     "PS/paesaggi/02": "PS/paesaggi/02.jpg",
@@ -1922,9 +2057,14 @@
     "PS/interni/09.jpg": "67673e352d",
     "PS/interni/09.webp": "cac6b748bb",
     "PS/interni/interior.png": "2573a5a6b3",
+    "PS/managed/esterni-01.webp": "28985f25af",
     "PS/managed/esterni-02.webp": "c81aafafc4",
+    "PS/managed/esterni-04.webp": "28985f25af",
     "PS/managed/esterni-05.webp": "28985f25af",
     "PS/managed/reviewed-04.webp": "283b8b0eff",
+    "PS/managed/reviewed-28.webp": "15b4bf06c9",
+    "PS/managed/reviewed-38.webp": "0c8e2d4a4e",
+    "PS/managed/reviewed-46.webp": "4b6ce0bcf3",
     "PS/paesaggi.png": "4cbef24a6f",
     "PS/paesaggi.webp": "903d305993",
     "PS/paesaggi/01.jpg": "4d6f0f69bd",

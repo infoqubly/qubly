@@ -14,20 +14,20 @@
       {
         "id": "reviewed-38",
         "titles": {
-          "it": "Centro cinematografico",
-          "en": "Cinema centre",
-          "sl": "Filmski center"
+          "it": "Piscina 01",
+          "en": "Pool 01",
+          "sl": "Bazen 01"
         },
-        "preview": "assets/optimized/PS/reviewed/38-1536.webp?v=42d275924f"
+        "preview": "assets/optimized/PS/managed/reviewed-38-1920.webp?v=0c8e2d4a4e"
       },
       {
         "id": "reviewed-46",
         "titles": {
-          "it": "Padiglione in acciaio blu",
-          "en": "Blue steel pavilion",
-          "sl": "Paviljon iz modrega jekla"
+          "it": "Piscina 02",
+          "en": "Pool 02",
+          "sl": "Bazen 02"
         },
-        "preview": "assets/optimized/PS/reviewed/46-1536.webp?v=8a6524f1e0"
+        "preview": "assets/optimized/PS/managed/reviewed-46-1536.webp?v=4b6ce0bcf3"
       },
       {
         "id": "reviewed-03",
@@ -54,7 +54,7 @@
           "en": "Façade detail",
           "sl": "Detajl fasade"
         },
-        "preview": "assets/optimized/PS/reviewed/28-1370.webp?v=1361894ed7"
+        "preview": "assets/optimized/PS/managed/reviewed-28-1370.webp?v=15b4bf06c9"
       },
       {
         "id": "reviewed-32",
@@ -113,20 +113,20 @@
       {
         "id": "esterni-01",
         "titles": {
-          "it": "Complesso civico",
-          "en": "Civic complex",
-          "sl": "Javni kompleks"
+          "it": "Q",
+          "en": "Q",
+          "sl": "Q"
         },
-        "preview": "assets/optimized/PS/esterni/01-1672.webp?v=1155d1d4d6"
+        "preview": "assets/optimized/PS/managed/esterni-01-1024.webp?v=28985f25af"
       },
       {
         "id": "esterni-04",
         "titles": {
-          "it": "Edificio residenziale",
-          "en": "Residential building",
-          "sl": "Stanovanjska stavba"
+          "it": "Q",
+          "en": "Q",
+          "sl": "Q"
         },
-        "preview": "assets/optimized/PS/esterni/04-1448.webp?v=c7b4d59930"
+        "preview": "assets/optimized/PS/managed/esterni-04-1024.webp?v=28985f25af"
       },
       {
         "id": "esterni-05",
