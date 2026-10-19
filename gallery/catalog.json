@@ -158,6 +158,15 @@
         "preview": "assets/optimized/PS/reviewed/08-1536.webp?v=e9e8f580d2"
       },
       {
+        "id": "reviewed-11",
+        "titles": {
+          "it": "Bagno spa",
+          "en": "Spa bathroom",
+          "sl": "Kopalnica kot spa"
+        },
+        "preview": "assets/optimized/PS/managed/reviewed-11-1312.webp?v=45bc1c4551"
+      },
+      {
         "id": "reviewed-06",
         "titles": {
           "it": "Casa attorno al patio",
@@ -174,15 +183,6 @@
           "sl": "Umetniška galerija"
         },
         "preview": "assets/optimized/PS/reviewed/15-1536.webp?v=a66a20c091"
-      },
-      {
-        "id": "reviewed-11",
-        "titles": {
-          "it": "Bagno spa",
-          "en": "Spa bathroom",
-          "sl": "Kopalnica kot spa"
-        },
-        "preview": "assets/optimized/PS/managed/reviewed-11-1312.webp?v=45bc1c4551"
       },
       {
         "id": "reviewed-43",
