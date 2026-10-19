@@ -221,15 +221,6 @@
         "preview": "assets/optimized/PS/reviewed/09-1370.webp?v=f2eecd6106"
       },
       {
-        "id": "reviewed-18",
-        "titles": {
-          "it": "Boutique contemporanea",
-          "en": "Contemporary boutique",
-          "sl": "Sodobni butik"
-        },
-        "preview": "assets/optimized/PS/reviewed/18-1370.webp?v=5c46f5d891"
-      },
-      {
         "id": "reviewed-14",
         "titles": {
           "it": "Appartamento compatto",
@@ -385,5 +376,8 @@
         "preview": "assets/optimized/PS/paesaggi/02-1536.webp?v=fcb30dd22e"
       }
     ]
-  }
+  },
+  "removed": [
+    "reviewed-18"
+  ]
 }
