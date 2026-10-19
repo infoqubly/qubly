@@ -3,6 +3,15 @@
   "sections": {
     "esterni": [
       {
+        "id": "esterni-02",
+        "titles": {
+          "it": "Residenze nel verde",
+          "en": "Garden residences",
+          "sl": "Glamping med zelenjem"
+        },
+        "preview": "assets/optimized/PS/managed/esterni-02-1920.webp?v=c81aafafc4"
+      },
+      {
         "id": "reviewed-38",
         "titles": {
           "it": "Centro cinematografico",
@@ -64,15 +73,6 @@
           "sl": "Sodna palača"
         },
         "preview": "assets/optimized/PS/reviewed/41-1536.webp?v=67df163acc"
-      },
-      {
-        "id": "esterni-02",
-        "titles": {
-          "it": "Residenze nel verde",
-          "en": "Garden residences",
-          "sl": "Glamping med zelenjem"
-        },
-        "preview": "assets/optimized/PS/managed/esterni-02-1920.webp?v=c81aafafc4"
       },
       {
         "id": "reviewed-33",
