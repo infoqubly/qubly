@@ -102,15 +102,6 @@
         "preview": "assets/optimized/PS/reviewed/36-1536.webp?v=c92e6c98d0"
       },
       {
-        "id": "esterni-01",
-        "titles": {
-          "it": "Complesso civico",
-          "en": "Civic complex",
-          "sl": "Javni kompleks"
-        },
-        "preview": "assets/optimized/PS/esterni/01-1672.webp?v=1155d1d4d6"
-      },
-      {
         "id": "esterni-02",
         "titles": {
           "it": "Residenze nel verde",
@@ -118,6 +109,15 @@
           "sl": "Glamping med zelenjem"
         },
         "preview": "assets/optimized/PS/managed/esterni-02-1920.webp?v=c81aafafc4"
+      },
+      {
+        "id": "esterni-01",
+        "titles": {
+          "it": "Complesso civico",
+          "en": "Civic complex",
+          "sl": "Javni kompleks"
+        },
+        "preview": "assets/optimized/PS/esterni/01-1672.webp?v=1155d1d4d6"
       },
       {
         "id": "esterni-04",
