@@ -4,6 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!video || !button) return;
     const reduced = matchMedia("(prefers-reduced-motion: reduce)");
     const connection = navigator.connection;
+    const portrait = matchMedia("(orientation: portrait)");
     let inView = true;
     let manuallyPaused = false;
     let manualPlay = false;
@@ -47,6 +48,17 @@ document.addEventListener("DOMContentLoaded", () => {
     document.addEventListener("visibilitychange", syncPlayback);
     reduced.addEventListener("change", () => {manualPlay = false; syncPlayback();});
     connection?.addEventListener("change", syncPlayback);
+    portrait.addEventListener("change", () => {
+        if (!attached) return;
+        const resumeAt = video.currentTime;
+        attached = false;
+        video.classList.remove("is-playing");
+        video.addEventListener("loadedmetadata", () => {
+            video.currentTime = Math.min(resumeAt, Math.max(0, video.duration - 0.02));
+            syncPlayback();
+        }, {once: true});
+        attachSource();
+    });
     if ("IntersectionObserver" in window) {
         new IntersectionObserver(([entry]) => {inView = entry.isIntersecting; syncPlayback();}, {threshold:0.05}).observe(video);
     } else syncPlayback();

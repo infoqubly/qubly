@@ -20,8 +20,9 @@
     <meta name="twitter:image" content="https://qubly.studio/PS/Selezione/01.jpg?v=ce513e4806">
 
     <!-- CSS -->
-    <link rel="preload" as="image" href="assets/optimized/PS/Selezione/01-1536.webp?v=5924458c93" imagesrcset="assets/optimized/PS/Selezione/01-640.webp?v=76443ef942 640w, assets/optimized/PS/Selezione/01-1280.webp?v=d9475e696b 1280w, assets/optimized/PS/Selezione/01-1536.webp?v=5924458c93 1536w" imagesizes="100vw" fetchpriority="high">
-    <link rel="stylesheet" href="css/styles.css?v=2c6e29d876">
+    <link rel="preload" as="image" href="assets/videos/hero-portrait-poster.webp?v=9ad6c58edb" media="(orientation: portrait)" fetchpriority="high">
+    <link rel="preload" as="image" href="assets/videos/hero-landscape-poster.webp?v=d2be53a339" media="(orientation: landscape)" fetchpriority="high">
+    <link rel="stylesheet" href="css/styles.css?v=94ba33371e">
     <noscript><style>.site-loader{display:none!important}body.is-loading{overflow:auto!important}</style></noscript>
     <link rel="icon" href="favicon.png?v=d7247cbe00" type="image/png">
     <script type="application/ld+json">
@@ -77,17 +78,13 @@
     <section class="hero-section">
         <div class="hero-video-container">
             <picture>
-                <source media="(max-width: 767px)" srcset="hero-telefono-r20-poster.webp?v=9ad6c58edb">
-                <img class="hero-poster" src="assets/optimized/PS/Selezione/01-1536.webp?v=5924458c93" srcset="assets/optimized/PS/Selezione/01-640.webp?v=76443ef942 640w, assets/optimized/PS/Selezione/01-1280.webp?v=d9475e696b 1280w, assets/optimized/PS/Selezione/01-1536.webp?v=5924458c93 1536w" sizes="100vw" alt="" fetchpriority="high" decoding="async">
+                <source media="(orientation: portrait)" srcset="assets/videos/hero-portrait-poster.webp?v=9ad6c58edb">
+                <img class="hero-poster" src="assets/videos/hero-landscape-poster.webp?v=d2be53a339" alt="" fetchpriority="high" decoding="async">
             </picture>
             <video class="hero-video" loop muted playsinline preload="none" aria-hidden="true" disablePictureInPicture
                 controlsList="nodownload noplaybackrate noremoteplayback">
-                <!-- PC: 1024px in su -->
-                <source data-src="hero-pc.mp4" media="(min-width: 1024px)" type="video/mp4">
-                <!-- Tablet: tra 768px e 1023px -->
-                <source data-src="hero-tablet.mp4" media="(min-width: 768px)" type="video/mp4">
-                <!-- Telefono: fino a 767px -->
-                <source data-src="hero-telefono-r20-1080p60.mp4" media="(max-width: 767px)" type="video/mp4">
+                <source data-src="assets/videos/hero-portrait.mp4?v=d1248d8626" media="(orientation: portrait)" type="video/mp4">
+                <source data-src="assets/videos/hero-landscape.mp4?v=e841c82d3a" media="(orientation: landscape)" type="video/mp4">
                 Your browser does not support the video tag.
             </video>
         </div>
@@ -460,7 +457,7 @@
     <script defer src="js/spotlight.js?v=8e4d4318f5"></script>
     <script defer src="js/loader.js?v=dfb9c04c39"></script>
     <script defer src="js/main.js?v=569e60b6a7"></script>
-    <script defer src="js/video.js?v=2895d2e117"></script>
+    <script defer src="js/video.js?v=a64d6811a8"></script>
     <div id="site-status" class="site-status" role="status" aria-live="polite"></div>
 </body>
 

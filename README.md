@@ -15,3 +15,7 @@ Apri il [catalogo visivo](https://qubly.studio/gestione-gallerie.html) da un bro
 I moduli accettano una sola immagine PNG, JPG o WebP per richiesta, fino a 10 MB e almeno 640 × 400 px. Dopo l'invio, GitHub genera le versioni leggere, aggiorna la griglia e pubblica la modifica. L'issue si chiude quando il commit arriva su `main`. Il catalogo legge sempre le gallerie pubblicate e si aggiorna quando torni alla scheda, periodicamente o con **Aggiorna foto**. Non viene effettuata alcuna traduzione automatica dei titoli.
 
 Le nuove foto sono raccolte in un blocco separato della galleria; le sostituzioni conservano posizione e ID della foto. `scripts/gallery_request.py` elabora i moduli, mentre `scripts/optimize_images.py` conserva titoli e sostituzioni quando rigenera le immagini originali.
+
+## Video della homepage
+
+I due video pubblicati e le rispettive copertine sono in [`assets/videos/`](assets/videos/README.md). Si selezionano in base all’orientamento dello schermo, anche sui tablet. Le revisioni superate sono recuperabili dalla cronologia Git; non mantenerne copie nella cartella del sito.
