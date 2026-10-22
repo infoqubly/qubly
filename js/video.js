@@ -41,6 +41,10 @@ document.addEventListener("DOMContentLoaded", () => {
         video.classList.add("is-playing");
         updateLabel();
     });
+    video.addEventListener("loadeddata", () => {
+        video.classList.add("is-playing");
+        updateLabel();
+    });
     video.addEventListener("pause", updateLabel);
     video.addEventListener("error", () => {
         video.classList.remove("is-playing"); updateLabel();
