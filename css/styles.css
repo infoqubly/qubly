@@ -3347,8 +3347,8 @@ html {
 }
 
 .home-page .case-snapshots .case-body p {
-  text-align: left;
-  text-align-last: auto;
+  text-align: center;
+  text-align-last: center;
   hyphens: none;
   line-height: 1.5;
 }
@@ -3568,16 +3568,28 @@ html {
   text-align: left;
 }
 .about-copy .about-lead { color: var(--QUBLY-WHITE); font-size: clamp(19px, 1.4vw, 24px); }
-.about-copy .about-tagline { color: var(--QUBLY-WHITE); margin-bottom: 2.5rem; }
+.about-copy .about-tagline {
+  color: var(--QUBLY-WHITE);
+  margin: 2.5rem auto 0;
+  font-style: italic;
+  text-align: center;
+  text-align-last: center;
+}
+.about-copy .service-desc:not(.about-lead):not(.about-tagline) {
+  max-width: none;
+  text-align: justify;
+  text-align-last: left;
+  hyphens: auto;
+}
 .about-subheading {
   color: var(--QUBLY-WHITE);
   font-size: clamp(24px, 2.1vw, 34px);
   font-weight: 400;
   line-height: 1.25;
   margin: 3rem 0 1.25rem;
-  max-width: 28ch;
+  max-width: none;
 }
-.about-copy .contact-form-button { margin: 1.5rem 0 3rem; }
+.about-copy .contact-form-button { margin: 1.5rem auto 3rem; }
 .faq-panel p { max-width: 78ch; line-height: 1.7; margin-bottom: 1.25rem; }
 .faq-panel p:last-child { margin-bottom: 2rem; }
 .faq-panel a, .pricing-copy a:not(.contact-form-button) {
