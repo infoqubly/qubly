@@ -531,6 +531,15 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
 
+        document.querySelectorAll("[data-i18n-alt]").forEach((element) => {
+            const key = element.getAttribute("data-i18n-alt");
+            if (key && dict[key]) {
+                element.setAttribute("alt", dict[key]);
+            } else if (key) {
+                missingKeys.push(key);
+            }
+        });
+
         document.querySelectorAll("[data-i18n-aria-label]").forEach((element) => {
             const key = element.getAttribute("data-i18n-aria-label");
             if (key && dict[key]) {

@@ -3590,7 +3590,14 @@ html {
   max-width: none;
 }
 .about-copy .contact-form-button { margin: 1.5rem auto 3rem; }
-.faq-panel p { max-width: 78ch; line-height: 1.7; margin-bottom: 1.25rem; }
+.faq-panel p {
+  max-width: none;
+  line-height: 1.7;
+  margin-bottom: 1.25rem;
+  text-align: justify;
+  text-align-last: left;
+  hyphens: auto;
+}
 .faq-panel p:last-child { margin-bottom: 2rem; }
 .faq-panel a, .pricing-copy a:not(.contact-form-button) {
   color: var(--QUBLY-WHITE);
