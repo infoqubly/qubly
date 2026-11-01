@@ -3630,3 +3630,53 @@ html {
   .about-footer { min-height: 150px; }
   .about-faq-cue { bottom: 1rem; }
 }
+
+
+/* Shared social links: accessible targets and consistent brand icons. */
+.social-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  align-items: center;
+}
+.social-links .social-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 44px;
+  width: 44px;
+  height: 44px;
+  color: var(--QUBLY-WHITE);
+  opacity: 0.72;
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+}
+.social-links .social-icon svg {
+  display: block;
+  flex: none;
+  width: 24px;
+  height: 24px;
+}
+.social-links .social-icon:hover,
+.social-links .social-icon:focus-visible { opacity: 1; }
+.social-links .social-icon:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+.corporate-socials { grid-column: 1 / -1; }
+.about-footer .footer-socials { justify-content: flex-end; }
+@media (max-width: 767px) {
+  .about-footer {
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+  }
+  .about-footer .footer-legal-links {
+    width: 100%;
+    align-items: center;
+  }
+  .about-footer .footer-socials { justify-content: center; }
+  .social-icons-wrapper.social-links { justify-content: center; }
+}

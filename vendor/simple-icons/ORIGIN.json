@@ -1,0 +1,14 @@
+{
+  "project": "Simple Icons",
+  "repository": "https://github.com/simple-icons/simple-icons",
+  "ref": "90646e4bf7f3b89df6c37e65baf3e7bc759a517c",
+  "license": "CC0-1.0",
+  "icons": [
+    "icons/facebook.svg",
+    "icons/instagram.svg",
+    "icons/pinterest.svg",
+    "icons/tiktok.svg"
+  ],
+  "output": "assets/icons/social.svg",
+  "changes": "Combined paths into SVG symbols; geometry preserved."
+}
