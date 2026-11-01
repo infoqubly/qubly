@@ -692,7 +692,8 @@ textarea,
 }
 
 #main-content-wrapper::before,
-.about-page::before {
+.about-page::before,
+.pricing-page-body .legal-page::before {
   content: "";
   position: absolute;
   inset: 0;
@@ -3626,7 +3627,12 @@ html {
 .corporate-links a:hover { color: var(--QUBLY-WHITE); }
 .corporate-links a:focus-visible { outline: 2px solid currentColor; outline-offset: 5px; }
 .corporate-copyright { grid-column: 1 / -1; font-size: 12px; }
-.pricing-copy { width: min(100%, 800px); margin: 0 auto; }
+.pricing-copy {
+  width: min(100%, 800px);
+  margin: 0 auto;
+  position: relative;
+  z-index: 10;
+}
 .pricing-copy .service-title { font-size: clamp(36px, 4vw, 64px); max-width: 18ch; }
 .pricing-copy p { color: var(--QUBLY-GRAY); font-size: clamp(16px, 1.1vw, 19px); line-height: 1.75; }
 .pricing-copy h2 { font-size: clamp(23px, 2vw, 32px); line-height: 1.3; font-weight: 400; margin-top: 2.5rem; }
