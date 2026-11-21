@@ -67,7 +67,14 @@ export default {
     async fetch(request, env) {
         const pathname = new URL(request.url).pathname;
         if (pathname === "/gestione-gallerie" || pathname === "/gestione-gallerie.html") {
-            return Response.redirect("https://infoqubly.github.io/qubly-tools/gestione-gallerie.html", 302);
+            return new Response(null, {
+                status: 302,
+                headers: {
+                    Location: "https://infoqubly.github.io/qubly-tools/gestione-gallerie.html",
+                    "Cache-Control": "no-store",
+                    "X-Robots-Tag": "noindex"
+                }
+            });
         }
         if (pathname.startsWith("/api/gallery/")) {
             return handleGalleryApi(request, env);

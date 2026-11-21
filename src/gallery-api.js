@@ -1,3 +1,5 @@
+import galleryCatalog from "../gallery/catalog.json" with { type: "json" };
+
 const TOOL_ORIGIN = "https://infoqubly.github.io";
 const TOOL_URL = `${TOOL_ORIGIN}/qubly-tools/gestione-gallerie.html`;
 const REPO_API = "https://api.github.com/repos/infoqubly/qubly";
@@ -400,8 +402,7 @@ export async function handleGalleryApi(request, env) {
     return cors(json({ configured: Boolean(env.GALLERY_CLIENT_ID && env.GALLERY_CLIENT_SECRET && env.GALLERY_SESSION_KEY) }));
   }
   if (path === "/api/gallery/catalog" && request.method === "GET") {
-    const asset = await env.ASSETS.fetch(new Request(`${url.origin}/gallery/catalog.json`));
-    return cors(asset);
+    return cors(json(galleryCatalog));
   }
   if (path !== "/api/gallery/session" && path !== "/api/gallery/publish") return cors(json({ error: "Pagina non trovata." }, 404));
   try {

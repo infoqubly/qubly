@@ -332,7 +332,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 return `
                     <div class="showcase-zoom-slide" data-index="${index}">
                         <div class="showcase-zoom-frame" style="aspect-ratio: ${width} / ${height}">
-                            <img src="${escapeHtml(src)}" alt="${escapeHtml(alt)}" loading="lazy" decoding="async" draggable="false">
+                            <img data-src="${escapeHtml(src)}" alt="${escapeHtml(alt)}" decoding="async" draggable="false">
                         </div>
                         <div class="showcase-zoom-tags">${tagMarkup}</div>
                     </div>
@@ -355,21 +355,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
             slides.forEach((slide) => {
                 const zoomImage = slide.querySelector("img");
-                if (!zoomImage) {
-                    return;
-                }
-
-                const markLoaded = () => zoomImage.classList.add("is-loaded");
-                if (zoomImage.complete && zoomImage.naturalWidth > 0) {
-                    markLoaded();
-                } else {
-                    zoomImage.addEventListener("load", markLoaded, { once: true });
-                    zoomImage.decode?.().then(markLoaded).catch(() => {
-                        if (zoomImage.complete) {
-                            markLoaded();
-                        }
-                    });
-                }
+                zoomImage.addEventListener("load", () => {
+                    zoomImage.classList.add("is-loaded");
+                    zoomImage.parentElement.style.backgroundImage = "";
+                }, { once: true });
             });
 
             overlay.querySelector(".showcase-zoom-close").addEventListener("click", closeZoom);
@@ -397,7 +386,14 @@ document.addEventListener("DOMContentLoaded", () => {
                 slide.setAttribute("aria-hidden", String(slideIndex !== activeIndex));
                 slide.inert = slideIndex !== activeIndex;
             });
-            slides[activeIndex].querySelector("img").loading = "eager";
+            const zoomImage = slides[activeIndex].querySelector("img");
+            if (!zoomImage.hasAttribute("src")) {
+                const preview = scrollShowcaseCards[activeIndex].querySelector("img");
+                if (preview.complete && preview.naturalWidth) {
+                    zoomImage.parentElement.style.backgroundImage = `url("${preview.currentSrc}")`;
+                }
+                zoomImage.src = zoomImage.dataset.src;
+            }
             overlay.querySelector(".showcase-zoom-previous").disabled = activeIndex === 0;
             overlay.querySelector(".showcase-zoom-next").disabled = activeIndex === slides.length - 1;
             overlay.querySelector(".showcase-zoom-count").textContent = `${activeIndex + 1} / ${slides.length}`;

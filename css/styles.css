@@ -141,26 +141,9 @@ body.is-loading {
   mask-repeat: no-repeat;
 }
 
-.site-loader__progress {
-  min-width: 4ch;
-  color: rgba(250, 250, 250, 0.72);
-  font-size: clamp(0.78rem, 0.82vw, 0.95rem);
-  font-variant-numeric: tabular-nums;
-  line-height: 1;
-  text-align: center;
-}
-
 @media (max-width: 767px) {
-  .site-loader {
-    gap: 1rem;
-  }
-
   .site-loader__mark {
     width: min(64vw, 270px);
-  }
-
-  .site-loader__progress {
-    font-size: 0.82rem;
   }
 }
 
@@ -586,7 +569,6 @@ label,
 select,
 textarea,
 .case-card,
-.close-popup,
 .menu-toggle,
 .menu-item,
 .contact-trigger,
@@ -1070,31 +1052,8 @@ textarea,
   border-color: var(--QUBLY-WHITE);
 }
 
-.footer-legal-links {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 0.55rem;
-}
-
-.privacy-policy-link {
-  color: var(--QUBLY-GRAY);
-  font-size: 14px;
-  text-decoration: none;
-  border-bottom: 1px solid transparent;
-}
-
-.privacy-policy-link:hover {
-  color: var(--QUBLY-WHITE);
-  border-bottom-color: var(--QUBLY-WHITE);
-}
-
 .about-faq-cue {
-  position: absolute;
-  left: 50%;
-  bottom: 2rem;
-  transform: translateX(-50%);
-  z-index: 12;
+  position: relative;
   display: inline-flex;
   flex-direction: column;
   align-items: center;
@@ -1106,13 +1065,12 @@ textarea,
   opacity: 0.72;
 }
 
-.about-footer {
-  padding: 2rem 6.25vw;
+.about-faq-nav {
+  padding: 2rem 0;
   display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
+  justify-content: center;
   position: relative;
-  min-height: 88px;
+  z-index: 12;
 }
 
 .about-faq-cue:hover {
@@ -1233,7 +1191,7 @@ textarea,
 }
 
 @media (max-width: 767px) {
-  .about-faq-cue {
+  .about-faq-nav {
     display: none;
   }
 
@@ -1343,38 +1301,6 @@ textarea,
 }
 
 
-/* CONTACT POPUP */
-.contact-popup {
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.85);
-  /* Darker overlay */
-  z-index: 200;
-  justify-content: center;
-  align-items: center;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.contact-popup.open {
-  display: flex;
-  opacity: 1;
-}
-
-.contact-popup-content {
-  background: #111;
-  /* Dark Premium */
-  padding: 3rem;
-  width: 90%;
-  max-width: 500px;
-  position: relative;
-  border: 1px solid #333;
-}
-
 /* FAQ */
 .faq-section {
   min-height: 100vh;
@@ -1483,19 +1409,6 @@ textarea,
 .faq-item[open] .faq-panel {
   opacity: 1;
   transform: translateY(0);
-}
-
-.close-popup {
-  position: absolute;
-  top: 1rem;
-  right: 1.5rem;
-  font-size: 2rem;
-  cursor: pointer;
-  color: var(--QUBLY-GRAY);
-}
-
-.close-popup:hover {
-  color: var(--QUBLY-WHITE);
 }
 
 /* CASE STUDIES SNAPSHOT */
@@ -2113,6 +2026,9 @@ textarea,
   max-height: 100%;
   flex: 0 1 auto;
   border-radius: 0;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
 }
 
 .showcase-zoom-frame img {
@@ -3752,8 +3668,6 @@ html {
   .corporate-footer.site-footer { margin: 0 5.08vw; grid-template-columns: 1fr; gap: 1.25rem; }
   .corporate-links { align-items: flex-start; }
   .about-copy .service-desc { text-align: left; text-align-last: auto; }
-  .about-footer { min-height: 150px; }
-  .about-faq-cue { bottom: 1rem; }
 }
 
 
@@ -3790,18 +3704,6 @@ html {
   border-radius: 4px;
 }
 .corporate-socials { grid-column: 1 / -1; }
-.about-footer .footer-socials { justify-content: flex-end; }
 @media (max-width: 767px) {
-  .about-footer {
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-    gap: 20px;
-  }
-  .about-footer .footer-legal-links {
-    width: 100%;
-    align-items: center;
-  }
-  .about-footer .footer-socials { justify-content: center; }
   .social-icons-wrapper.social-links { justify-content: center; }
 }
