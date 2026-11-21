@@ -2,12 +2,12 @@
 <urlset xmlns="https://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://qubly.studio/</loc>
-    <lastmod>2026-11-01</lastmod>
+    <lastmod>2026-11-21</lastmod>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://qubly.studio/about</loc>
-    <lastmod>2026-08-22</lastmod>
+    <lastmod>2026-11-21</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
@@ -27,12 +27,17 @@
   </url>
   <url>
     <loc>https://qubly.studio/privacy-policy</loc>
-    <lastmod>2026-08-22</lastmod>
+    <lastmod>2026-11-21</lastmod>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://qubly.studio/note-legali</loc>
+    <lastmod>2026-11-21</lastmod>
     <priority>0.3</priority>
   </url>
   <url>
     <loc>https://qubly.studio/come-definiamo-il-prezzo</loc>
-    <lastmod>2026-10-19</lastmod>
+    <lastmod>2026-11-21</lastmod>
     <priority>0.6</priority>
   </url>
 </urlset>

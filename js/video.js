@@ -9,7 +9,8 @@ document.addEventListener("DOMContentLoaded", () => {
     let manuallyPaused = false;
     let manualPlay = false;
     let attached = false;
-    const dict = typeof translations !== "undefined" ? (translations[document.documentElement.lang] || translations.en) : {};
+    const language = document.documentElement.lang;
+    const dict = typeof translations !== "undefined" ? (translations[language] || translations.en) : {};
     const autoAllowed = () => !reduced.matches && !connection?.saveData && !/^(slow-2g|2g)$/.test(connection?.effectiveType || "");
     function updateLabel() {
         const paused = video.paused;
@@ -22,7 +23,7 @@ document.addEventListener("DOMContentLoaded", () => {
         // Select only one file, even in browsers that ignore media on source elements.
         const source = [...video.querySelectorAll("source")].find(source => matchMedia(source.media).matches);
         if (!source) return;
-        video.src = source.dataset.src;
+        video.src = source.getAttribute(`data-src-${language}`) || source.dataset.src;
         video.load();
     }
     function syncPlayback() {

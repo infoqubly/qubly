@@ -59,13 +59,14 @@ class ImageAssets:
         return path.relative_to(self.root).as_posix()
 
     def originals(self) -> list[Path]:
-        # Generated copies and pending catalog requests are never originals.
+        # The files in assets/originals are published as delivered.
+        excluded = {"assets/optimized", "assets/originals", "gallery/inbox"}
         result = []
         for directory, folders, files in os.walk(self.root):
             parent = Path(directory)
             folders[:] = [name for name in folders if name not in {
                 ".git", ".wrangler", "node_modules", "vendor", ".github", "scripts", "__pycache__",
-            } and self.relative(parent / name) not in {"assets/optimized", "gallery/inbox"}]
+            } and self.relative(parent / name) not in excluded]
             result.extend(parent / name for name in files if Path(name).suffix.lower() in RASTER)
         return sorted(result)
 

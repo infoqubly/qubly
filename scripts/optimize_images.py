@@ -316,6 +316,8 @@ def update_problem_solution_images() -> int:
 
     for master in masters:
         content = marker_content(page, master.stem)
+        if "data-original-media" in content:
+            continue
         alt_match = re.search(r'\balt="([^"]*)"', content)
         if not alt_match:
             raise RuntimeError(f"Testo alternativo mancante per {master.stem}")

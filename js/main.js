@@ -7,8 +7,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const scrollShowcaseCards = [...document.querySelectorAll(".scroll-showcase-card")];
     const prefersReducedMotion = matchMedia("(prefers-reduced-motion: reduce)");
     const requestedLanguage = new URLSearchParams(location.search).get("lang");
-    const language = (requestedLanguage || navigator.language.slice(0, 2)).toLowerCase();
-    const dict = typeof translations !== "undefined" ? (translations[language] || translations.en) : {};
+    const languageCode = (requestedLanguage || navigator.language.slice(0, 2)).toLowerCase();
+    const language = ["en", "it", "sl"].includes(languageCode) ? languageCode : "en";
+    const dict = typeof translations !== "undefined" ? translations[language] : {};
     const ui = key => dict[key] || key;
     const scrollBehavior = (distance = 0) => prefersReducedMotion.matches || Math.abs(distance) > innerHeight * 1.5 ? "auto" : "smooth";
     let activeLayer = null;
@@ -319,8 +320,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
             const slideMarkup = scrollShowcaseCards.map((card, index) => {
                 const image = card.querySelector("img");
-                const src = image?.dataset.fullSrc || image?.src || image?.currentSrc || "";
+                const src = originalMediaUrl(image, "full-src") || image?.currentSrc || image?.src || "";
                 const alt = image?.getAttribute("alt") || "";
+                const width = Number(image?.dataset.fullWidth || image?.width) || 1;
+                const height = Number(image?.dataset.fullHeight || image?.height) || 1;
                 const tagMarkup = Array.from(card.querySelectorAll(".showcase-tags span"))
                     .map((tag) => tag.textContent.trim())
                     .filter(Boolean)
@@ -328,7 +331,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     .join("");
                 return `
                     <div class="showcase-zoom-slide" data-index="${index}">
-                        <div class="showcase-zoom-frame" style="aspect-ratio: ${Number(image?.getAttribute("width")) || 1} / ${Number(image?.getAttribute("height")) || 1}">
+                        <div class="showcase-zoom-frame" style="aspect-ratio: ${width} / ${height}">
                             <img src="${escapeHtml(src)}" alt="${escapeHtml(alt)}" loading="lazy" decoding="async" draggable="false">
                         </div>
                         <div class="showcase-zoom-tags">${tagMarkup}</div>
@@ -489,13 +492,9 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        const requestedLang = new URLSearchParams(window.location.search).get("lang");
-        const userLang = (requestedLang || navigator.language.slice(0, 2)).toLowerCase();
-        const lang = translations[userLang] ? userLang : "en";
-        const dict = translations[lang];
         const missingKeys = [];
 
-        document.documentElement.lang = lang;
+        document.documentElement.lang = language;
 
         const currentPath = window.location.pathname.replace(/\/+$/, "") || "/";
         const pageTitleKeys = [
@@ -506,7 +505,8 @@ document.addEventListener("DOMContentLoaded", () => {
             [currentPath.endsWith("/interni") || currentPath.endsWith("/interni.html"), "page_title_interni"],
             [currentPath.endsWith("/paesaggi") || currentPath.endsWith("/paesaggi.html"), "page_title_landscapes"],
             [currentPath.endsWith("/spazi") || currentPath.endsWith("/spazi.html"), "page_title_spaces"],
-            [currentPath.endsWith("/privacy-policy") || currentPath.endsWith("/privacy-policy.html"), "page_title_privacy"]
+            [currentPath.endsWith("/privacy-policy") || currentPath.endsWith("/privacy-policy.html"), "page_title_privacy"],
+            [currentPath.endsWith("/note-legali") || currentPath.endsWith("/note-legali.html"), "page_title_legal"]
         ];
         const titleKey = pageTitleKeys.find(([matches]) => matches)?.[1];
         if (titleKey && dict[titleKey]) {
@@ -556,9 +556,9 @@ document.addEventListener("DOMContentLoaded", () => {
         };
 
         window.__qublyTranslationCheck = {
-            lang,
+            lang: language,
             missingKeys: Array.from(new Set(missingKeys)),
-            signature: languageSignatures[lang],
+            signature: languageSignatures[language],
             uniqueByLanguage: {
                 en: translations.en.hero_title,
                 it: translations.it.case_studies_title,
@@ -571,10 +571,26 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
+    function originalMediaUrl(element, attribute) {
+        return element?.getAttribute(`data-${attribute}-${language}`) || element?.getAttribute(`data-${attribute}`);
+    }
+
+    function loadOriginalMedia() {
+        document.querySelectorAll("picture[data-original-media] source[data-srcset]").forEach(source => {
+            source.srcset = originalMediaUrl(source, "srcset");
+        });
+        document.querySelectorAll("picture[data-original-media] img[data-src]").forEach(image => {
+            image.src = originalMediaUrl(image, "src");
+        });
+        document.querySelectorAll(".case-original-link").forEach(link => {
+            link.href = originalMediaUrl(link, "href") || link.href;
+        });
+    }
 
     applyTranslations();
+    loadOriginalMedia();
     // Keep an explicitly selected language when following local links.
-    if (requestedLanguage && typeof translations !== "undefined" && translations[language]) {
+    if (requestedLanguage && language === languageCode) {
         document.querySelectorAll("a[href]").forEach(link => {
             const url = new URL(link.href,location.href);
             if (url.origin === location.origin && !link.hasAttribute("download") && !/\.(jpg|png|webp)$/i.test(url.pathname)) {

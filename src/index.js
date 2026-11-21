@@ -14,6 +14,8 @@ const CANONICAL_PATHS = new Map([
     ["/paesaggi/", "/paesaggi"],
     ["/privacy-policy.html", "/privacy-policy"],
     ["/privacy-policy/", "/privacy-policy"],
+    ["/note-legali.html", "/note-legali"],
+    ["/note-legali/", "/note-legali"],
     ["/spazi", "/paesaggi"],
     ["/spazi.html", "/paesaggi"],
     ["/spazi/", "/paesaggi"]
@@ -26,7 +28,8 @@ const DOCUMENT_PATHS = new Set([
     "/esterni",
     "/interni",
     "/paesaggi",
-    "/privacy-policy"
+    "/privacy-policy",
+    "/note-legali"
 ]);
 
 function getCanonicalUrl(request) {
