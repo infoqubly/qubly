@@ -578,9 +578,6 @@ document.addEventListener("DOMContentLoaded", () => {
         document.querySelectorAll("picture[data-original-media] img[data-src]").forEach(image => {
             image.src = originalMediaUrl(image, "src");
         });
-        document.querySelectorAll(".case-original-link").forEach(link => {
-            link.href = originalMediaUrl(link, "href") || link.href;
-        });
     }
 
     applyTranslations();

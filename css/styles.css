@@ -3153,8 +3153,7 @@ html {
 }
 
 .scroll-showcase-card picture,
-.case-original-link,
-.case-original-link picture {
+.case-media--original picture {
   display: block;
   width: 100%;
   height: 100%;
@@ -3319,13 +3318,8 @@ html {
   clip-path: none;
 }
 
-.home-page .case-original-link img {
+.home-page .case-media--original img {
   object-fit: contain;
-}
-
-.case-original-link:focus-visible {
-  outline: 2px solid #fff;
-  outline-offset: -4px;
 }
 
 .home-page .case-snapshots .case-body p {
@@ -3474,7 +3468,7 @@ html {
     margin-bottom: 12px;
   }
 
-  .home-page .case-media:has(.case-original-link) {
+  .home-page .case-media--original {
     aspect-ratio: 622 / 415;
   }
 
