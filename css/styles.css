@@ -3323,22 +3323,6 @@ html {
   object-fit: contain;
 }
 
-.case-original-link::after {
-  content: "↗";
-  position: absolute;
-  bottom: 10px;
-  left: 10px;
-  z-index: 11;
-  display: grid;
-  place-items: center;
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  background: rgba(17, 17, 17, 0.8);
-  color: #fff;
-  pointer-events: none;
-}
-
 .case-original-link:focus-visible {
   outline: 2px solid #fff;
   outline-offset: -4px;
