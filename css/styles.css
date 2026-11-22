@@ -1629,13 +1629,14 @@ textarea,
   transform: translateY(0);
 }
 
-/* Hover Effects */
-.case-card:hover {
-  transform: scale(1.015);
-}
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .case-card:hover {
+    transform: scale(1.015);
+  }
 
-.case-card:hover .case-media img {
-  transform: scale(1.06);
+  .case-card:hover .case-media img {
+    transform: scale(1.06);
+  }
 }
 
 /* Animation States */
@@ -3318,17 +3319,16 @@ html {
   clip-path: none;
 }
 
-.home-page .case-original-link img,
-.home-page .case-card:hover .case-original-link img {
+.home-page .case-original-link img {
   object-fit: contain;
-  transform: none;
 }
 
 .case-original-link::after {
   content: "↗";
   position: absolute;
-  top: 10px;
-  right: 10px;
+  bottom: 10px;
+  left: 10px;
+  z-index: 11;
   display: grid;
   place-items: center;
   width: 36px;
@@ -3336,6 +3336,7 @@ html {
   border-radius: 50%;
   background: rgba(17, 17, 17, 0.8);
   color: #fff;
+  pointer-events: none;
 }
 
 .case-original-link:focus-visible {
